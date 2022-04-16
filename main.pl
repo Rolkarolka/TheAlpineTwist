@@ -176,6 +176,10 @@ notice_objects_at(_).
 
 /* This rules define how to talk to someon */
 
+talk_to(thomas) :-
+    write('You try talking to thomas, but the only thing you hear besides your voice is the audible confusion of giulia and brother.'),
+    !.
+
 talk_to(Person) :-
     i_am_at(Place),
     at(Person, Place),
