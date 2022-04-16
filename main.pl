@@ -1,6 +1,6 @@
 /* TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek. */
 
-:- dynamic i_am_at/1, at/2, holding/1.
+:- dynamic i_am_at/1, at/2, holding/1, talking_to/1.
 :- retractall(at(_, _)), retractall(i_am_at(_)), retractall(alive(_)).
 
 /** people:
@@ -16,15 +16,6 @@
 *     poker_is_played_here (TODO)
 *     murderer_had_a_watch (TODO)
 *     TODO
-* moves:
-*     goto *place*
-*     take *thing*
-*     talk to *character*
-*         ask about *thing*
-*         tell about *fact*
-*         bet
-*         threaten / press
-*         (situational) yes / no
 */
 
 
@@ -183,6 +174,7 @@ talk_to(thomas) :-
 talk_to(Person) :-
     i_am_at(Place),
     at(Person, Place),
+    (retract(talking_to(_)); assert(talking_to(Person))),
     write("You start talking to "), write(Person), write('.'),
     !.
 
@@ -207,6 +199,17 @@ finish :-
 
 
 /* This rule just writes out game instructions. */
+
+instructions :-
+    nl,
+    talking_to(_),
+    !,
+    write('TODO ask about thing'), nl,
+    write('TODO tell about fact'), nl,
+    write('TODO bet'), nl,
+    write('TODO threaten'), nl,
+    write('TODO situational yes / no'), nl,
+    nl.
 
 instructions :-
     nl,
