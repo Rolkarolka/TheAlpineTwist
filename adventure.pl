@@ -3,54 +3,55 @@
 :- dynamic i_am_at/1, at/2, holding/1.
 :- retractall(at(_, _)), retractall(i_am_at(_)), retractall(alive(_)).
 
-# people:
-#     jurgen
-#     hilda
-#     hotel_owner # TODO
-#     barman # TODO
-#     urlich
-#     brother # TODO
-#     thomas
-#     giulia
-#     amy
-#     old_colleague # TODO
-#     zoe
-#     jonas
-#     promyczek
-#     hunter # TODO
-#     theodor
-# places:
-#     room_of_thomas_and_giulia (thomas, giulia, brother)
-#     room_of_zoe (zoe)
-#     bar (barman, ex, old_colleague)
-#     corridor (jurgen, hilda)
-#     kitchen (theodor)
-#     reception (owner, promyczek, hunter)
-#     hotel_entrance (urlich, jonas)
-#     poker_room
-#     hunters_shaque
-# things:
-#     watch (room_of_thomas_and_giulia)
-#     thomas_journal (room_of_thomas_and_giulia)
-#     cigarette (room_of_thomas_and_giulia)
-#     cigarette_light (hotel_entrance)
-#     bottle_of_chloroform (room_of_zoe)
-#     money (owned by character)
-#     *all the things that characters have on them*
-# facts:
-#     murder
-#     poker_is_played_here (TODO)
-#     murderer_had_a_watch (TODO)
-#     TODO
-# moves:
-#     goto *place*
-#     take *thing*
-#     talk to *character*
-#         ask about *thing*
-#         tell about *fact*
-#         bet
-#         threaten / press
-#         (situational) yes / no
+/** people:
+*     jurgen
+*     hilda
+*     hotel_owner * TODO
+*     barman * TODO
+*     urlich
+*     brother * TODO
+*     thomas
+*     giulia
+*     amy
+*     old_colleague * TODO
+*     zoe
+*     jonas
+*     promyczek
+*     hunter * TODO
+*     theodor
+* places:
+*     room_of_thomas_and_giulia (thomas, giulia, brother)
+*     room_of_zoe (zoe)
+*     bar (barman, ex, old_colleague)
+*     corridor (jurgen, hilda)
+*     kitchen (theodor)
+*     reception (owner, promyczek, hunter)
+*     hotel_entrance (urlich, jonas)
+*     poker_room
+*     hunters_shaque
+* things:
+*     watch (room_of_thomas_and_giulia)
+*     thomas_journal (room_of_thomas_and_giulia)
+*     cigarette (room_of_thomas_and_giulia)
+*     cigarette_light (hotel_entrance)
+*     bottle_of_chloroform (room_of_zoe)
+*     money (owned by character)
+*     *all the things that characters have on them*
+* facts:
+*     murder
+*     poker_is_played_here (TODO)
+*     murderer_had_a_watch (TODO)
+*     TODO
+* moves:
+*     goto *place*
+*     take *thing*
+*     talk to *character*
+*         ask about *thing*
+*         tell about *fact*
+*         bet
+*         threaten / press
+*         (situational) yes / no
+*/
 
 i_am_at(someplace).
 
