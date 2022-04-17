@@ -94,7 +94,9 @@ describe(hotel_entrance) :- write('You are at the hotels entrance.'), nl.
 describe(poker_room) :- write('You are in the secret poker room.'), nl.
 describe(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
-
+describe_thing(giulia, watch) :- write('This is my husbands watch'), nl, !.
+/* TODO add more cases */
+describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
 /* --- DEFINITIONS OF RULES --- */
 
@@ -194,6 +196,11 @@ talk_to(Person) :-
     write('You start to formulate your sentence towards '), write(Person), write(', when suddenly you realise, that he cannot hear you, for he isn\'t here.'),
     nl.
 
+ask_about(Thing) :-
+    holding(Thing),
+    talking_to(Person),
+    describe_thing(Person, Thing),
+    nl.
 
 /* --- REST OF DEFINITIONS --- */
 
@@ -216,7 +223,7 @@ instructions :-
     nl,
     talking_to(_),
     !,
-    write('TODO ask about thing'), nl,
+    write('ask_about(Thing)   -- to ask about a thing.'), nl,
     write('TODO tell about fact'), nl,
     write('TODO bet'), nl,
     write('TODO threaten'), nl,
