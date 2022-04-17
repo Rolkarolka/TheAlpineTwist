@@ -84,15 +84,19 @@ holding(money).
 /* These rules describe the various rooms.  Depending on
    circumstances, a room may have more than one description. */
 
-describe(room_of_thomas_and_giulia) :- write('You are in room of Thomas and Giulia.'), nl.
-describe(room_of_zoe) :- write('You are in room of Zoe.'), nl.
-describe(bar) :- write('You are in the bar.'), nl.
-describe(corridor) :- write('You are in the corridor.'), nl.
-describe(kitchen) :- write('You are in the kitchen.'), nl.
-describe(reception) :- write('You are in the reception.'), nl.
-describe(hotel_entrance) :- write('You are at the hotels entrance.'), nl.
-describe(poker_room) :- write('You are in the secret poker room.'), nl.
-describe(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
+describe_place(room_of_thomas_and_giulia) :- write('You are in room of Thomas and Giulia.'), nl.
+describe_place(room_of_zoe) :- write('You are in room of Zoe.'), nl.
+describe_place(bar) :- write('You are in the bar.'), nl.
+describe_place(corridor) :- write('You are in the corridor.'), nl.
+describe_place(kitchen) :- write('You are in the kitchen.'), nl.
+describe_place(reception) :- write('You are in the reception.'), nl.
+describe_place(hotel_entrance) :- write('You are at the hotels entrance.'), nl.
+describe_place(poker_room) :- write('You are in the secret poker room.'), nl.
+describe_place(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
+
+describe_person(giulia) :- write('She is a elegantly clothed, short woman.'), nl, !.
+describe_person(_) :- write('He/she is a human being.'), nl.
+/* TODO add more cases */
 
 describe_thing(giulia, watch) :- write('This is my husbands watch'), nl, !.
 /* TODO add more cases */
@@ -149,14 +153,14 @@ w :- go(w).
 /* This rule tells how to look around. */
 notice :- 
     i_am_at(Place),
-    describe(Place),
+    describe_place(Place),
     nl,
     notice_things_at(Place),
     nl.
 
 look :-
     i_am_at(Place),
-    describe(Place),
+    describe_place(Place),
     nl,
     notice_people_at(Place),
     nl.
@@ -189,7 +193,8 @@ talk_to(Person) :-
     i_am_at(Place),
     person_at(Person, Place),
     (retract(talking_to(_)); assert(talking_to(Person))),
-    write("You start talking to "), write(Person), write('.'),
+    write("You start talking to "), write(Person), write('.'), nl,
+    describe_person(Person),
     !.
 
 talk_to(Person) :-
@@ -219,7 +224,7 @@ finish :-
 
 /* This rule just writes out game instructions. */
 
-instructions :-
+help :-
     nl,
     talking_to(_),
     !,
@@ -230,16 +235,17 @@ instructions :-
     write('TODO situational yes / no'), nl,
     nl.
 
-instructions :-
+help :-
     nl,
     write('Enter commands using standard Prolog syntax.'), nl,
     write('Available commands are:'), nl,
     write('start.             -- to start the game.'), nl,
     write('n.  s.  e.  w.     -- to go in that direction.'), nl,
-    write('take(Object).      -- to pick up an object.'), nl,
+    write('take(Object).      -- to pick up an Object.'), nl,
+    write('talk_to(Person).   -- to approach a Person'), nl,
     write('look.              -- to look at people around you.'), nl,
     write('notice.            -- to notice things around you.'), nl,
-    write('instructions.      -- to see this message again.'), nl,
+    write('help.              -- to see this message again.'), nl,
     write('halt.              -- to end the game and quit.'), nl,
     nl.
 
@@ -247,5 +253,5 @@ instructions :-
 /* This rule prints out instructions and tells where you are. */
 
 start :-
-    instructions,
+    help,
     look.
