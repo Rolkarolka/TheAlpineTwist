@@ -9,8 +9,6 @@
 *     brother * TODO name
 *     old_colleague * TODO name
 *     hunter * TODO name
-* things:
-*     *all the things that characters have on them*
 * facts:
 *     murder
 *     poker_is_played_here (TODO)
@@ -78,6 +76,9 @@ thing_at(thomas_journal, room_of_thomas_and_giulia).
 thing_at(cigarette, room_of_thomas_and_giulia).
 thing_at(cigarette_light, hotel_entrance).
 thing_at(bottle_of_chloroform, room_of_zoe).
+
+thing_at(broche, hilda).
+
 holding(money).
 
 
@@ -95,6 +96,7 @@ describe_place(poker_room) :- write('You are in the secret poker room.'), nl.
 describe_place(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
 describe_person(giulia) :- write('She is a elegantly clothed, short woman.'), nl, !.
+
 describe_person(_) :- write('He/she is a human being.'), nl.
 /* TODO add more cases */
 
@@ -194,12 +196,17 @@ talk_to(Person) :-
     person_at(Person, Place),
     (retract(talking_to(_)); assert(talking_to(Person))),
     write("You start talking to "), write(Person), write('.'), nl,
-    describe_person(Person),
+    (notice_things_on(Person); describe_person(Person)),
     !.
 
 talk_to(Person) :-
     write('You start to formulate your sentence towards '), write(Person), write(', when suddenly you realise, that he cannot hear you, for he isn\'t here.'),
     nl.
+
+notice_things_on(Person) :-
+    thing_at(X, Person),
+    write('There is a '), write(X), write(' on '), write(Person), write('.'), nl,
+    fail.
 
 ask_about(Thing) :-
     holding(Thing),
