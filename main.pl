@@ -1,7 +1,7 @@
 /* TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek. */
 
-:- dynamic i_am_at/1, at/2, holding/1, talking_to/1.
-:- retractall(at(_, _)), retractall(i_am_at(_)), retractall(alive(_)).
+:- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1.
+:- retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(i_am_at(_)), retractall(alive(_)).
 
 /** people:
 *     hotel_owner * TODO name
@@ -57,27 +57,27 @@ path(poker_room, n, bar).
 /* These rules describe where everything and everyone is. */
 
 i_am_at(room_of_thomas_and_giulia).
-at(thomas, room_of_thomas_and_giulia).
-at(giulia, room_of_thomas_and_giulia).
-at(brother, room_of_thomas_and_giulia).
-at(zoe, room_of_zoe).
-at(barman, bar).
-at(ex, bar).
-at(old_colleague, bar).
-at(jurgen, corridor).
-at(hilda, corridor).
-at(theodor, kitchen).
-at(owner, reception).
-at(hunter, reception).
-at(promyczek, reception).
-at(jonas, hotel_entrance).
-at(urlich, hotel_entrance).
+person_at(thomas, room_of_thomas_and_giulia).
+person_at(giulia, room_of_thomas_and_giulia).
+person_at(brother, room_of_thomas_and_giulia).
+person_at(zoe, room_of_zoe).
+person_at(barman, bar).
+person_at(ex, bar).
+person_at(old_colleague, bar).
+person_at(jurgen, corridor).
+person_at(hilda, corridor).
+person_at(theodor, kitchen).
+person_at(owner, reception).
+person_at(hunter, reception).
+person_at(promyczek, reception).
+person_at(jonas, hotel_entrance).
+person_at(urlich, hotel_entrance).
 
-at(watch, room_of_thomas_and_giulia).
-at(thomas_journal, room_of_thomas_and_giulia).
-at(cigarette, room_of_thomas_and_giulia).
-at(cigarette_light, hotel_entrance).
-at(bottle_of_chloroform, room_of_zoe).
+thing_at(watch, room_of_thomas_and_giulia).
+thing_at(thomas_journal, room_of_thomas_and_giulia).
+thing_at(cigarette, room_of_thomas_and_giulia).
+thing_at(cigarette_light, hotel_entrance).
+thing_at(bottle_of_chloroform, room_of_zoe).
 holding(money).
 
 
@@ -104,13 +104,13 @@ describe(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
 take(X) :-
     holding(X),
-    write('You''re already holding it!'),
+    write('You take the '), write(X), write(' out of your bag, then put it on the table, and after that you take it and put it in your pocket.'),
     !, nl.
 
 take(X) :-
     i_am_at(Place),
-    at(X, Place),
-    retract(at(X, Place)),
+    thing_at(X, Place),
+    retract(thing_at(X, Place)),
     assert(holding(X)),
     write('OK.'),
     !, nl.
@@ -145,24 +145,36 @@ w :- go(w).
 
 
 /* This rule tells how to look around. */
+notice :- 
+    i_am_at(Place),
+    describe(Place),
+    nl,
+    notice_things_at(Place),
+    nl.
 
 look :-
     i_am_at(Place),
     describe(Place),
     nl,
-    notice_objects_at(Place),
+    notice_people_at(Place),
     nl.
 
 
-/* These rules set up a loop to mention all the objects
-   in your vicinity. */
+/* These rules set up a loop to mention all the objects in your vicinity. */
 
-notice_objects_at(Place) :-
-    at(X, Place),
+notice_things_at(Place) :-
+    thing_at(X, Place),
+    write('There is a '), write(X), write(' here.'), nl,
+    fail.
+
+notice_things_at(_).
+
+notice_people_at(Place) :-
+    person_at(X, Place),
     write('There is '), write(X), write(' here.'), nl,
     fail.
 
-notice_objects_at(_).
+notice_people_at(_).
 
 
 /* This rules define how to talk to someon */
@@ -173,7 +185,7 @@ talk_to(thomas) :-
 
 talk_to(Person) :-
     i_am_at(Place),
-    at(Person, Place),
+    person_at(Person, Place),
     (retract(talking_to(_)); assert(talking_to(Person))),
     write("You start talking to "), write(Person), write('.'),
     !.
@@ -218,7 +230,8 @@ instructions :-
     write('start.             -- to start the game.'), nl,
     write('n.  s.  e.  w.     -- to go in that direction.'), nl,
     write('take(Object).      -- to pick up an object.'), nl,
-    write('look.              -- to look around you again.'), nl,
+    write('look.              -- to look at people around you.'), nl,
+    write('notice.            -- to notice things around you.'), nl,
     write('instructions.      -- to see this message again.'), nl,
     write('halt.              -- to end the game and quit.'), nl,
     nl.
