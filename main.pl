@@ -222,6 +222,11 @@ tell_about(Fact) :-
     talking_to(_),
     write('\'Okay.\''), nl.
 
+list_facts() :-
+    i_know(Fact),
+    write(Fact), nl,
+    fail.
+
 /* --- REST OF DEFINITIONS --- */
 
 
@@ -244,10 +249,11 @@ help :-
     talking_to(_),
     !,
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
-    write('tell_about(Fact)   -- to tell about a fact'), nl,
+    write('tell_about(Fact)   -- to tell about a fact.'), nl,
     write('TODO bet'), nl,
     write('TODO threaten'), nl,
     write('TODO situational yes / no'), nl,
+    write('list_facts.        -- to list all known facts.'), nl,
     nl.
 
 help :-
@@ -257,9 +263,10 @@ help :-
     write('start.             -- to start the game.'), nl,
     write('n.  s.  e.  w.     -- to go in that direction.'), nl,
     write('take(Thing).       -- to pick up a Thing.'), nl,
-    write('talk_to(Person).   -- to approach a Person'), nl,
+    write('talk_to(Person).   -- to approach a Person.'), nl,
     write('look.              -- to look at people around you.'), nl,
     write('notice.            -- to notice things around you.'), nl,
+    write('list_facts.        -- to list all known facts.'), nl,
     write('help.              -- to see this message again.'), nl,
     write('halt.              -- to end the game and quit.'), nl,
     nl.
