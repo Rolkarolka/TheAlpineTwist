@@ -1,13 +1,19 @@
 /* TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek. */
 
-:- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1.
-:- retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(i_am_at(_)), retractall(alive(_)).
+:- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1, i_know/1.
+:- retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(i_am_at(_)), retractall(alive(_)), retractall(i_know(_)).
 
 /** facts:
-*     murder
-*     poker_is_played_here (TODO)
-*     murderer_had_a_watch (TODO)
-*     TODO
+*     thomas_had_been_murdered
+*     poker_is_played_here
+*     murderer_had_a_watch
+*     watch_has_changed_hands_during_last_game
+*     zoe_befriended_hilda
+*     zoe_was_thomas_lovers
+*     zoe_knew_about_watch_changing_hands
+*     zoe_has_chloroform
+*     zoe_knew_about_giulia
+*     TODO more
 */
 
 
@@ -75,6 +81,9 @@ thing_at(broche, hilda).
 
 holding(money).
 
+/* The facts that the player knows about from start */
+
+i_know(thomas_had_been_murdered).
 
 /* These rules describe the various rooms.  Depending on
    circumstances, a room may have more than one description. */
@@ -206,7 +215,12 @@ ask_about(Thing) :-
     holding(Thing),
     talking_to(Person),
     describe_thing(Person, Thing),
-    nl.
+    !, nl.
+
+tell_about(Fact) :-
+    i_know(Fact),
+    talking_to(_),
+    write('\'Okay.\''), nl.
 
 /* --- REST OF DEFINITIONS --- */
 
@@ -230,7 +244,7 @@ help :-
     talking_to(_),
     !,
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
-    write('TODO tell about fact'), nl,
+    write('tell_about(Fact)   -- to tell about a fact'), nl,
     write('TODO bet'), nl,
     write('TODO threaten'), nl,
     write('TODO situational yes / no'), nl,
