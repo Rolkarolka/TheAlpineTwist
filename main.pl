@@ -113,21 +113,21 @@ describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?
 
 /* These rules describe how to pick up an object. */
 
-take(X) :-
-    holding(X),
-    write('You take the '), write(X), write(' out of your bag, then put it on the table, and after that you take it and put it in your pocket.'),
+take(Thing) :-
+    holding(Thing),
+    write('You take the '), write(Thing), write(' out of your bag, then put it on the table, and after that you take it and put it in your pocket.'),
     !, nl.
 
-take(X) :-
+take(Thing) :-
     i_am_at(Place),
-    thing_at(X, Place),
-    retract(thing_at(X, Place)),
-    assert(holding(X)),
+    thing_at(Thing, Place),
+    retract(thing_at(Thing, Place)),
+    assert(holding(Thing)),
     write('OK.'),
     !, nl.
 
-take(_) :-
-    write('I don''t see it here.'),
+take(Thing) :-
+    write('You try to grab the'), write(Thing), write(' or at least you try to grasp your hallucination of it.'),
     nl.
 
 
@@ -256,7 +256,7 @@ help :-
     write('Available commands are:'), nl,
     write('start.             -- to start the game.'), nl,
     write('n.  s.  e.  w.     -- to go in that direction.'), nl,
-    write('take(Object).      -- to pick up an Object.'), nl,
+    write('take(Thing).       -- to pick up a Thing.'), nl,
     write('talk_to(Person).   -- to approach a Person'), nl,
     write('look.              -- to look at people around you.'), nl,
     write('notice.            -- to notice things around you.'), nl,
