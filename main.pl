@@ -3,13 +3,7 @@
 :- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1.
 :- retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(i_am_at(_)), retractall(alive(_)).
 
-/** people:
-*     hotel_owner * TODO name
-*     barman * TODO name
-*     brother * TODO name
-*     old_colleague * TODO name
-*     hunter * TODO name
-* facts:
+/** facts:
 *     murder
 *     poker_is_played_here (TODO)
 *     murderer_had_a_watch (TODO)
@@ -57,16 +51,16 @@ path(poker_room, n, bar).
 i_am_at(room_of_thomas_and_giulia).
 person_at(thomas, room_of_thomas_and_giulia).
 person_at(giulia, room_of_thomas_and_giulia).
-person_at(brother, room_of_thomas_and_giulia).
+person_at(andreas, room_of_thomas_and_giulia).
 person_at(zoe, room_of_zoe).
-person_at(barman, bar).
+person_at(karl, bar).
 person_at(ex, bar).
-person_at(old_colleague, bar).
+person_at(stephan, bar).
 person_at(jurgen, corridor).
 person_at(hilda, corridor).
 person_at(theodor, kitchen).
-person_at(owner, reception).
-person_at(hunter, reception).
+person_at(hans, reception).
+person_at(hermann, reception).
 person_at(promyczek, reception).
 person_at(jonas, hotel_entrance).
 person_at(urlich, hotel_entrance).
@@ -188,7 +182,7 @@ notice_people_at(_).
 /* This rules define how to talk to someon */
 
 talk_to(thomas) :-
-    write('You try talking to thomas, but the only thing you hear besides your voice is the audible confusion of giulia and brother.'),
+    write('You try talking to thomas, but the only thing you hear besides your voice is the audible confusion of giulia and andreas.'),
     !.
 
 talk_to(Person) :-
