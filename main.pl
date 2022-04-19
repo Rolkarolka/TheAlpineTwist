@@ -23,6 +23,7 @@
 
 
 /*  These rules defines connections between places */
+
 path(room_of_thomas_and_giulia, s, corridor).
 
 path(corridor, n, room_of_thomas_and_giulia).
@@ -85,8 +86,7 @@ holding(money).
 
 i_know(thomas_had_been_murdered).
 
-/* These rules describe the various rooms.  Depending on
-   circumstances, a room may have more than one description. */
+/* These rules set up various user messages in the game */
 
 describe_place(room_of_thomas_and_giulia) :- write('You are in room of Thomas and Giulia.'), nl.
 describe_place(room_of_zoe) :- write('You are in room of Zoe.'), nl.
@@ -99,9 +99,8 @@ describe_place(poker_room) :- write('You are in the secret poker room.'), nl.
 describe_place(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
 describe_person(giulia) :- write('She is a elegantly clothed, short woman.'), nl, !.
-
-describe_person(_) :- write('He/she is a human being.'), nl.
 /* TODO add more cases */
+describe_person(_) :- write('He/she is a human being.'), nl.
 
 describe_thing(giulia, watch) :- write('This is my husbands watch'), nl, !.
 /* TODO add more cases */
@@ -112,6 +111,8 @@ describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :-
 
 describe_fact(_, _, _) :-
     write('\'Okay.\''), nl, !.
+
+
 
 /* --- DEFINITIONS OF RULES --- */
 
@@ -149,9 +150,6 @@ go(Direction) :-
 go(_) :-
     write('You can''t go that way.').
 
-
-/* These rules define the direction letters as calls to go/1. */
-
 n :- go(n).
 
 s :- go(s).
@@ -162,6 +160,7 @@ w :- go(w).
 
 
 /* This rule tells how to look around. */
+
 notice :- 
     i_am_at(Place),
     describe_place(Place),
@@ -175,9 +174,6 @@ look :-
     nl,
     notice_people_at(Place),
     nl.
-
-
-/* These rules set up a loop to mention all the objects in your vicinity. */
 
 notice_things_at(Place) :-
     thing_at(X, Place),
@@ -194,7 +190,7 @@ notice_people_at(Place) :-
 notice_people_at(_).
 
 
-/* This rules define how to talk to someon */
+/* This rules define how to talk to someone */
 
 talk_to(thomas) :-
     write('You try talking to thomas, but the only thing you hear besides your voice is the audible confusion of giulia and andreas.'),
@@ -241,6 +237,7 @@ list_facts() :-
     fail.
 
 list_facts().
+
 
 /* --- REST OF DEFINITIONS --- */
 
