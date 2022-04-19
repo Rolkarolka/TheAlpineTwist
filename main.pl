@@ -4,8 +4,8 @@
 :- retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(i_am_at(_)), retractall(alive(_)), retractall(i_know(_)).
 
 /** facts:
-*     thomas_had_been_murdered
-*     poker_is_played_here
+*     done - thomas_had_been_murdered
+*     done - poker_is_played_here
 *     murderer_had_a_watch
 *     watch_has_changed_hands_during_last_game
 *     zoe_befriended_hilda
@@ -106,6 +106,12 @@ describe_person(_) :- write('He/she is a human being.'), nl.
 describe_thing(giulia, watch) :- write('This is my husbands watch'), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
+
+describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- 
+    write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
+
+describe_fact(_, _, _) :-
+    write('\'Okay.\''), nl, !.
 
 /* --- DEFINITIONS OF RULES --- */
 
@@ -217,10 +223,17 @@ ask_about(Thing) :-
     describe_thing(Person, Thing),
     !, nl.
 
+tell_about(Fact, Person) :-
+    describe_fact(Fact, Person, DiscoveredFact),
+    \+ i_know(DiscoveredFact),
+    assert(i_know(DiscoveredFact)),
+    write('NEW FACT ADDED'), 
+    nl.
+
 tell_about(Fact) :-
     i_know(Fact),
-    talking_to(_),
-    write('\'Okay.\''), nl.
+    talking_to(Person),
+    tell_about(Fact, Person).
 
 list_facts() :-
     i_know(Fact),
