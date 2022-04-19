@@ -12,6 +12,8 @@
 *     zoe_was_thomas_lovers
 *     zoe_knew_about_watch_changing_hands
 *     zoe_has_chloroform
+*     done - amy_passed_out
+*     done - amy_won_the_watch
 *     zoe_knew_about_giulia
 *
 *     done - asked_about_broche
@@ -64,7 +66,7 @@ person_at(giulia, room_of_thomas_and_giulia).
 person_at(andreas, room_of_thomas_and_giulia).
 person_at(zoe, room_of_zoe).
 person_at(karl, bar).
-person_at(ex, bar).
+person_at(amy, bar).
 person_at(stephan, bar).
 person_at(jurgen, corridor).
 person_at(hilda, corridor).
@@ -114,14 +116,18 @@ describe_person(_) :- write('He/she is a human being.'), nl.
 
 prerequisites(thomas_had_been_murdered, hilda) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
 prerequisites(watch, urlich) :- \+(i_know(poker_is_played_here)), !.
+prerequisites(watch, amy) :-  \+(i_know(poker_is_played_here), i_know(watch_has_changed_hands_during_last_game)), !.
+prerequisites(watch_has_changed_hands_during_last_game, amy) :-  \+(i_know(amy_won_the_watch)), !.
 
 describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulettes, wouldn\'t you say dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
 describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write('I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?'), nl, !.
+describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night'), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
 describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
+describe_fact(watch_has_changed_hands_during_last_game, amy, amy_passed_out) :- write('Yeah, I won the game last night, and the watch with it. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but no more than usual, and I never pass out. The weirdest thing. But I swear, I woke up the next day and the thing was gone!'), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
