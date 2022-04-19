@@ -8,9 +8,9 @@
 *     done - poker_is_played_here
 *     done - murderer_had_a_watch
 *     done - watch_has_changed_hands_during_last_game
-*     zoe_befriended_hilda
-*     zoe_was_thomas_lovers
-*     zoe_knew_about_watch_changing_hands
+*     done - zoe_befriended_hilda
+*     done - zoe_was_thomas_lovers
+*     done - zoe_knew_about_watch_changing_hands
 *     zoe_has_chloroform
 *     done - amy_passed_out
 *     done - amy_won_the_watch
@@ -118,6 +118,7 @@ prerequisites(thomas_had_been_murdered, hilda) :- \+(i_know(asked_about_broche);
 prerequisites(watch, urlich) :- \+(i_know(poker_is_played_here)), !.
 prerequisites(watch, amy) :-  \+(i_know(poker_is_played_here), i_know(watch_has_changed_hands_during_last_game)), !.
 prerequisites(watch_has_changed_hands_during_last_game, amy) :-  \+(i_know(amy_won_the_watch)), !.
+prerequisites(watch_has_changed_hands_during_last_game, hilda) :-  \+(i_know(zoe_befriended_hilda)), !.
 
 describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulettes, wouldn\'t you say dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
@@ -128,6 +129,7 @@ describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about 
 
 describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
 describe_fact(watch_has_changed_hands_during_last_game, amy, amy_passed_out) :- write('Yeah, I won the game last night, and the watch with it. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but no more than usual, and I never pass out. The weirdest thing. But I swear, I woke up the next day and the thing was gone!'), nl, !.
+describe_fact(watch_has_changed_hands_during_last_game, hilda, zoe_knew_about_watch_changing_hands) :- write('Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.'), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
