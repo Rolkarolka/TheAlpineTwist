@@ -82,6 +82,7 @@ thing_at(cigarette_light, hotel_entrance).
 thing_at(bottle_of_chloroform, room_of_zoe).
 
 thing_at(broche, hilda).
+thing_at(club_symbol, karl).
 
 holding(money).
 
@@ -102,11 +103,14 @@ describe_place(poker_room) :- write('You are in the secret poker room.'), nl.
 describe_place(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
 describe_person(giulia) :- write('She is a elegantly clothed, short brunette.'), nl, !.
-describe_person(hilda) :- write('She is a modestly dressed, short redhead. She wears a staff apron.'), nl, !.
+describe_person(hilda) :- write('She is a petite young women, who likes to wear modest clothes. In work she always wear work uniform. She has long straight ginger hair with a golden brooche in it.'), nl, !.
+describe_person(jurgen) :- write('He is extremely tall and slender. He has long clean-shaven face. He has auburn, short and tousled hair. He likes to wear elegant clothes.'), nl, !.
+describe_person(hans) :- write('He is a well-build elderly man, with an aristrocratic nose and moustache. His grey hair fall on the tired arms. He wears a monocle on the right eye.'), nl, !.
+describe_person(karl) :- write('He likes to wear vest with the club symbol. His distrustful gaze allows him to keep bar\'s books in order. He has wrinkles due to frowing, but he can keep a poker face.'), nl, !.
+describe_person(urlich) :- write('He wears a kind of uniform with gilded epaulettes in perfect condition. He\'s not to bright, but he thinks about himself as from high society.')
 /* TODO add more cases */
 describe_person(_) :- write('He/she is a human being.'), nl.
 
-describe_thing(giulia, watch) :- write('This is my husbands watch'), nl, !.
 describe_thing(hilda, broche) :- (i_know(asked_about_broche); assert(i_know(asked_about_broche))), write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
