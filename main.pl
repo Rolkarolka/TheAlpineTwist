@@ -29,34 +29,29 @@
 
 /*  These rules defines connections between places */
 
-path(room_of_thomas_and_giulia, s, corridor).
+path(room_of_thomas_and_giulia, w, corridor).
 
-path(corridor, n, room_of_thomas_and_giulia).
-path(corridor, s, room_of_zoe).
-path(corridor, e, reception).
+path(corridor, e, room_of_thomas_and_giulia).
+path(corridor, w, room_of_zoe).
+path(corridor, s, reception).
 
-path(room_of_zoe, n, corridor).
+path(room_of_zoe, e, corridor).
 
-path(reception, w, corridor).
-path(reception, s, bar).
-path(reception, e, hotel_entrance).
-path(reception, n, kitchen).
+path(reception, n, corridor).
+path(reception, w, bar).
+path(reception, s, hotel_entrance).
 
 path(bar, e, reception).
-path(bar, w, kitchen).
-path(bar, s, poker_room).
+path(bar, s, kitchen).
 
-path(hotel_entrance, w, reception).
+path(hotel_entrance, n, reception).
 path(hotel_entrance, s, hunters_shaque).
 
-path(kitchen, s, reception).
-path(kitchen, e, bar).
-path(kitchen, w, hunters_shaque).
+path(kitchen, n, bar).
+path(kitchen, s, hunters_shaque).
 
-path(hunters_shaque, n, hotel_entrance).
+path(hunters_shaque, w, hotel_entrance).
 path(hunters_shaque, e, kitchen).
-
-path(poker_room, n, bar).
 
 /* These rules describe where everything and everyone is. */
 
@@ -102,7 +97,6 @@ describe_place(corridor) :- write('You are in the corridor.'), nl.
 describe_place(kitchen) :- write('You are in the kitchen.'), nl.
 describe_place(reception) :- write('You are in the reception.'), nl.
 describe_place(hotel_entrance) :- write('You are at the hotels entrance.'), nl.
-describe_place(poker_room) :- write('You are in the secret poker room.'), nl.
 describe_place(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
 describe_person(amy) :- write('She is dressed like in the 20s, with cigarillo and sequin dress. She always want to shine, even in cloudy day. Her red curly hair go well with red lipstick and red high heels. Her character in three words: outgoing, indiferent, heartless.'), nl, !.
@@ -299,8 +293,20 @@ list_facts() :-
 
 list_facts().
 
-accuse(zoe) :- talking_to(hans), write('Congratulations, you\'ve won!'), halt.
-accuse(_) :- talking_to(hans), write('Sadly, you are not correct.'), halt.
+accuse(zoe) :-
+    talking_to(hans),
+    i_know(zoe_knew_about_watch_changing_hands),
+    holding(bottle_of_chloroform),
+    i_know(zoe_knew_about_giulia),
+    i_know(amy_passed_out),
+    !,
+    write('Congratulations, you\'ve won!'),
+    halt.
+
+accuse(_) :-
+    talking_to(hans),
+    write('\'You\'ve got to have more proof for such a bold statement, young man.\'').
+
 
 
 /* --- REST OF DEFINITIONS --- */
@@ -312,7 +318,7 @@ accuse(_) :- talking_to(hans), write('Sadly, you are not correct.'), halt.
 help :-
     nl,
     talking_to(_),
-    \+((talking_to(hans), write('accuse(Person)     -- to accuse a person of murder (WARNING: Game ends after that, no matter the result).'), nl, fail)),
+    \+((talking_to(hans), write('accuse(Person)     -- to accuse a person of murder.'), nl, fail)),
     !,
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
     write('tell_about(Fact)   -- to tell about a fact.'), nl,
