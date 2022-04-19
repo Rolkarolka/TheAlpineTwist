@@ -13,6 +13,9 @@
 *     zoe_knew_about_watch_changing_hands
 *     zoe_has_chloroform
 *     zoe_knew_about_giulia
+*
+*     done - asked_about_broche
+*     theodor_trusts_me
 *     TODO more
 */
 
@@ -104,12 +107,15 @@ describe_person(hilda) :- write('She is a modestly dressed, short redhead. She w
 describe_person(_) :- write('He/she is a human being.'), nl.
 
 describe_thing(giulia, watch) :- write('This is my husbands watch'), nl, !.
+describe_thing(hilda, broche) :- (i_know(asked_about_broche); assert(i_know(asked_about_broche))), write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
+prerequisites(thomas_had_been_murdered, hilda) :- i_know(asked_about_broche); i_know(theodor_trusts_me).
+prerequisites(_, _).
+
 describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- 
     write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
-
 describe_fact(_, _, _) :-
     write('\'Okay.\''), nl, !.
 
@@ -201,13 +207,16 @@ notice_things_on(_).
 /* This rules define how to talk to someone */
 
 talk_to(thomas) :-
+    i_am_at(Place),
+    person_at(thomas, Place),
     write('You try talking to thomas, but the only thing you hear besides your voice is the audible confusion of giulia and andreas.'),
     !.
 
 talk_to(Person) :-
     i_am_at(Place),
     person_at(Person, Place),
-    (retract(talking_to(_)); assert(talking_to(Person))),
+    (retractall(talking_to(_)); \+fail),
+    assert(talking_to(Person)),
     write('You start talking to '), write(Person), write('.'), nl,
     notice_things_on(Person),
     describe_person(Person),
@@ -218,12 +227,13 @@ talk_to(Person) :-
     nl.
 
 ask_about(Thing) :-
-    holding(Thing),
+    (holding(Thing); thing_at(Thing, Person)),
     talking_to(Person),
     describe_thing(Person, Thing),
     !, nl.
 
 tell_about(Fact, Person) :-
+    prerequisites(Fact, Person),
     describe_fact(Fact, Person, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
