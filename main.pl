@@ -83,6 +83,7 @@ thing_at(bottle_of_chloroform, room_of_zoe).
 
 thing_at(broche, hilda).
 thing_at(club_symbol, karl).
+thing_at(gilded_epaulettes, urlich).
 
 holding(money).
 
@@ -111,16 +112,18 @@ describe_person(urlich) :- write('He wears a kind of uniform with gilded epaulet
 /* TODO add more cases */
 describe_person(_) :- write('He/she is a human being.'), nl.
 
-describe_thing(hilda, broche) :- (i_know(asked_about_broche); assert(i_know(asked_about_broche))), write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
+prerequisites(thomas_had_been_murdered, hilda) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
+prerequisites(watch, urlich) :- \+(i_know(poker_is_played_here)), !.
+
+describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
+describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulettes, wouldn\'t you say dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
+describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write('I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?'), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
-prerequisites(thomas_had_been_murdered, hilda) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
-
-describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- 
-    write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
-describe_fact(_, _, _) :-
-    write('\'Okay.\''), nl, !.
+describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
+/* TODO add more cases */
+describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
 
 
@@ -229,11 +232,18 @@ talk_to(Person) :-
     write('You start to formulate your sentence towards '), write(Person), write(', when suddenly you realise, that he cannot hear you, for he isn\'t here.'),
     nl.
 
+ask_about(Thing, Person) :-
+    \+ prerequisites(Thing, Person),
+    describe_thing(Person, Thing, DiscoveredFact),
+    \+ i_know(DiscoveredFact),
+    assert(i_know(DiscoveredFact)),
+    write('NEW FACT ADDED'),
+    nl.
+
 ask_about(Thing) :-
     (holding(Thing); thing_at(Thing, Person)),
     talking_to(Person),
-    describe_thing(Person, Thing),
-    !, nl.
+    ask_about(Thing, Person).
 
 tell_about(Fact, Person) :-
     \+ prerequisites(Fact, Person),
