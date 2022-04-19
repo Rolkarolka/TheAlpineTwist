@@ -299,6 +299,8 @@ list_facts() :-
 
 list_facts().
 
+accuse(zoe) :- talking_to(hans), write('Congratulations, you\'ve won!'), halt.
+accuse(_) :- talking_to(hans), write('Sadly, you are not correct.'), halt.
 
 
 /* --- REST OF DEFINITIONS --- */
@@ -310,13 +312,14 @@ list_facts().
 help :-
     nl,
     talking_to(_),
+    \+((talking_to(hans), write('accuse(Person)     -- to accuse a person of murder (WARNING: Game ends after that, no matter the result).'), nl, fail)),
     !,
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
     write('tell_about(Fact)   -- to tell about a fact.'), nl,
     write('gossip_about(Person) -- to gossip about a person'), nl,
-    write('TODO bet'), nl,
-    write('TODO threaten'), nl,
-    write('TODO situational yes / no'), nl,
+/*  TODO write('bet'), nl,
+    TODO write('threaten'), nl,
+    TODO write('situational yes / no'), nl, */
     write('list_facts.        -- to list all known facts.'), nl,
     nl.
 
