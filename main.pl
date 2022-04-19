@@ -18,7 +18,7 @@
 
 
 
-/* --- DEFINITIONS OF PEOPLE, THINGS AND PLACES --- */
+/* --- DEFINITIONS OF PEOPLE, THINGS, PLACES AND DIALOGUES --- */
 
 
 
@@ -114,7 +114,7 @@ describe_fact(_, _, _) :-
 
 
 
-/* --- DEFINITIONS OF RULES --- */
+/* --- DEFINITIONS OF ACTIONS --- */
 
 
 
@@ -189,6 +189,13 @@ notice_people_at(Place) :-
 
 notice_people_at(_).
 
+notice_things_on(Person) :-
+    thing_at(X, Person),
+    write('There is a '), write(X), write(' on '), write(Person), write('.'), nl,
+    fail.
+
+notice_things_on(_).
+
 
 /* This rules define how to talk to someone */
 
@@ -201,17 +208,13 @@ talk_to(Person) :-
     person_at(Person, Place),
     (retract(talking_to(_)); assert(talking_to(Person))),
     write('You start talking to '), write(Person), write('.'), nl,
-    (notice_things_on(Person); describe_person(Person)),
+    notice_things_on(Person),
+    describe_person(Person),
     !.
 
 talk_to(Person) :-
     write('You start to formulate your sentence towards '), write(Person), write(', when suddenly you realise, that he cannot hear you, for he isn\'t here.'),
     nl.
-
-notice_things_on(Person) :-
-    thing_at(X, Person),
-    write('There is a '), write(X), write(' on '), write(Person), write('.'), nl,
-    fail.
 
 ask_about(Thing) :-
     holding(Thing),
@@ -239,19 +242,9 @@ list_facts() :-
 list_facts().
 
 
+
 /* --- REST OF DEFINITIONS --- */
 
-
-
-/* This rule tells how to die. */
-
-die :-
-    finish.
-
-finish :-
-    nl,
-    write('The game is over. Please enter the "halt." command.'),
-    nl.
 
 
 /* This rule just writes out game instructions. */
