@@ -98,7 +98,8 @@ describe_place(hotel_entrance) :- write('You are at the hotels entrance.'), nl.
 describe_place(poker_room) :- write('You are in the secret poker room.'), nl.
 describe_place(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
-describe_person(giulia) :- write('She is a elegantly clothed, short woman.'), nl, !.
+describe_person(giulia) :- write('She is a elegantly clothed, short brunette.'), nl, !.
+describe_person(hilda) :- write('She is a modestly dressed, short redhead. She wears a staff apron.'), nl, !.
 /* TODO add more cases */
 describe_person(_) :- write('He/she is a human being.'), nl.
 
