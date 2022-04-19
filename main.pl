@@ -115,8 +115,7 @@ describe_thing(hilda, broche) :- (i_know(asked_about_broche); assert(i_know(aske
 /* TODO add more cases */
 describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
-prerequisites(thomas_had_been_murdered, hilda) :- i_know(asked_about_broche); i_know(theodor_trusts_me).
-prerequisites(_, _).
+prerequisites(thomas_had_been_murdered, hilda) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
 
 describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- 
     write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
@@ -237,11 +236,11 @@ ask_about(Thing) :-
     !, nl.
 
 tell_about(Fact, Person) :-
-    prerequisites(Fact, Person),
+    \+ prerequisites(Fact, Person),
     describe_fact(Fact, Person, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
-    write('NEW FACT ADDED'), 
+    write('NEW FACT ADDED'),
     nl.
 
 tell_about(Fact) :-
