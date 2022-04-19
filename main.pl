@@ -74,8 +74,7 @@ person_at(urlich, hotel_entrance).
 
 thing_at(watch, room_of_thomas_and_giulia).
 thing_at(thomas_journal, room_of_thomas_and_giulia).
-thing_at(cigarette, room_of_thomas_and_giulia).
-thing_at(cigarette_light, hotel_entrance).
+thing_at(cigarette_light, room_of_thomas_and_giulia).
 thing_at(bottle_of_chloroform, room_of_zoe).
 
 thing_at(broche, hilda).
@@ -124,7 +123,9 @@ prerequisites(watch_has_changed_hands_during_last_game, hilda) :-  \+(i_know(zoe
 describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulettes, wouldn\'t you say dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
 describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write('I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?'), nl, !.
-describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night'), nl, !.
+describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night.'), nl, !.
+describe_thing(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning and I sure as hell didn\'t leave no cigarette there!.'), nl, !.
+describe_thing(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('Didn\'t knew you were such a softie, detective. Wanna know how a real cigarette looks like? *shows a standard cigarette*'), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
