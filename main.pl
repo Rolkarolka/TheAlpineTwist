@@ -1,7 +1,7 @@
 /* TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek. */
 
 :- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1, i_know/1.
-:- retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(i_am_at(_)), retractall(alive(_)), retractall(i_know(_)).
+:- retractall(i_am_at(_)), retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(holding(_)), retractall(talking_to(_)), retractall(i_know(_)).
 
 /** facts:
 *     done - thomas_had_been_murdered
@@ -345,9 +345,4 @@ help :-
     write('halt.              -- to end the game and quit.'), nl,
     nl.
 
-
-/* This rule prints out instructions and tells where you are. */
-
-start :-
-    help,
-    look.
+:- help, look.
