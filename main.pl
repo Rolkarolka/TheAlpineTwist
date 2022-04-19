@@ -105,14 +105,21 @@ describe_place(hotel_entrance) :- write('You are at the hotels entrance.'), nl.
 describe_place(poker_room) :- write('You are in the secret poker room.'), nl.
 describe_place(hunters_shaque) :- write('You are in the hunter\'s shaque.'), nl.
 
-describe_person(giulia) :- write('She is a elegantly clothed, short brunette.'), nl, !.
-describe_person(hilda) :- write('She is a petite young women, who likes to wear modest clothes. In work she always wear work uniform. She has long straight ginger hair with a golden brooche in it.'), nl, !.
-describe_person(jurgen) :- write('He is extremely tall and slender. He has long clean-shaven face. He has auburn, short and tousled hair. He likes to wear elegant clothes.'), nl, !.
-describe_person(hans) :- write('He is a well-build elderly man, with an aristrocratic nose and moustache. His grey hair fall on the tired arms. He wears a monocle on the right eye.'), nl, !.
-describe_person(karl) :- write('He likes to wear vest with the club symbol. His distrustful gaze allows him to keep bar\'s books in order. He has wrinkles due to frowing, but he can keep a poker face.'), nl, !.
-describe_person(urlich) :- write('He wears a kind of uniform with gilded epaulettes in perfect condition. He\'s not to bright, but he thinks about himself as from high society.'), nl, !.
-/* TODO add more cases */
-describe_person(_) :- write('He/she is a human being.'), nl.
+describe_person(amy) :- write('She is dressed like in the 20s, with cigarillo and sequin dress. She always want to shine, even in cloudy day. Her red curly hair go well with red lipstick and red high heels. Her character in three words: outgoing, indiferent, heartless.'), nl, !.
+describe_person(andreas) :- write('He looks like Antiono Banderas. He is smartly dressed, with gold cufflinks. He has toned body, white teeth and dimples. His character in three words: helpful, heart-broken, underrated.'), nl, !.
+describe_person(giulia) :- write('She is a petit, richly dressed victim\'s wife, with golden hair. Her clothes are in blood, her hairs are tousled. She looks tired, her eyes are still tear-filled. Her character in three words: gullible, heart-broken,  sentimental.'), nl, !.
+describe_person(hans) :- write('He is a well-build elderly hotel owner, with an aristrocratic nose and moustache. His grey hair fall on the tired arms. He wears a monocle on the right eye. His character in three words: hard-working, righteous, honest.'), nl, !.
+describe_person(hermann) :- write('He is a muscular hunter and the owner of the dog. He has a round face with moustache and beard. He likes to wear khaki clothes.  His character in three words: reserved, brave, loner.'), nl, !.
+describe_person(hilda) :- write('She is a petite young cleaning lady, who likes to wear modest clothes. In work she always wear work uniform. She has long straight ginger hair with a golden broche in it. Her character in three words: orderly, chatty, perceptive.'), nl, !.
+describe_person(jonas) :- write('He is a fully-figured law student with spiky hair and smart looking glasses. He loves jokes about roman law. His character in three words: hard-charging, humorous, drunkard.'), nl, !.
+describe_person(jurgen) :- write('He is extremely tall, slender butler. He has long clean-shaven face. He has auburn, short and tousled hair. He likes to wear elegant clothes. His character in three words: curt, helpful, grave'), nl, !.
+describe_person(karl) :- write('He is a barman. He likes to wear a vest with the club symbol. His distrustful gaze allows him to keep bar\'s books in order. He has wrinkles due to frowing, but he can keep a poker face. His character in three words: wary, crooked, smart.'), nl, !.
+describe_person(promyczek) :- write('German Spitz Miniature with keen looking eyes. It likes caressnes and it\'s well trained.'), nl, !.
+describe_person(stephan) :- write('He is a tall, ripped man with chubby cheeks. He likes to wear comfy clothes, especially kangaroo sweatshirts. His character in three words: nervous, hyperactive, romantic.'), nl, !.
+describe_person(theodor) :- write('He is a joyful chubby chef with happiness wrinkles. He is bold - he claims that thanks to it, he avoid problems with Sanepid. He wears standard neat uniform with polished shoes. His character in three words: caring, passionate, amicable.'), nl, !.
+describe_person(thomas) :- write('He was a average-height, athletic man, with a sun-kissed complexion. His heart-shaped face has freckles and a goatee. His shoulder-length dark hairs is drenched with blood. On his Italian suit, there is a blood stain and a hole made with a sharp tool.'), nl, !.
+describe_person(urlich) :- write('He is a doorkeeper. He wears a kind of uniform with gilded epaulettes in perfect condition. He\'s not to bright, but he thinks about himself as from high society. His character in three words: vain, gossip, reserved.'), nl, !.
+describe_person(zoe) :- write('She is a gorgeous young women with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair are medium lenght, curly and fair. She wear glasses and she loves wearing turtlenecks. Her character in three words: shy, thoughtful, smart.'), nl, !.
 
 prerequisites(thomas_had_been_murdered, hilda) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
 prerequisites(watch, urlich) :- \+(i_know(poker_is_played_here)), !.
