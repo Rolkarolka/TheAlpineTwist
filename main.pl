@@ -6,8 +6,8 @@
 /** facts:
 *     done - thomas_had_been_murdered
 *     done - poker_is_played_here
-*     murderer_had_a_watch
-*     watch_has_changed_hands_during_last_game
+*     done - murderer_had_a_watch
+*     done - watch_has_changed_hands_during_last_game
 *     zoe_befriended_hilda
 *     zoe_was_thomas_lovers
 *     zoe_knew_about_watch_changing_hands
@@ -119,11 +119,15 @@ describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so gl
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulettes, wouldn\'t you say dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
 describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write('I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?'), nl, !.
 /* TODO add more cases */
-describe_thing(_, Thing) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
+describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
 describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
+
+describe_gossip(zoe, hilda, zoe_befriended_hilda) :- write('Well, it was at hard at the beginning, but once you get to know her, she\'s a really sweet and nice person. We talked quite a lot lately.'), nl, !.
+/* TODO add more cases */
+describe_gossip(_, _, _) :- write('\'Not much I can say about him/her.\''), nl, !.
 
 
 
@@ -156,6 +160,7 @@ take(Thing) :-
 go(Direction) :-
     i_am_at(Here),
     path(Here, Direction, There),
+    (retractall(talking_to(_)); \+fail),
     retract(i_am_at(Here)),
     assert(i_am_at(There)),
     !, look.
@@ -258,6 +263,18 @@ tell_about(Fact) :-
     talking_to(Person),
     tell_about(Fact, Person).
 
+gossip_about(SomePerson, Person) :-
+    \+ prerequisites(SomePerson, Person),
+    describe_gossip(SomePerson, Person, DiscoveredFact),
+    \+ i_know(DiscoveredFact),
+    assert(i_know(DiscoveredFact)),
+    write('NEW FACT ADDED'),
+    nl.
+
+gossip_about(SomePerson) :-
+    talking_to(Person),
+    gossip_about(SomePerson, Person).
+
 list_facts() :-
     i_know(Fact),
     write(Fact), nl,
@@ -279,6 +296,7 @@ help :-
     !,
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
     write('tell_about(Fact)   -- to tell about a fact.'), nl,
+    write('gossip_about(Person) -- to gossip about a person'), nl,
     write('TODO bet'), nl,
     write('TODO threaten'), nl,
     write('TODO situational yes / no'), nl,
