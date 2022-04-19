@@ -126,6 +126,8 @@ describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- write('\
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
 describe_gossip(zoe, hilda, zoe_befriended_hilda) :- write('Well, it was at hard at the beginning, but once you get to know her, she\'s a really sweet and nice person. We talked quite a lot lately.'), nl, !.
+describe_gossip(zoe, amy, zoe_was_thomas_lovers) :- write('Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.'), nl, !.
+describe_gossip(thomas, amy, zoe_was_thomas_lovers) :- write('Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like that end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'), nl, !.
 /* TODO add more cases */
 describe_gossip(_, _, _) :- write('\'Not much I can say about him/her.\''), nl, !.
 
