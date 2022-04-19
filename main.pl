@@ -107,7 +107,7 @@ describe_person(hilda) :- write('She is a petite young women, who likes to wear 
 describe_person(jurgen) :- write('He is extremely tall and slender. He has long clean-shaven face. He has auburn, short and tousled hair. He likes to wear elegant clothes.'), nl, !.
 describe_person(hans) :- write('He is a well-build elderly man, with an aristrocratic nose and moustache. His grey hair fall on the tired arms. He wears a monocle on the right eye.'), nl, !.
 describe_person(karl) :- write('He likes to wear vest with the club symbol. His distrustful gaze allows him to keep bar\'s books in order. He has wrinkles due to frowing, but he can keep a poker face.'), nl, !.
-describe_person(urlich) :- write('He wears a kind of uniform with gilded epaulettes in perfect condition. He\'s not to bright, but he thinks about himself as from high society.')
+describe_person(urlich) :- write('He wears a kind of uniform with gilded epaulettes in perfect condition. He\'s not to bright, but he thinks about himself as from high society.'), nl, !.
 /* TODO add more cases */
 describe_person(_) :- write('He/she is a human being.'), nl.
 
