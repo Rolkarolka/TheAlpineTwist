@@ -204,7 +204,7 @@ talk_to(Person) :-
     i_am_at(Place),
     person_at(Person, Place),
     (retract(talking_to(_)); assert(talking_to(Person))),
-    write("You start talking to "), write(Person), write('.'), nl,
+    write('You start talking to '), write(Person), write('.'), nl,
     (notice_things_on(Person); describe_person(Person)),
     !.
 
@@ -239,6 +239,8 @@ list_facts() :-
     i_know(Fact),
     write(Fact), nl,
     fail.
+
+list_facts().
 
 /* --- REST OF DEFINITIONS --- */
 
