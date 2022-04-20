@@ -11,7 +11,7 @@
 *     done - zoe_befriended_hilda
 *     done - zoe_was_thomas_lovers
 *     done - zoe_knew_about_watch_changing_hands
-*     zoe_has_chloroform
+*     zoe_has_sleeping_pills
 *     done - amy_passed_out
 *     done - amy_won_the_watch
 *     zoe_knew_about_giulia
@@ -75,7 +75,7 @@ person_at(urlich, hotel_entrance).
 thing_at(watch, room_of_thomas_and_giulia).
 thing_at(thomas_journal, room_of_thomas_and_giulia).
 thing_at(cigarette_light, room_of_thomas_and_giulia).
-thing_at(bottle_of_chloroform, room_of_zoe).
+thing_at(sleeping_pills, room_of_zoe).
 
 thing_at(broche, hilda).
 thing_at(club_symbol, karl).
@@ -132,6 +132,7 @@ describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about 
 describe_fact(thomas_had_been_murdered, hilda, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
 describe_fact(watch_has_changed_hands_during_last_game, amy, amy_passed_out) :- write('Yeah, I won the game last night, and the watch with it. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but no more than usual, and I never pass out. The weirdest thing. But I swear, I woke up the next day and the thing was gone!'), nl, !.
 describe_fact(watch_has_changed_hands_during_last_game, hilda, zoe_knew_about_watch_changing_hands) :- write('Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.'), nl, !.
+describe_fact(thomas_had_been_murdered, giulia, giulia_is_heart_broken) :- write('\'What I need to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
@@ -297,7 +298,7 @@ list_facts().
 accuse(zoe) :-
     talking_to(hans),
     i_know(zoe_knew_about_watch_changing_hands),
-    holding(bottle_of_chloroform),
+    holding(sleeping_pills),
     i_know(zoe_knew_about_giulia),
     i_know(amy_passed_out),
     !,
@@ -334,7 +335,6 @@ help :-
     nl,
     write('Enter commands using standard Prolog syntax.'), nl,
     write('Available commands are:'), nl,
-    write('start.             -- to start the game.'), nl,
     write('n.  s.  e.  w.     -- to go in that direction.'), nl,
     write('take(Thing).       -- to pick up a Thing.'), nl,
     write('talk_to(Person).   -- to approach a Person.'), nl,
