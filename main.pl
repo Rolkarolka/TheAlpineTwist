@@ -11,7 +11,7 @@
 *     done - zoe_befriended_hilda
 *     done - zoe_was_thomas_lovers
 *     done - zoe_knew_about_watch_changing_hands
-*     zoe_has_sleeping_pills
+*     zoe_has_trouble_sleeping
 *     done - amy_passed_out
 *     done - amy_won_the_watch
 *     zoe_knew_about_giulia
@@ -129,6 +129,9 @@ describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get t
 describe_thing(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning and I sure as hell didn\'t leave no cigarette there!.'), nl, !.
 describe_thing(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('Didn\'t knew you were such a softie, detective. Wanna know how a real cigarette looks like? *shows a standard cigarette*'), nl, !.
 describe_thing(karl, club_symbol, karl_likes_playing_some_card_game) :- write('\'I do like playing clubs, they\'re quite unobvious... I could rant about why it is so, but you propably don\'t even know about what game I\'m talking about, so I won\'t bother.\''), nl, !.
+describe_thing(zoe, sleeping_pills, zoe_has_trouble_sleeping) :- write('I have trouble sleeping lately, so these help.'), nl, !.
+describe_thing(giulia, thomas_journal, thomas_kept_his_journal_really_secret) :- write('\'What\'s this? That\'s belonged to Thomas? Didn\'t know he had it.\''), nl, !.
+describe_thing(hilda, thomas_journal, thomas_was_here_to_buy_a_watch) :- write('\'Is that... Norwegian? Show it to me, I learned it a bit. ...well, there is something written here about a watch, and that he came here because he wanted to buy it. Whose is this journal anyway?\''), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
@@ -138,6 +141,7 @@ describe_fact(hilda, watch_has_changed_hands_during_last_game, zoe_knew_about_wa
 describe_fact(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write('\'What I need to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
 describe_fact(karl, poker_is_played_here, ulrich_has_an_open_mouth) :- write('\'Who told you - it was Urlich, wasn\'t it? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you\'d like to give it a try?\''), nl, !.
 describe_fact(karl, karl_cheats_at_poker, karl_trusts_me) :- write('\'So, you\'re a pretty good detective, aren\'t you? Well, you got me. I\'ll tell you what you want.\''), nl, !.
+describe_fact(andreas, thomas_was_here_to_buy_a_watch, watch_was_originally_andreases) :- write('\'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just couldn\'t show him that I\'m poor just like that. And I certainly did not kill him!\''), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
