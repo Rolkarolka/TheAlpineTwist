@@ -76,7 +76,6 @@ person_at(urlich, hotel_entrance).
 thing_at(watch, room_of_thomas_and_giulia).
 thing_at(thomas_journal, room_of_thomas_and_giulia).
 thing_at(cigarette_light, room_of_thomas_and_giulia).
-thing_at().
 
 /* room of zoe */
 thing_at(sleep_mask, room_of_zoe).
