@@ -72,14 +72,42 @@ person_at(promyczek, reception).
 person_at(jonas, hotel_entrance).
 person_at(urlich, hotel_entrance).
 
+/* room of thomas and giulia */
 thing_at(watch, room_of_thomas_and_giulia).
 thing_at(thomas_journal, room_of_thomas_and_giulia).
 thing_at(cigarette_light, room_of_thomas_and_giulia).
-thing_at(sleeping_pills, room_of_zoe).
+thing_at().
 
-thing_at(broche, hilda).
+/* room of zoe */
+thing_at(sleep_mask, room_of_zoe).
+thing_at(sleeping_pills, room_of_zoe).
+thing_at(cup, room_of_zoe).
+thing_at(shattered mirror, room_of_zoe).
+
+/* bar */
 thing_at(club_symbol, karl).
+thing_at(glass, bar).
+
+/* corridor */
+thing_at(broche, hilda).
+thing_at(cleaning_stuff, corridor).
+thing_at(cutlery_tray, corridor).
+
+/* reception */
+thing_at(guest_book, reception).
+thing_at(telephone, reception).
+thing_at(ball, hermann).
+thing_at(air_gun, reception).
+
+/* hote entrance */
 thing_at(gilded_epaulettes, urlich).
+thing_at(bush, hotel_entrance).
+
+/* hunters shque */
+thing_at(bullets, hunters_shaque).
+thing_at(hunting_weapon, hunters_shaque).
+thing_at(knife_scabbard, hunters_shaque).
+thing_at(blooded_knife, hunters_shaque).
 
 holding(money).
 
