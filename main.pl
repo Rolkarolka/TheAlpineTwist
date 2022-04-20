@@ -114,11 +114,13 @@ describe_person(thomas) :- write('He was a average-height, athletic man, with a 
 describe_person(urlich) :- write('He is a doorkeeper. He wears a kind of uniform with gilded epaulettes in perfect condition. He\'s not to bright, but he thinks about himself as from high society. His character in three words: vain, gossip, reserved.'), nl, !.
 describe_person(zoe) :- write('She is a gorgeous young women with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair are medium lenght, curly and fair. She wear glasses and she loves wearing turtlenecks. Her character in three words: shy, thoughtful, smart.'), nl, !.
 
-prerequisites(thomas_had_been_murdered, hilda) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
-prerequisites(watch, urlich) :- \+(i_know(poker_is_played_here)), !.
-prerequisites(watch, amy) :-  \+(i_know(poker_is_played_here), i_know(watch_has_changed_hands_during_last_game)), !.
-prerequisites(watch_has_changed_hands_during_last_game, amy) :-  \+(i_know(amy_won_the_watch)), !.
-prerequisites(watch_has_changed_hands_during_last_game, hilda) :-  \+(i_know(zoe_befriended_hilda)), !.
+prerequisites(hilda, thomas_had_been_murdered) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
+prerequisites(urlich, watch) :- \+(i_know(poker_is_played_here)), !.
+prerequisites(amy, watch) :-  \+(i_know(poker_is_played_here), i_know(watch_has_changed_hands_during_last_game)), !.
+prerequisites(amy, watch_has_changed_hands_during_last_game) :-  \+(i_know(amy_won_the_watch)), !.
+prerequisites(hilda, watch_has_changed_hands_during_last_game) :-  \+(i_know(zoe_befriended_hilda)), !.
+prerequisites(urlich, karl) :- \+(i_know(poker_is_played_here), (person_at(urlich, Place), \+person_at(jonas, Place))), !. /* TODO should check if all people aren't here */
+prerequisites(karl, andreas) :- \+(i_know(asked_andreas_about_why_is_he_here)), !.
 
 describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulettes, wouldn\'t you say dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
@@ -126,6 +128,7 @@ describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write
 describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night.'), nl, !.
 describe_thing(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning and I sure as hell didn\'t leave no cigarette there!.'), nl, !.
 describe_thing(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('Didn\'t knew you were such a softie, detective. Wanna know how a real cigarette looks like? *shows a standard cigarette*'), nl, !.
+describe_thing(karl, club_symbol, karl_likes_playing_some_card_game) :- write('\'I do like playing clubs, they\'re quite unobvious... I could rant about why it is so, but you propably don\'t even know about what game I\'m talking about, so I won\'t bother.\''), nl, !.
 /* TODO add more cases */
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
@@ -133,12 +136,16 @@ describe_fact(hilda, thomas_had_been_murdered, poker_is_played_here) :- write('\
 describe_fact(amy, watch_has_changed_hands_during_last_game, amy_passed_out) :- write('Yeah, I won the game last night, and the watch with it. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but no more than usual, and I never pass out. The weirdest thing. But I swear, I woke up the next day and the thing was gone!'), nl, !.
 describe_fact(hilda, watch_has_changed_hands_during_last_game, zoe_knew_about_watch_changing_hands) :- write('Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.'), nl, !.
 describe_fact(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write('\'What I need to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
+describe_fact(karl, poker_is_played_here, ulrich_has_an_open_mouth) :- write('\'Who told you - it was Urlich, wasn\'t it? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you\'d like to give it a try?\''), nl, !.
+describe_fact(karl, karl_cheats_at_poker, karl_trusts_me) :- write('\'So, you\'re a pretty good detective, aren\'t you? Well, you got me. I\'ll tell you what you want.\''), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
 describe_gossip(hilda, zoe, zoe_befriended_hilda) :- write('Well, it was at hard at the beginning, but once you get to know her, she\'s a really sweet and nice person. We talked quite a lot lately.'), nl, !.
 describe_gossip(amy, zoe, zoe_was_thomas_lovers) :- write('Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.'), nl, !.
 describe_gossip(amy, thomas, zoe_was_thomas_lovers) :- write('Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like that end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'), nl, !.
+describe_gossip(urlich, karl, karl_cheats_at_poker) :- write('Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once pull out an ace from his sleeve.'), nl, !.
+describe_gossip(karl, andreas, andreas_was_here_yesterday) :- write('About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.'), nl, !.
 /* TODO add more cases */
 describe_gossip(_, _, _) :- write('\'Not much I can say about him/her.\''), nl, !.
 
@@ -251,7 +258,7 @@ talk_to(Person) :-
     nl.
 
 ask_about(Thing, Person) :-
-    \+ prerequisites(Thing, Person),
+    \+ prerequisites(Person, Thing),
     describe_thing(Person, Thing, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
@@ -264,7 +271,7 @@ ask_about(Thing) :-
     ask_about(Thing, Person).
 
 tell_about(Fact, Person) :-
-    \+ prerequisites(Fact, Person),
+    \+ prerequisites(Person, Fact),
     describe_fact(Person, Fact, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
@@ -277,7 +284,7 @@ tell_about(Fact) :-
     tell_about(Fact, Person).
 
 gossip_about(SomePerson, Person) :-
-    \+ prerequisites(SomePerson, Person),
+    \+ prerequisites(Person, SomePerson),
     describe_gossip(Person, SomePerson, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
