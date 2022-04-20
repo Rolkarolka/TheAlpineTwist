@@ -313,7 +313,9 @@ accuse(_) :-
 
 /* --- REST OF DEFINITIONS --- */
 
-
+introduction :-
+    write('Daily life in the alpine hotel was disrupted by the barking of the Promyczek. The wife, which came after that to the room, saw her husband on the floor. She started screaming and woke up everyone who stayed in the hotel. The hotel owner immediately calls you to solve that riddle. Who is the murderer? You don\'t know. Yet...'),
+    nl, nl.
 
 /* This rule just writes out game instructions. */
 
@@ -345,4 +347,4 @@ help :-
     write('halt.              -- to end the game and quit.'), nl,
     nl.
 
-:- help, look.
+:- help, introduction, look.
