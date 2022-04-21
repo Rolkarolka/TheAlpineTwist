@@ -49,9 +49,10 @@ person_at(hilda, corridor).
 person_at(theodor, kitchen).
 person_at(hans, reception).
 person_at(hermann, reception).
-person_at(promyczek, reception).
 person_at(jonas, hotel_entrance).
 person_at(urlich, hotel_entrance).
+
+animal_at(promyczek, reception).
 
 /* room of thomas and giulia */
 thing_at(watch, room_of_thomas_and_giulia).
@@ -68,15 +69,15 @@ thing_at(club_symbol, karl).
 thing_at(glass, bar).
 
 /* corridor */
-thing_at(broche, hilda).
+thing_at(brooch, hilda).
 thing_at(cleaning_stuff, corridor).
 thing_at(cutlery_tray, corridor).
 
 /* reception */
 thing_at(guest_book, reception).
 thing_at(telephone, reception).
-thing_at(ball, hermann).
-thing_at(hunting_weapon, reception).
+thing_at(ball, reception).
+thing_at(hunting_weapon, hermann).
 
 /* hote entrance */
 thing_at(gilded_epaulettes, urlich).
@@ -117,14 +118,15 @@ describe_person(hilda) :- write('She is a petite young cleaning lady who likes t
 describe_person(jonas) :- write('He is a fully-figured law student with spiky hair and smart-looking glasses. He loves jokes about Roman law. His character is in three words: hard-charging, humorous, drunkard.'), nl, !.
 describe_person(jurgen) :- write('He is an exceptionally tall, slender butler. He has a long clean-shaven face. He has auburn, short and tousled hair. He likes to wear elegant clothes. His character is in three words: curt, helpful, and grave.'), nl, !.
 describe_person(karl) :- write('He is a barman. He likes to wear a vest with the club symbol. His distrustful gaze allows him to keep bar\'s books in order. He has wrinkles due to frowning, but he can keep a poker face. His character is in three words: wary, crooked, wise.'), nl, !.
-describe_person(promyczek) :- write('German Spitz Miniature with keen-looking eyes. It likes caresses and it\'s well trained.'), nl, !.
 describe_person(stephan) :- write('He is a tall, ripped man with chubby cheeks. He likes to wear comfy clothes, especially kangaroo sweatshirts. His character is in three words: nervous, hyperactive, and romantic.'), nl, !.
 describe_person(theodor) :- write('He is a joyful chubby chef with happy wrinkles. He is bold - he claims that thanks to it, he avoids problems with Sanepid. He wears a neat standard uniform with polished shoes. His character is in three words: caring, passionate, and amicable.'), nl, !.
 describe_person(thomas) :- write('Thomas was an average-height, athletic man with a sun-kissed complexion. His heart-shaped face has freckles and a goatee. His shoulder-length dark hair is drenched with blood. A bloodstain and a hole made with a sharp tool on his Italian suit.'), nl, !.
 describe_person(urlich) :- write('He is a doorkeeper. He wears a kind of uniform with gilded epaulets in perfect condition. He\'s not too bright, but he thinks about himself as from high society. His character is in three words: vain, gossip, reserved.'), nl, !.
 describe_person(zoe) :- write('She is a gorgeous young woman with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair is medium length, curly and golden. She wears glasses, and she loves wearing turtlenecks. Her character is in three words: shy, thoughtful, and intelligent.'), nl, !.
 
-prerequisites(hilda, thomas_had_been_murdered) :- \+(i_know(asked_about_broche); i_know(theodor_trusts_me)), !.
+describe_animal(promyczek) :- write('German Spitz Miniature with keen-looking eyes. It likes caresses and it\'s well trained.'), nl, !.
+
+prerequisites(hilda, thomas_had_been_murdered) :- \+(i_know(asked_about_brooch); i_know(theodor_trusts_me)), !.
 prerequisites(urlich, watch) :- \+(i_know(poker_is_played_here)), !.
 prerequisites(amy, watch) :-  \+(i_know(poker_is_played_here), i_know(watch_has_changed_hands_during_last_game)), !.
 prerequisites(amy, watch_has_changed_hands_during_last_game) :-  \+(i_know(amy_won_the_watch)), !.
@@ -132,7 +134,7 @@ prerequisites(hilda, watch_has_changed_hands_during_last_game) :-  \+(i_know(zoe
 prerequisites(urlich, karl) :- \+(i_know(poker_is_played_here), (person_at(urlich, Place), \+person_at(jonas, Place))), !. /* TODO should check if all people aren't here */
 prerequisites(karl, andreas) :- \+(i_know(asked_andreas_about_why_is_he_here)), !.
 
-describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
+describe_thing(hilda, brooch, asked_about_brooch) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulets, wouldn\'t you say, dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
 describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write('I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?'), nl, !.
 describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night.'), nl, !.
@@ -205,6 +207,24 @@ take(Thing) :-
     nl.
 
 
+/* These rules describe how to pet the dog */
+
+pet :-
+    talking_to(promyczek),
+    write('Pet the dog.'),
+    nl.
+
+play :- 
+    talking_to(promyczek),
+    holding(ball),
+    write('Play ball with the dog.'),
+    nl,
+    !.
+
+play :-
+    talking_to(promyczek),
+    write('You want to play with the dog, but you don\'t have his favorite ball.'), nl.
+
 /* This rule tells how to move in a given direction. */
 
 go(Direction) :-
@@ -241,6 +261,8 @@ look :-
     describe_place(Place),
     nl,
     notice_people_at(Place),
+    nl,
+    notice_animals_at(Place),
     nl.
 
 notice_things_at(Place) :-
@@ -264,8 +286,23 @@ notice_things_on(Person) :-
 
 notice_things_on(_).
 
+notice_animals_at(Place) :-
+    animal_at(X, Place),
+    write('There is '), write(X), write(' here.'), nl,
+    fail.
+
+notice_animals_at(_).
 
 /* This rules define how to talk to someone */
+
+talk_to(Animal) :-
+    i_am_at(Place),
+    animal_at(Animal, Place),
+    (retractall(talking_to(_)); \+fail),
+    assert(talking_to(Animal)),
+    write('You start playing with'), write(Animal), write('.'), nl,
+    describe_animal(Animal),
+    !.
 
 talk_to(thomas) :-
     i_am_at(Place),
@@ -358,12 +395,21 @@ introduction :-
 
 help :-
     nl,
+    talking_to(promyczek),
+    write('play               -- play ball with the Promyczek.'), nl,
+    write('pet                -- pet the dog.'),
+    write('take(Thing).       -- to pick up a Thing.'), nl,
+    nl,
+    !.
+
+help :-
+    nl,
     talking_to(_),
     \+((talking_to(hans), write('accuse(Person)     -- to accuse a person of murder.'), nl, fail)),
     !,
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
     write('tell_about(Fact)   -- to tell about a fact.'), nl,
-    write('gossip_about(Person) -- to gossip about a person'), nl,
+    write('gossip_about(Person) -- to gossip about a person.'), nl,
 /*  TODO write('bet'), nl,
     TODO write('threaten'), nl,
     TODO write('situational yes / no'), nl, */
