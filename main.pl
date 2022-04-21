@@ -133,31 +133,31 @@ prerequisites(urlich, karl) :- \+(i_know(poker_is_played_here), (person_at(urlic
 prerequisites(karl, andreas) :- \+(i_know(asked_andreas_about_why_is_he_here)), !.
 
 describe_thing(hilda, broche, asked_about_broche) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
-describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulettes, wouldn\'t you say dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
+describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulets, wouldn\'t you say, dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
 describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write('I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?'), nl, !.
 describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night.'), nl, !.
-describe_thing(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning and I sure as hell didn\'t leave no cigarette there!.'), nl, !.
-describe_thing(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('Didn\'t knew you were such a softie, detective. Wanna know how a real cigarette looks like? *shows a standard cigarette*'), nl, !.
-describe_thing(karl, club_symbol, karl_likes_playing_some_card_game) :- write('\'I do like playing clubs, they\'re quite unobvious... I could rant about why it is so, but you propably don\'t even know about what game I\'m talking about, so I won\'t bother.\''), nl, !.
-describe_thing(zoe, sleeping_pills, zoe_has_trouble_sleeping) :- write('I have trouble sleeping lately, so these help.'), nl, !.
+describe_thing(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning, and I sure as hell didn\'t leave no cigarette there!.'), nl, !.
+describe_thing(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('Didn\'t know you were such a softie, detective. Wanna know what a real cigarette looks like? *shows a standard cigarette*'), nl, !.
+describe_thing(karl, club_symbol, karl_likes_playing_some_card_game) :- write('\'I do like playing clubs, they\'re quite unobvious... I could rant about why it is so, but you probably don\'t even know about what game I\'m talking about, so I won\'t bother.\''), nl, !.
+describe_thing(zoe, sleeping_pills, zoe_has_trouble_sleeping) :- write('I have had trouble sleeping lately, so this helps.'), nl, !.
 describe_thing(giulia, thomas_journal, thomas_kept_his_journal_really_secret) :- write('\'What\'s this? That\'s belonged to Thomas? Didn\'t know he had it.\''), nl, !.
 describe_thing(hilda, thomas_journal, thomas_was_here_to_buy_a_watch) :- write('\'Is that... Norwegian? Show it to me, I learned it a bit. ...well, there is something written here about a watch, and that he came here because he wanted to buy it. Whose is this journal anyway?\''), nl, !.
-describe_thing(zoe, sleep_mask, zoe_has_trouble_sleeping) :- write('\'I still have jet lag, How can they sleep here when it\'s so early and it\'s so bright?\''), nl, !.
-describe_thing(zoe, glass, zoe_parting_yesterday) :- write('\'We had great party yesterday! I still feeling that.\''), nl, !.
-describe_thing(karl, glass, karl_is_barman) :- write('\'Thanks for that. I need to clean all of them before night. Don\'t get me wrong. I like my work at bar, but people are so messy.\''), nl, !.
+describe_thing(zoe, sleep_mask, zoe_has_trouble_sleeping) :- write('\'I still have jet lag. How can anyone sleep here when it\'s so early and it\'s so bright?\''), nl, !.
+describe_thing(zoe, glass, zoe_parting_yesterday) :- write('\'We had a great party yesterday! I still feel that.\''), nl, !.
+describe_thing(karl, glass, karl_is_barman) :- write('\'Thanks for that. I need to clean all of them before night. Don\'t get me wrong. I like my work at the bar, but people are so messy.\''), nl, !.
 describe_thing(hilda, cleaning_stuff, hilda_is_cleaning_lady) :- write('\'Maybe I can do something for you? Only tell me where, and I do my best to clean that place.\''), nl, !.
 describe_thing(jurgen, cutlery_tray, jurgen_is_butler) :- write('\'Anything for you, sir? At 4 o\'clock I\'ll bring dinner to your room.\''), nl, !.
-describe_thing(hans, guest_book, hans_is_hotel_owner) :- write('\'I do my best to keep the hotel papers in order. Here I saves all information about visitors.\''), nl, !.
+describe_thing(hans, guest_book, hans_is_hotel_owner) :- write('\'I do my best to keep the hotel papers in order. Here I save all information about visitors.\''), nl, !.
 /* TODO Ksawery after player get the book facts about gest arrival are added. */
 describe_thing(hans, telephone, hans_is_hotel_owner) :- write('\'The phone stopped ringing since the media heard about the murder. I hope you find the murderer soon.\''), nl, !.
-describe_thing(hermann, ball, hermann_dog_is_promyczek) :- write('\'Who likes to play with ball? My little boy.\' *huggling the dog*'), nl, !.
-describe_thing(hermann, hunting_weapon, hermann_is_hunter) :- write('\'I hunted such a big deer yesterday.  I love these forests.\''), nl, !.
+describe_thing(hermann, ball, hermann_dog_is_promyczek) :- write('\'Who likes to play with the ball? My little boy.\' *huggling the dog*'), nl, !.
+describe_thing(hermann, hunting_weapon, hermann_is_hunter) :- write('\'I hunted such an enormous deer yesterday. I love these forests.\''), nl, !.
 describe_thing(jonas, bush, jonas_parting_yesterday) :- write('\'This is a great bush. Yesterday after the party, he helped me stay.\''), nl, !.
 describe_thing(urlich, bush, ulrich_is_doorkeeper) :- write('\'See how nicely trimmed? I take care of them myself. I spend a large part of my life in this bush waiting for visitors.\''), nl, !.
-describe_thing(hermann, bullets, hermann_is_hunter) :- write('\'30-caliber. Where did you get them? Aren\'t them mine?\''), nl, !.
-describe_thing(hermann, knife_scabbard, hermann_is_hunter) :- write('\'My family\'s coat of arms is on the scabbard, this knife was given to me by my father. He was a hunter too.\''), nl, !.
+describe_thing(hermann, bullets, hermann_is_hunter) :- write('\'30-caliber. Where did you get them? Aren\'t they mine?\''), nl, !.
+describe_thing(hermann, knife_scabbard, hermann_is_hunter) :- write('\'My family\'s coat of arms is on the scabbard. This knife was given to me by my father. He was a hunter too.\''), nl, !.
 describe_thing(hermann, blooded_knife, hermann_lost_knife) :- write('\'Oh, someone finally found it! After taking the deer to the kitchen, the knife was lost. I thought it had fallen on the way back.\''), nl, !.
-describe_thing(theodor, deer, theodor_is_chef) :- write('\'Hermann brought it yesterday. Poor animal, but it won\'t be wasted. There will be a delicious stew tomorrow, I hope you will stay.\''), nl, !.
+describe_thing(theodor, deer, theodor_is_chef) :- write('\'Hermann brought it yesterday. Poor animal, but it won\'t be wasted. There will be a delicious stew tomorrow. I hope you will stay.\''), nl, !.
 describe_thing(theodor, broth, theodor_trusts_me) :- write('\'Do you really like my soup? I know that you are a great men.\''), nl, !.
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
