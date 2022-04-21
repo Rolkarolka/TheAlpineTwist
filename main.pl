@@ -3,25 +3,6 @@
 :- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1, i_know/1.
 :- retractall(i_am_at(_)), retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(holding(_)), retractall(talking_to(_)), retractall(i_know(_)).
 
-/** facts:
-*     done - thomas_had_been_murdered
-*     done - poker_is_played_here
-*     done - murderer_had_a_watch
-*     done - watch_has_changed_hands_during_last_game
-*     done - zoe_befriended_hilda
-*     done - zoe_was_thomas_lovers
-*     done - zoe_knew_about_watch_changing_hands
-*     zoe_has_trouble_sleeping
-*     done - amy_passed_out
-*     done - amy_won_the_watch
-*     zoe_knew_about_giulia
-*
-*     done - asked_about_broche
-*     theodor_trusts_me
-*     TODO more
-*/
-
-
 
 /* --- DEFINITIONS OF PEOPLE, THINGS, PLACES AND DIALOGUES --- */
 
@@ -81,7 +62,6 @@ thing_at(cigarette_light, room_of_thomas_and_giulia).
 thing_at(sleep_mask, room_of_zoe).
 thing_at(sleeping_pills, room_of_zoe).
 thing_at(cup, room_of_zoe).
-thing_at(shattered mirror, room_of_zoe).
 
 /* bar */
 thing_at(club_symbol, karl).
@@ -107,6 +87,10 @@ thing_at(bullets, hunters_shaque).
 thing_at(hunting_weapon, hunters_shaque).
 thing_at(knife_scabbard, hunters_shaque).
 thing_at(blooded_knife, hunters_shaque).
+
+/* kitchen */
+thing_at(deer, kitchen).
+thing_at(broth, kitchen).
 
 holding(money).
 
@@ -159,7 +143,24 @@ describe_thing(karl, club_symbol, karl_likes_playing_some_card_game) :- write('\
 describe_thing(zoe, sleeping_pills, zoe_has_trouble_sleeping) :- write('I have trouble sleeping lately, so these help.'), nl, !.
 describe_thing(giulia, thomas_journal, thomas_kept_his_journal_really_secret) :- write('\'What\'s this? That\'s belonged to Thomas? Didn\'t know he had it.\''), nl, !.
 describe_thing(hilda, thomas_journal, thomas_was_here_to_buy_a_watch) :- write('\'Is that... Norwegian? Show it to me, I learned it a bit. ...well, there is something written here about a watch, and that he came here because he wanted to buy it. Whose is this journal anyway?\''), nl, !.
-/* TODO add more cases */
+describe_thing(zoe, sleep_mask, zoe_has_trouble_sleeping) :- write('\'I still have jet lag, How can they sleep here when it\'s so early and it\'s so bright?\''), nl, !.
+describe_thing(zoe, glass, zoe_parting_yesterday) :- write('\'We had great party yesterday! I still feeling that.\''), nl, !.
+describe_thing(karl, glass, karl_is_barman) :- write('\'Thanks for that. I need to clean all of them before night. Don\'t get me wrong. I like my work at bar, but people are so messy.\''), nl, !.
+describe_thing(hilda, cleaning_stuff, hilda_is_cleaning_lady) :- write('\'Maybe I can do something for you? Only tell me where, and I do my best to clean that place.\''), nl, !.
+describe_thing(jurgen, cutlery_tray, jurgen_is_butler) :- write('\'Anything for you, sir? At 4 o\'clock I\'ll bring dinner to your room.\''), nl, !.
+describe_thing(hans, guest_book, hans_is_hotel_owner) :- write('\'I do my best to keep the hotel papers in order. Here I saves all information about visitors.\''), nl, !.
+/* TODO Ksawery after player get the book facts about gest arrival are added. */
+describe_thing(hans, telephone, hans_is_hotel_owner) :- write('\'The phone stopped ringing since the media heard about the murder. I hope you find the murderer soon.\''), nl, !.
+describe_thing(hermann, ball, hermann_dog_is_promyczek) :- write('\'Who likes to play with ball? My little boy.\' *huggling the dog*'), nl, !.
+describe_thing(hermann, air_gun, hermann_is_hunter) :- write('\'I hunted such a big deer yesterday.  I love these forests.\''), nl, !.
+describe_thing(jonas, bush, jonas_parting_yesterday) :- write('\'This is a great bush. Yesterday after the party, he helped me stay.\''), nl, !.
+describe_thing(urlich, bush, ulrich_is_doorkeeper) :- write('\'\''), nl, !.
+describe_thing(hermann, bullets, hermann_is_hunter) :- write('\'\''), nl, !.
+describe_thing(hermann, hunting_weapon, hermann_is_hunter) :- write('\'\''), nl, !.
+describe_thing(hermann, knife_scabbard, hermann_is_hunter) :- write('\'\''), nl, !.
+describe_thing(hermann, blooded_knife, hermann_lost_knife) :- write('\'\''), nl, !.
+describe_thing(theodor, deer, theodor_is_chef) :- write('\'\''), nl, !.
+describe_thing(theodor, broth, theodor_trusts_me) :- write('\'Do you really like my soup? I know that you are a great men.\''), nl, !.
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
 describe_fact(hilda, thomas_had_been_murdered, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
