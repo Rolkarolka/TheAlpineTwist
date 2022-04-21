@@ -76,7 +76,7 @@ thing_at(cutlery_tray, corridor).
 thing_at(guest_book, reception).
 thing_at(telephone, reception).
 thing_at(ball, hermann).
-thing_at(air_gun, reception).
+thing_at(hunting_weapon, reception).
 
 /* hote entrance */
 thing_at(gilded_epaulettes, urlich).
@@ -84,7 +84,6 @@ thing_at(bush, hotel_entrance).
 
 /* hunters shque */
 thing_at(bullets, hunters_shaque).
-thing_at(hunting_weapon, hunters_shaque).
 thing_at(knife_scabbard, hunters_shaque).
 thing_at(blooded_knife, hunters_shaque).
 
@@ -152,14 +151,13 @@ describe_thing(hans, guest_book, hans_is_hotel_owner) :- write('\'I do my best t
 /* TODO Ksawery after player get the book facts about gest arrival are added. */
 describe_thing(hans, telephone, hans_is_hotel_owner) :- write('\'The phone stopped ringing since the media heard about the murder. I hope you find the murderer soon.\''), nl, !.
 describe_thing(hermann, ball, hermann_dog_is_promyczek) :- write('\'Who likes to play with ball? My little boy.\' *huggling the dog*'), nl, !.
-describe_thing(hermann, air_gun, hermann_is_hunter) :- write('\'I hunted such a big deer yesterday.  I love these forests.\''), nl, !.
+describe_thing(hermann, hunting_weapon, hermann_is_hunter) :- write('\'I hunted such a big deer yesterday.  I love these forests.\''), nl, !.
 describe_thing(jonas, bush, jonas_parting_yesterday) :- write('\'This is a great bush. Yesterday after the party, he helped me stay.\''), nl, !.
-describe_thing(urlich, bush, ulrich_is_doorkeeper) :- write('\'\''), nl, !.
-describe_thing(hermann, bullets, hermann_is_hunter) :- write('\'\''), nl, !.
-describe_thing(hermann, hunting_weapon, hermann_is_hunter) :- write('\'\''), nl, !.
-describe_thing(hermann, knife_scabbard, hermann_is_hunter) :- write('\'\''), nl, !.
-describe_thing(hermann, blooded_knife, hermann_lost_knife) :- write('\'\''), nl, !.
-describe_thing(theodor, deer, theodor_is_chef) :- write('\'\''), nl, !.
+describe_thing(urlich, bush, ulrich_is_doorkeeper) :- write('\'See how nicely trimmed? I take care of them myself. I spend a large part of my life in this bush waiting for visitors.\''), nl, !.
+describe_thing(hermann, bullets, hermann_is_hunter) :- write('\'30-caliber. Where did you get them? Aren\'t them mine?\''), nl, !.
+describe_thing(hermann, knife_scabbard, hermann_is_hunter) :- write('\'My family\'s coat of arms is on the scabbard, this knife was given to me by my father. He was a hunter too.\''), nl, !.
+describe_thing(hermann, blooded_knife, hermann_lost_knife) :- write('\'Oh, someone finally found it! After taking the deer to the kitchen, the knife was lost. I thought it had fallen on the way back.\''), nl, !.
+describe_thing(theodor, deer, theodor_is_chef) :- write('\'Hermann brought it yesterday. Poor animal, but it won\'t be wasted. There will be a delicious stew tomorrow, I hope you will stay.\''), nl, !.
 describe_thing(theodor, broth, theodor_trusts_me) :- write('\'Do you really like my soup? I know that you are a great men.\''), nl, !.
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
