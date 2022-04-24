@@ -166,11 +166,11 @@ describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about 
 describe_fact(hilda, thomas_had_been_murdered, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
 describe_fact(amy, watch_has_changed_hands_during_last_game, amy_passed_out) :- write('Yeah, I won the game last night, and the watch with it. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but no more than usual, and I never pass out. The weirdest thing. But I swear, I woke up the next day and the thing was gone!'), nl, !.
 describe_fact(hilda, watch_has_changed_hands_during_last_game, zoe_knew_about_watch_changing_hands) :- write('Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.'), nl, !.
-describe_fact(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write('\'What I need to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
+describe_fact(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write('\'What I\'m suppose to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
 describe_fact(karl, poker_is_played_here, ulrich_has_an_open_mouth) :- write('\'Who told you - it was Urlich, wasn\'t it? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you\'d like to give it a try?\''), nl, !.
 describe_fact(karl, karl_cheats_at_poker, karl_trusts_me) :- write('\'So, you\'re a pretty good detective, aren\'t you? Well, you got me. I\'ll tell you what you want.\''), nl, !.
 describe_fact(andreas, thomas_was_here_to_buy_a_watch, watch_was_originally_andreases) :- write('\'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just couldn\'t show him that I\'m poor just like that. And I certainly did not kill him!\''), nl, !.
-describe_fact(andreas, andreas_was_here_yesterday, andreas_needs_money) :- write('\'Yes, I was here. I\'m sorry that I lied to you earlier. I really don\'t like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money, because I really need them right now. I found out that Thomas was the buyer just yesterday, and I couldn\'t bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.\'')
+describe_fact(andreas, andreas_was_here_yesterday, andreas_needs_money) :- write('\'Yes, I was here. I\'m sorry that I lied to you earlier. I really don\'t like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money, because I really need them right now. I found out that Thomas was the buyer just yesterday, and I couldn\'t bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.\''), !.
 describe_fact(karl, karl_cheats_at_poker, amy_knows_about_karl_cheating_at_poker) :- write('\'That scoundrel! Thanks for letting me know, mate. I\'ll keep an eye on him next time.\''), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
@@ -332,7 +332,7 @@ talk_to(Person) :-
     !.
 
 talk_to(Person) :-
-    write('You start to formulate your sentence towards '), write(Person), write(', when suddenly you realise, that he cannot hear you, for he isn\'t here.'),
+    write('You start to formulate your sentence towards '), write(Person), write(', when suddenly you realise, that he cannot hear you, for she/he isn\'t here.'),
     nl.
 
 ask_about(Thing, Person) :-
@@ -419,7 +419,8 @@ help :-
 
 help :-
     nl,
-    talking_to(_),
+    talking_to(Person),
+    write('You are talking to '), write(Person), write('.'), nl, nl,
     \+((talking_to(hans), write('accuse(Person)     -- to accuse a person of murder.'), nl, fail)),
     !,
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
@@ -427,7 +428,7 @@ help :-
     write('gossip_about(Person) -- to gossip about a person.'), nl,
 /*  TODO write('bet'), nl,
     TODO write('threaten'), nl, */
-    write('why_here.          -- to ask your interlocutor why is he here'), nl, */
+    write('why_here.          -- to ask your interlocutor why is he here'), nl,
     write('list_facts.        -- to list all known facts.'), nl,
     nl.
 
