@@ -133,6 +133,7 @@ prerequisites(amy, watch_has_changed_hands_during_last_game) :-  \+(i_know(amy_w
 prerequisites(hilda, watch_has_changed_hands_during_last_game) :-  \+(i_know(zoe_befriended_hilda)), !.
 prerequisites(urlich, karl) :- \+(i_know(poker_is_played_here), (person_at(urlich, Place), \+person_at(jonas, Place))), !. /* TODO should check if all people aren't here */
 prerequisites(karl, andreas) :- \+(i_know(asked_andreas_about_why_is_he_here)), !.
+prerequisites(andreas, andreas_was_here_yesterday) :- \+(i_know(watch_was_originally_andreases), i_know(thomas_was_here_to_buy_a_watch), i_know(asked_andreas_about_why_is_he_here), i_know(watch_has_changed_hands_during_last_game)), !.
 
 describe_thing(hilda, brooch, asked_about_brooch) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulets, wouldn\'t you say, dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
@@ -149,8 +150,7 @@ describe_thing(zoe, glass, zoe_parting_yesterday) :- write('\'We had a great par
 describe_thing(karl, glass, karl_is_barman) :- write('\'Thanks for that. I need to clean all of them before night. Don\'t get me wrong. I like my work at the bar, but people are so messy.\''), nl, !.
 describe_thing(hilda, cleaning_stuff, hilda_is_cleaning_lady) :- write('\'Maybe I can do something for you? Only tell me where, and I do my best to clean that place.\''), nl, !.
 describe_thing(jurgen, cutlery_tray, jurgen_is_butler) :- write('\'Anything for you, sir? At 4 o\'clock I\'ll bring dinner to your room.\''), nl, !.
-describe_thing(hans, guest_book, hans_is_hotel_owner) :- write('\'I do my best to keep the hotel papers in order. Here I save all information about visitors.\''), nl, !.
-/* TODO Ksawery after player get the book facts about gest arrival are added. */
+describe_thing(hans, guest_book, andreas_was_here_yesterday) :- write('\'I do my best to keep the hotel papers in order. Here I save all information about visitors.\''), nl, !.
 describe_thing(hans, telephone, hans_is_hotel_owner) :- write('\'The phone stopped ringing since the media heard about the murder. I hope you find the murderer soon.\''), nl, !.
 describe_thing(hermann, ball, hermann_dog_is_promyczek) :- write('\'Who likes to play with the ball? My little boy.\' *huggling the dog*'), nl, !.
 describe_thing(hermann, hunting_weapon, hermann_is_hunter) :- write('\'I hunted such an enormous deer yesterday. I love these forests.\''), nl, !.
@@ -170,6 +170,8 @@ describe_fact(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write
 describe_fact(karl, poker_is_played_here, ulrich_has_an_open_mouth) :- write('\'Who told you - it was Urlich, wasn\'t it? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you\'d like to give it a try?\''), nl, !.
 describe_fact(karl, karl_cheats_at_poker, karl_trusts_me) :- write('\'So, you\'re a pretty good detective, aren\'t you? Well, you got me. I\'ll tell you what you want.\''), nl, !.
 describe_fact(andreas, thomas_was_here_to_buy_a_watch, watch_was_originally_andreases) :- write('\'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just couldn\'t show him that I\'m poor just like that. And I certainly did not kill him!\''), nl, !.
+describe_fact(andreas, andreas_was_here_yesterday, andreas_needs_money) :- write('\'Yes, I was here. I\'m sorry that I lied to you earlier. I really don\'t like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money, because I really need them right now. I found out that Thomas was the buyer just yesterday, and I couldn\'t bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.\'')
+describe_fact(karl, karl_cheats_at_poker, amy_knows_about_karl_cheating_at_poker) :- write('\'That scoundrel! Thanks for letting me know, mate. I\'ll keep an eye on him next time.\''), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
@@ -181,6 +183,15 @@ describe_gossip(karl, andreas, andreas_was_here_yesterday) :- write('About that 
 /* TODO add more cases */
 describe_gossip(_, _, _) :- write('\'Not much I can say about him/her.\''), nl, !.
 
+describe_stay_reason(thomas) :- write('\'Dead man tell no tales\''), !.
+describe_stay_reason(giulia) :- write('\'I came here with Thomas on vacations.\'').
+describe_stay_reason(andreas) :- (\+i_know(asked_andreas_about_why_is_he_here); assert(i_know(asked_andreas_about_why_is_he_here))), write('\'I came here as soon I heard that my brother is... he is dead!\''), !.
+describe_stay_reason(zoe) :- write('\'It\'s always nice to spend some free time in such a beatiful place, isn\'t it?\''), !.
+describe_stay_reason(amy) :- write('\'I heard there are some oppuritinities to get some cash here.\''), !.
+describe_stay_reason(stephan) :- write('\'I wanted to talk to Thomas and heard he will be here. I won\'t be able to now...\''), !.
+describe_stay_reason(hermann) :- write('\'Well, I live nearby and hunt for Thomas some deers sometime, like yesterday.\''), !.
+describe_stay_reason(jonas) :- write('\'I live nearby and I heard about the murder, so I might gain some real life experience in this case.\''), !.
+describe_stay_reason(_) :- write('\'Well, I work here\''), !.
 
 
 /* --- DEFINITIONS OF ACTIONS --- */
@@ -362,6 +373,10 @@ gossip_about(SomePerson) :-
     talking_to(Person),
     gossip_about(SomePerson, Person).
 
+why_here() :-
+    talking_to(Person),
+    describe_stay_reason(Person).
+
 list_facts() :-
     i_know(Fact),
     write(Fact), nl,
@@ -411,8 +426,8 @@ help :-
     write('tell_about(Fact)   -- to tell about a fact.'), nl,
     write('gossip_about(Person) -- to gossip about a person.'), nl,
 /*  TODO write('bet'), nl,
-    TODO write('threaten'), nl,
-    TODO write('situational yes / no'), nl, */
+    TODO write('threaten'), nl, */
+    write('why_here.          -- to ask your interlocutor why is he here'), nl, */
     write('list_facts.        -- to list all known facts.'), nl,
     nl.
 
