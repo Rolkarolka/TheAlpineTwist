@@ -65,7 +65,7 @@ thing_at(sleeping_pills, room_of_zoe).
 thing_at(cup, room_of_zoe).
 
 /* bar */
-thing_at(club_symbol, karl).
+thing_at(clubs_symbol, karl).
 thing_at(glass, bar).
 
 /* corridor */
@@ -100,8 +100,8 @@ i_know(thomas_had_been_murdered).
 
 /* These rules set up various user messages in the game */
 
-describe_place(room_of_thomas_and_giulia) :- write('You are in room of Thomas and Giulia.'), nl.
-describe_place(room_of_zoe) :- write('You are in room of Zoe.'), nl.
+describe_place(room_of_thomas_and_giulia) :- write('You are in Thomas and Giulia\'s room.'), nl.
+describe_place(room_of_zoe) :- write('You are in Zoe\'s room.'), nl.
 describe_place(bar) :- write('You are in the bar.'), nl.
 describe_place(corridor) :- write('You are in the corridor.'), nl.
 describe_place(kitchen) :- write('You are in the kitchen.'), nl.
@@ -117,7 +117,7 @@ describe_person(hermann) :- write('He is a muscular hunter and the owner of a do
 describe_person(hilda) :- write('She is a petite young cleaning lady who likes to wear modest clothes. At work, she always wears her work uniform. She has long, straight ginger hair with a golden brooch in it. Her character is in three words: orderly, chatty, and perceptive.'), nl, !.
 describe_person(jonas) :- write('He is a fully-figured law student with spiky hair and smart-looking glasses. He loves jokes about Roman law. His character is in three words: hard-charging, humorous, drunkard.'), nl, !.
 describe_person(jurgen) :- write('He is an exceptionally tall, slender butler. He has a long clean-shaven face. He has auburn, short and tousled hair. He likes to wear elegant clothes. His character is in three words: curt, helpful, and grave.'), nl, !.
-describe_person(karl) :- write('He is a barman. He likes to wear a vest with the club symbol. His distrustful gaze allows him to keep bar\'s books in order. He has wrinkles due to frowning, but he can keep a poker face. His character is in three words: wary, crooked, wise.'), nl, !.
+describe_person(karl) :- write('He is a barman. He likes to wear a vest with the clubs symbol. His distrustful gaze allows him to keep bar\'s books in order. He has wrinkles due to frowning, but he can keep a poker face. His character is in three words: wary, crooked, smart.'), nl, !.
 describe_person(stephan) :- write('He is a tall, ripped man with chubby cheeks. He likes to wear comfy clothes, especially kangaroo sweatshirts. His character is in three words: nervous, hyperactive, and romantic.'), nl, !.
 describe_person(theodor) :- write('He is a joyful chubby chef with happy wrinkles. He is bold - he claims that thanks to it, he avoids problems with Sanepid. He wears a neat standard uniform with polished shoes. His character is in three words: caring, passionate, and amicable.'), nl, !.
 describe_person(thomas) :- write('Thomas was an average-height, athletic man with a sun-kissed complexion. His heart-shaped face has freckles and a goatee. His shoulder-length dark hair is drenched with blood. A bloodstain and a hole made with a sharp tool on his Italian suit.'), nl, !.
@@ -141,7 +141,7 @@ describe_thing(urlich, watch, watch_has_changed_hands_during_last_game) :- write
 describe_thing(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night.'), nl, !.
 describe_thing(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning, and I sure as hell didn\'t leave no cigarette there!.'), nl, !.
 describe_thing(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('Didn\'t know you were such a softie, detective. Wanna know what a real cigarette looks like? *shows a standard cigarette*'), nl, !.
-describe_thing(karl, club_symbol, karl_likes_playing_some_card_game) :- write('\'I do like playing clubs, they\'re quite unobvious... I could rant about why it is so, but you probably don\'t even know about what game I\'m talking about, so I won\'t bother.\''), nl, !.
+describe_thing(karl, clubs_symbol, karl_likes_playing_some_card_game) :- write('\'I do like playing clubs, they\'re quite unobvious... I could rant about why it is so, but you probably don\'t even know about what game I\'m talking about, so I won\'t bother.\''), nl, !.
 describe_thing(zoe, sleeping_pills, zoe_has_trouble_sleeping) :- write('I have had trouble sleeping lately, so this helps.'), nl, !.
 describe_thing(giulia, thomas_journal, thomas_kept_his_journal_really_secret) :- write('\'What\'s this? That\'s belonged to Thomas? Didn\'t know he had it.\''), nl, !.
 describe_thing(hilda, thomas_journal, thomas_was_here_to_buy_a_watch) :- write('\'Is that... Norwegian? Show it to me, I learned it a bit. ...well, there is something written here about a watch, and that he came here because he wanted to buy it. Whose is this journal anyway?\''), nl, !.
@@ -154,7 +154,7 @@ describe_thing(hans, guest_book, andreas_was_here_yesterday) :- write('\'I do my
 describe_thing(hans, telephone, hans_is_hotel_owner) :- write('\'The phone stopped ringing since the media heard about the murder. I hope you find the murderer soon.\''), nl, !.
 describe_thing(hermann, ball, hermann_dog_is_promyczek) :- write('\'Who likes to play with the ball? My little boy.\' *huggling the dog*'), nl, !.
 describe_thing(hermann, hunting_weapon, hermann_is_hunter) :- write('\'I hunted such an enormous deer yesterday. I love these forests.\''), nl, !.
-describe_thing(jonas, bush, jonas_parting_yesterday) :- write('\'This is a great bush. Yesterday after the party, he helped me stay.\''), nl, !.
+describe_thing(jonas, bush, jonas_parting_yesterday) :- write('\'This is a great bush. Yesterday after the party, he helped me stay straight. The most comfortable bush I\'ve ever slept under.\''), nl, !.
 describe_thing(urlich, bush, ulrich_is_doorkeeper) :- write('\'See how nicely trimmed? I take care of them myself. I spend a large part of my life in this bush waiting for visitors.\''), nl, !.
 describe_thing(hermann, bullets, hermann_is_hunter) :- write('\'30-caliber. Where did you get them? Aren\'t they mine?\''), nl, !.
 describe_thing(hermann, knife_scabbard, hermann_is_hunter) :- write('\'My family\'s coat of arms is on the scabbard. This knife was given to me by my father. He was a hunter too.\''), nl, !.
@@ -164,22 +164,24 @@ describe_thing(theodor, broth, theodor_trusts_me) :- write('\'Do you really like
 describe_thing(_, Thing, _) :- write('\'A '), write(Thing), write('. What about it?\''), nl.
 
 describe_fact(hilda, thomas_had_been_murdered, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
-describe_fact(amy, watch_has_changed_hands_during_last_game, amy_passed_out) :- write('Yeah, I won the game last night, and the watch with it. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but no more than usual, and I never pass out. The weirdest thing. But I swear, I woke up the next day and the thing was gone!'), nl, !.
+describe_fact(amy, watch_has_changed_hands_during_last_game, amy_passed_out) :- write('Yeah, I won the game last night, and the watch too. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but not more than usual, and normally I don\'t even feel drunk, let alone pass out. The weirdest feeling. But I swear, when I woke up the next day the thing was gone!'), nl, !.
 describe_fact(hilda, watch_has_changed_hands_during_last_game, zoe_knew_about_watch_changing_hands) :- write('Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.'), nl, !.
 describe_fact(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write('\'What I\'m suppose to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
 describe_fact(karl, poker_is_played_here, ulrich_has_an_open_mouth) :- write('\'Who told you - it was Urlich, wasn\'t it? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you\'d like to give it a try?\''), nl, !.
 describe_fact(karl, karl_cheats_at_poker, karl_trusts_me) :- write('\'So, you\'re a pretty good detective, aren\'t you? Well, you got me. I\'ll tell you what you want.\''), nl, !.
-describe_fact(andreas, thomas_was_here_to_buy_a_watch, watch_was_originally_andreases) :- write('\'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just couldn\'t show him that I\'m poor just like that. And I certainly did not kill him!\''), nl, !.
-describe_fact(andreas, andreas_was_here_yesterday, andreas_needs_money) :- write('\'Yes, I was here. I\'m sorry that I lied to you earlier. I really don\'t like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money, because I really need them right now. I found out that Thomas was the buyer just yesterday, and I couldn\'t bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.\''), !.
+describe_fact(andreas, thomas_was_here_to_buy_a_watch, watch_was_originally_andreases) :- write('\'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just couldn\'t let him know that I\'m penniless just like that. And I certainly did not kill him!\''), nl, !.
+describe_fact(andreas, andreas_was_here_yesterday, andreas_needs_money) :- write('\'Yes, I was here. I\'m sorry that I lied to you earlier. I really don\'t like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money. I really need them right now. I found out that Thomas was the buyer just yesterday, and I couldn\'t bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.\''), !.
 describe_fact(karl, karl_cheats_at_poker, amy_knows_about_karl_cheating_at_poker) :- write('\'That scoundrel! Thanks for letting me know, mate. I\'ll keep an eye on him next time.\''), nl, !.
+describe_fact(jonas, jonas_likes_drinking_in_company, jonas_went_to_bar) :- write('\'Of course I love drinking in good company, who doesn\'t? By the way, it\'s about the best time to go drinking together! I\'ll go save a table for us in the bar and you go get the drinks!\''), nl, !.
 /* TODO add more cases */
 describe_fact(_, _, _) :- write('\'Okay.\''), nl, !.
 
 describe_gossip(hilda, zoe, zoe_befriended_hilda) :- write('Well, it was at hard at the beginning, but once you get to know her, she\'s a really sweet and nice person. We talked quite a lot lately.'), nl, !.
 describe_gossip(amy, zoe, zoe_was_thomas_lovers) :- write('Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.'), nl, !.
-describe_gossip(amy, thomas, zoe_was_thomas_lovers) :- write('Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like that end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'), nl, !.
+describe_gossip(amy, thomas, zoe_was_thomas_lovers) :- write('Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'), nl, !.
 describe_gossip(urlich, karl, karl_cheats_at_poker) :- write('Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once pull out an ace from his sleeve.'), nl, !.
 describe_gossip(karl, andreas, andreas_was_here_yesterday) :- write('About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.'), nl, !.
+describe_gossip(karl, jonas, jonas_likes_drinking_in_company) :- write('This guy, I don\'t remember how many times I\'ve seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I\'ve seen him perfecting this technique for months now...'), nl, !.
 /* TODO add more cases */
 describe_gossip(_, _, _) :- write('\'Not much I can say about him/her.\''), nl, !.
 
@@ -189,7 +191,7 @@ describe_stay_reason(andreas) :- (\+i_know(asked_andreas_about_why_is_he_here); 
 describe_stay_reason(zoe) :- write('\'It\'s always nice to spend some free time in such a beatiful place, isn\'t it?\''), !.
 describe_stay_reason(amy) :- write('\'I heard there are some oppuritinities to get some cash here.\''), !.
 describe_stay_reason(stephan) :- write('\'I wanted to talk to Thomas and heard he will be here. I won\'t be able to now...\''), !.
-describe_stay_reason(hermann) :- write('\'Well, I live nearby and hunt for Thomas some deers sometime, like yesterday.\''), !.
+describe_stay_reason(hermann) :- write('\'Well, I live nearby and hunt for Thomas some deers sometime, like yesterday. Did I mention that I\'m studying law?\''), !.
 describe_stay_reason(jonas) :- write('\'I live nearby and I heard about the murder, so I might gain some real life experience in this case.\''), !.
 describe_stay_reason(_) :- write('\'Well, I work here\''), !.
 
@@ -247,7 +249,7 @@ go(Direction) :-
     !, look.
 
 go(_) :-
-    write('You can''t go that way.').
+    write('You can\'t go that way.').
 
 n :- go(n).
 
@@ -384,6 +386,13 @@ list_facts() :-
 
 list_facts().
 
+list_things() :-
+    holding(Thing),
+    write(Thing), nl,
+    fail.
+
+list_things(_).
+
 accuse(zoe) :-
     talking_to(hans),
     i_know(zoe_knew_about_watch_changing_hands),
@@ -430,6 +439,7 @@ help :-
     TODO write('threaten'), nl, */
     write('why_here.          -- to ask your interlocutor why is he here'), nl,
     write('list_facts.        -- to list all known facts.'), nl,
+    write('list_things.       -- to list all taken things.'), nl,
     nl.
 
 help :-
@@ -442,6 +452,7 @@ help :-
     write('look.              -- to look at people around you.'), nl,
     write('notice.            -- to notice things around you.'), nl,
     write('list_facts.        -- to list all known facts.'), nl,
+    write('list_things.       -- to list all taken things.'), nl,
     write('help.              -- to see this message again.'), nl,
     write('halt.              -- to end the game and quit.'), nl,
     nl.
