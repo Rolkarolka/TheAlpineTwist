@@ -350,6 +350,8 @@ talk_to(Person) :-
     nl.
 
 ask_about(Thing, Person) :-
+    i_am_at(Place),
+    person_at(Person, Place),
     \+ prerequisites(Person, Thing),
     describe_thing(Person, Thing, DiscoveredFact),
     \+ i_know(DiscoveredFact),
@@ -363,6 +365,8 @@ ask_about(Thing) :-
     ask_about(Thing, Person).
 
 tell_about(Fact, Person) :-
+    i_am_at(Place),
+    person_at(Person, Place),
     \+ prerequisites(Person, Fact),
     describe_fact(Person, Fact, DiscoveredFact),
     \+ i_know(DiscoveredFact),
@@ -376,6 +380,8 @@ tell_about(Fact) :-
     tell_about(Fact, Person).
 
 gossip_about(SomePerson, Person) :-
+    i_am_at(Place),
+    person_at(Person, Place),
     \+ prerequisites(Person, SomePerson),
     describe_gossip(Person, SomePerson, DiscoveredFact),
     \+ i_know(DiscoveredFact),
@@ -404,10 +410,6 @@ list_things() :-
     fail.
 
 list_things(_).
-
-move() :-
-    retract(person_at(thomas, room_of_thomas_and_giulia)),
-    assert(person_at(thomas, reception)).
 
 accuse(zoe) :-
     talking_to(hans),
