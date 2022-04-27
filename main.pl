@@ -10,6 +10,18 @@
 
 /*  These rules defines connections between places */
 
+/*
++----------------------------+---------------------------+------------------------+
+| room_of_thomas_and_giulia             corridor                room_of_zoe       |
++----------------------------+------               ------+------------------------+
+|                                      reception         |                        |
+|             bar            +------               ------+------------------------+
++------                ------+       hotel_entrance      |                        |
+|           kitchen          +------               ------+------------------------+
+|                                    hunters_shaque      |                        |
++----------------------------+---------------------------+------------------------+
+*/
+
 path(room_of_thomas_and_giulia, w, corridor).
 
 path(corridor, e, room_of_thomas_and_giulia).
@@ -29,10 +41,10 @@ path(hotel_entrance, n, reception).
 path(hotel_entrance, s, hunters_shaque).
 
 path(kitchen, n, bar).
-path(kitchen, s, hunters_shaque).
+path(kitchen, e, hunters_shaque).
 
-path(hunters_shaque, w, hotel_entrance).
-path(hunters_shaque, e, kitchen).
+path(hunters_shaque, n, hotel_entrance).
+path(hunters_shaque, w, kitchen).
 
 /* These rules describe where everything and everyone is. */
 
@@ -392,6 +404,10 @@ list_things() :-
     fail.
 
 list_things(_).
+
+move() :-
+    retract(person_at(thomas, room_of_thomas_and_giulia)),
+    assert(person_at(thomas, reception)).
 
 accuse(zoe) :-
     talking_to(hans),
