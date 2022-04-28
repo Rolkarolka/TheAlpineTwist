@@ -194,6 +194,7 @@ describe_gossip(amy, thomas, zoe_was_thomas_lovers) :- write('Well, I was once h
 describe_gossip(urlich, karl, karl_cheats_at_poker) :- write('Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once pull out an ace from his sleeve.'), nl, !.
 describe_gossip(karl, andreas, andreas_was_here_yesterday) :- write('About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.'), nl, !.
 describe_gossip(karl, jonas, jonas_likes_drinking_in_company) :- write('This guy, I don\'t remember how many times I\'ve seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I\'ve seen him perfecting this technique for months now...'), nl, !.
+describe_gossip(stephan, jonas, jonas_likes_drinking_in_company) :- write('Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.'), nl, !.
 /* TODO add more cases */
 describe_gossip(_, _, _) :- write('\'Not much I can say about him/her.\''), nl, !.
 
@@ -228,7 +229,7 @@ take(Thing) :-
     !, nl.
 
 take(Thing) :-
-    write('You try to grab the'), write(Thing), write(' or at least you try to grasp your hallucination of it.'),
+    write('You try to grab the '), write(Thing), write(' or at least you try to grasp your hallucination of it.'),
     nl.
 
 
@@ -356,8 +357,8 @@ ask_about(Thing, Person) :-
     describe_thing(Person, Thing, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
-    write('NEW FACT ADDED'),
-    nl.
+    write('NEW FACT ADDED'), nl,
+    !.
 
 ask_about(Thing) :-
     (holding(Thing); thing_at(Thing, Person)),
@@ -410,14 +411,14 @@ why_here() :-
 list_facts() :-
     i_know(Fact),
     write(Fact), nl,
-    fail.
+    !.
 
 list_facts().
 
 list_things() :-
     holding(Thing),
     write(Thing), nl,
-    fail.
+    !.
 
 list_things(_).
 
