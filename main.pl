@@ -1,7 +1,7 @@
 /* TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek. */
 
-:- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1, i_know/1.
-:- retractall(i_am_at(_)), retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(holding(_)), retractall(talking_to(_)), retractall(i_know(_)).
+:- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1, crouched_to/1, i_know/1.
+:- retractall(i_am_at(_)), retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(holding(_)), retractall(talking_to(_)), retractall(crouched_to(_)), retractall(i_know(_)).
 
 
 /* --- DEFINITIONS OF PEOPLE, THINGS, PLACES AND DIALOGUES --- */
@@ -235,20 +235,20 @@ take(Thing) :-
 /* These rules describe how to pet the dog */
 
 pet :-
-    talking_to(promyczek),
-    write('Pet the dog.'),
+    crouched_to(Animal),
+    write('Yaaay! You start petting '), write(Animal), write(', and you enjoy it :D.'), nl,
     nl.
 
 play :- 
-    talking_to(promyczek),
+    crouched_to(Animal),
     holding(ball),
-    write('Play ball with the dog.'),
+    write('Hops, hops, hops. The ball is rolling on the floor, and you watch ') , write(Animal), write(' - a small, fluffy animal chasing the ball.'), nl,
     nl,
     !.
 
 play :-
-    talking_to(promyczek),
-    write('You want to play with the dog, but you don\'t have his favorite ball.'), nl.
+    crouched_to(Animal),
+    write('You want to play with the '), write(Animal), write(', but you don\'t have his favorite ball.'), nl.
 
 /* This rule tells how to move in a given direction. */
 
@@ -320,12 +320,12 @@ notice_animals_at(_).
 
 /* This rules define how to talk to someone */
 
-talk_to(Animal) :-
+crouch_to(Animal) :-
     i_am_at(Place),
     animal_at(Animal, Place),
-    (retractall(talking_to(_)); \+fail),
-    assert(talking_to(Animal)),
-    write('You start playing with'), write(Animal), write('.'), nl,
+    (retractall(crouched_to(_)); \+fail),
+    assert(crouched_to(Animal)),
+    write('You start playing with '), write(Animal), write('.'), nl,
     describe_animal(Animal),
     !.
 
@@ -447,10 +447,11 @@ introduction :-
 
 help :-
     nl,
-    talking_to(promyczek),
-    write('play               -- play ball with the Promyczek.'), nl,
-    write('pet                -- pet the dog.'),
+    crouched_to(Animal),
+    write('play               -- play ball with the '), write(Animal),  write('.'), nl,
+    write('pet                -- pet the '), write(Animal),  write('.'), nl,
     write('take(Thing).       -- to pick up a Thing.'), nl,
+    write('notice.            -- to notice things around you.'), nl,
     nl,
     !.
 
@@ -477,6 +478,7 @@ help :-
     write('n.  s.  e.  w.     -- to go in that direction.'), nl,
     write('take(Thing).       -- to pick up a Thing.'), nl,
     write('talk_to(Person).   -- to approach a Person.'), nl,
+    write('crouch_to(Animal). -- start to pet the Animal.'), nl,
     write('look.              -- to look at people around you.'), nl,
     write('notice.            -- to notice things around you.'), nl,
     write('list_facts.        -- to list all known facts.'), nl,
