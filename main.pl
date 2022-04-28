@@ -190,13 +190,15 @@ describe(jonas, jonas_likes_drinking_in_company, jonas_went_to_bar) :- write('\'
 describe(_, Fact, _) :- i_know(Fact), write('\'So... what I\'m suppose to do with that information?\''), nl, !.
 
 describe(hilda, zoe, zoe_befriended_hilda) :- write('\'Well, it was at hard at the beginning, but once you get to know her, she\'s a really sweet and nice person. We talked quite a lot lately.\''), nl, !.
+describe(hilda, thomas, thomas_had_been_murdered) :- write('\'Poor Thomas... I knew him a bit - he used to work here with his good friend back when he was younger. I wonder if their friendship survived through all this time...\''), nl, !.
 describe(amy, zoe, zoe_was_thomas_lovers) :- write('\'Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.\''), nl, !.
 describe(amy, thomas, zoe_was_thomas_lovers) :- write('\'Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...\''), nl, !.
-describe(urlich, karl, karl_cheats_at_poker) :- write('\'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once pull out an ace from his sleeve.\''), nl, !.
+describe(urlich, karl, karl_cheats_at_poker) :- write('\'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once playing an ace of clubs - the exact same one I had in my hand!\''), nl, !.
 describe(karl, andreas, andreas_was_here_yesterday) :- write('\'About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.\''), nl, !.
 describe(karl, jonas, jonas_likes_drinking_in_company) :- write('\'This guy, I don\'t remember how many times I\'ve seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I\'ve seen him perfecting this technique for months now...\''), nl, !.
 describe(stephan, jonas, jonas_likes_drinking_in_company) :- write('\'Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.\''), nl, !.
-
+describe(stephan, karl, karl_hides_cards_in_his_sleeve) :- write('\'If I were you, I wouldn\'t play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!\''), nl, !.
+describe(giulia, thomas, thomas_had_been_murdered) :- write('As soon as you mention Thomas\' name, Giulia starts crying again...'), nl, !.
 /* TODO add more cases */
 describe(_, Person, _) :- person_at(Person, _), write('\'Not much I can say about him/her.\''), nl, !.
 
@@ -204,10 +206,10 @@ describe_stay_reason(thomas) :- write('\'Dead man tell no tales\''), !.
 describe_stay_reason(giulia) :- write('\'I came here with Thomas on vacations.\'').
 describe_stay_reason(andreas) :- (\+i_know(asked_andreas_about_why_is_he_here); assert(i_know(asked_andreas_about_why_is_he_here))), write('\'I came here as soon I heard that my brother is... he is dead!\''), !.
 describe_stay_reason(zoe) :- write('\'It\'s always nice to spend some free time in such a beatiful place, isn\'t it?\''), !.
-describe_stay_reason(amy) :- write('\'I heard there are some oppuritinities to get some cash here.\''), !.
-describe_stay_reason(stephan) :- write('\'I wanted to talk to Thomas and heard he will be here. I won\'t be able to now...\''), !.
-describe_stay_reason(hermann) :- write('\'Well, I live nearby and hunt for Thomas some deers sometime, like yesterday. Did I mention that I\'m studying law?\''), !.
-describe_stay_reason(jonas) :- write('\'I live nearby and I heard about the murder, so I might gain some real life experience in this case.\''), !.
+describe_stay_reason(amy) :- write('\'I heard there are oppuritunities to get some cash here. Have you heard about it too by chance?\''), !.
+describe_stay_reason(stephan) :- write('\'I wanted to talk to Thomas, I heard he\'s coming here for a couple of days. I won\'t be able to now...\''), !.
+describe_stay_reason(hermann) :- write('\'Well, I live nearby and hunt deers for Thomas sometimes, like yesterday.\''), !.
+describe_stay_reason(jonas) :- write('\'I live nearby and I heard about the murder, so I thought I might gain some real life experience in this case. Did I mention that I\'m studying law?\''), !.
 describe_stay_reason(_) :- write('\'Well, I work here\''), !.
 
 
