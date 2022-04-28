@@ -11,15 +11,15 @@
 /*  These rules defines connections between places */
 
 /*
-+----------------------------+---------------------------+------------------------+
-| room_of_thomas_and_giulia             corridor                room_of_zoe       |
-+----------------------------+------               ------+------------------------+
-|                                      reception         |                        |
-|             bar            +------               ------+------------------------+
-+------                ------+       hotel_entrance      |                        |
-|           kitchen          +------               ------+------------------------+
-|                                    hunters_shaque      |                        |
-+----------------------------+---------------------------+------------------------+
++----------------------------+---------------------------+-------------------------------+
+|        room_of_zoe                    corridor             room_of_thomas_and_giulia   |
++----------------------------+------               ------+-------------------------------+
+|                                      reception         |                               |
+|             bar            +------               ------+-------------------------------+
++------                ------+       hotel_entrance      |                               |
+|           kitchen          +------               ------+-------------------------------+
+|                                    hunters_shaque      |                               |
++----------------------------+---------------------------+-------------------------------+
 */
 
 path(room_of_thomas_and_giulia, w, corridor).
@@ -236,13 +236,19 @@ take(Thing) :-
 
 pet :-
     crouched_to(Animal),
-    write('Yaaay! You start petting '), write(Animal), write(', and you enjoy it :D.'), nl,
+    write('Yaaay! You start petting '), write(Animal), write(', and you enjoy it.'), nl,
     nl.
 
 play :- 
     crouched_to(Animal),
     holding(ball),
     write('Hops, hops, hops. The ball is rolling on the floor, and you watch ') , write(Animal), write(' - a small, fluffy animal chasing the ball.'), nl,
+    write('               ;~~,__'), nl,
+    write(':-....,-------\'`-\'._.\''), nl,
+    write(' `-,,,  ,       ;\'~~\''), nl,
+    write('   ,\'_,\'~.__; \'--.'), nl,
+    write('  //\'       ````(;'), nl,
+    write(' `-\'                           O'), nl,
     nl,
     !.
 
