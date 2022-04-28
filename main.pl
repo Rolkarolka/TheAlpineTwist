@@ -194,8 +194,8 @@ describe(amy, zoe, zoe_was_thomas_lovers) :- write('\'Oh, yeah, her. Not much I 
 describe(amy, thomas, zoe_was_thomas_lovers) :- write('\'Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...\''), nl, !.
 describe(urlich, karl, karl_cheats_at_poker) :- write('\'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once pull out an ace from his sleeve.\''), nl, !.
 describe(karl, andreas, andreas_was_here_yesterday) :- write('\'About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.\''), nl, !.
-describe(karl, jonas, jonas_likes_drinking_in_company) :- write('\'This guy, I don\'t remember how many times I\'ve seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I\'ve seen him perfecting this technique for months now...\''), nl, !.describe(stephan, jonas, jonas_likes_drinking_in_company) :- write('Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.'), nl, !.
-describe(stephan, jonas, jonas_likes_drinking_in_company) :- write(\'Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.\''), nl, !.
+describe(karl, jonas, jonas_likes_drinking_in_company) :- write('\'This guy, I don\'t remember how many times I\'ve seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I\'ve seen him perfecting this technique for months now...\''), nl, !.
+describe(stephan, jonas, jonas_likes_drinking_in_company) :- write('\'Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.\''), nl, !.
 
 /* TODO add more cases */
 describe(_, Person, _) :- person_at(Person, _), write('\'Not much I can say about him/her.\''), nl, !.
@@ -397,14 +397,14 @@ why_here() :-
 journal() :-
     i_know(Fact),
     write(Fact), nl,
-    !.
+    fail.
 
 journal.
 
 inventory :-
     holding(Thing),
     write(Thing), nl,
-    !.
+    fail.
 
 inventory.
 
