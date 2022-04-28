@@ -147,14 +147,14 @@ prerequisites(urlich, karl) :- \+ ((i_know(poker_is_played_here), person_at(urli
 prerequisites(karl, andreas) :- \+((i_know(asked_andreas_about_why_is_he_here))), !.
 prerequisites(andreas, andreas_was_here_yesterday) :- \+ ((i_know(watch_was_originally_andreases), i_know(thomas_was_here_to_buy_a_watch), i_know(asked_andreas_about_why_is_he_here), i_know(watch_has_changed_hands_during_last_game))), !.
 
-describe(hilda, brooch, asked_about_brooch) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
-describe(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulets, wouldn\'t you say, dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
-describe(urlich, watch, watch_has_changed_hands_during_last_game) :- write('I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?'), nl, !.
-describe(amy, watch, amy_won_the_watch) :- write('Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night.'), nl, !.
-describe(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning, and I sure as hell didn\'t leave no cigarette there!.'), nl, !.
-describe(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('Didn\'t know you were such a softie, detective. Wanna know what a real cigarette looks like? *shows a standard cigarette*'), nl, !.
+describe(hilda, brooch, asked_about_brooch) :- write('\'Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?\''), nl, !.
+describe(urlich, gilded_epaulettes, poker_is_played_here) :- write('\'Very fine epaulets, wouldn\'t you say, dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!\''), nl, !.
+describe(urlich, watch, watch_has_changed_hands_during_last_game) :- write('\'I saw that watch somewhere before! Isn\'t this the watch that was on our table last game? Where did you find it?\''), nl, !.
+describe(amy, watch, amy_won_the_watch) :- write('\'Hey, where did you get that thing?! That\'s mine. I\'ve won it fair and square last night.\''), nl, !.
+describe(hilda, cigarette_light, hilda_smokes_light_cigarettes) :- write('\'Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I wasn\'t there since yesterday\'s cleaning, and I sure as hell didn\'t leave no cigarette there!.\''), nl, !.
+describe(amy, cigarette_light, amy_smokes_standard_cigarettes) :- write('\'Didn\'t know you were such a softie, detective. Wanna know what a real cigarette looks like? *shows a standard cigarette*\''), nl, !.
 describe(karl, clubs_symbol, karl_likes_playing_some_card_game) :- write('\'I do like playing clubs, they\'re quite unobvious... I could rant about why it is so, but you probably don\'t even know about what game I\'m talking about, so I won\'t bother.\''), nl, !.
-describe(zoe, sleeping_pills, zoe_has_trouble_sleeping) :- write('I have had trouble sleeping lately, so this helps.'), nl, !.
+describe(zoe, sleeping_pills, zoe_has_trouble_sleeping) :- write('\'I have had trouble sleeping lately, so this helps.\''), nl, !.
 describe(giulia, thomas_journal, thomas_kept_his_journal_really_secret) :- write('\'What\'s this? That\'s belonged to Thomas? Didn\'t know he had it.\''), nl, !.
 describe(hilda, thomas_journal, thomas_was_here_to_buy_a_watch) :- write('\'Is that... Norwegian? Show it to me, I learned it a bit. ...well, there is something written here about a watch, and that he came here because he wanted to buy it. Whose is this journal anyway?\''), nl, !.
 describe(zoe, sleep_mask, zoe_has_trouble_sleeping) :- write('\'I still have jet lag. How can anyone sleep here when it\'s so early and it\'s so bright?\''), nl, !.
@@ -176,8 +176,8 @@ describe(theodor, broth, theodor_trusts_me) :- write('\'Do you really like my so
 describe(_, Thing, _) :- holding(Thing), write('\'A '), write(Thing), write('. What about it?\''), nl, !.
 
 describe(hilda, thomas_had_been_murdered, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
-describe(amy, watch_has_changed_hands_during_last_game, amy_passed_out) :- write('Yeah, I won the game last night, and the watch too. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but not more than usual, and normally I don\'t even feel drunk, let alone pass out. The weirdest feeling. But I swear, when I woke up the next day the thing was gone!'), nl, !.
-describe(hilda, watch_has_changed_hands_during_last_game, zoe_knew_about_watch_changing_hands) :- write('Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.'), nl, !.
+describe(amy, watch_has_changed_hands_during_last_game, amy_passed_out) :- write('\'Yeah, I won the game last night, and the watch too. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but not more than usual, and normally I don\'t even feel drunk, let alone pass out. The weirdest feeling. But I swear, when I woke up the next day the thing was gone!\''), nl, !.
+describe(hilda, watch_has_changed_hands_during_last_game, zoe_knew_about_watch_changing_hands) :- write('\'Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.\''), nl, !.
 describe(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write('\'What I\'m suppose to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
 describe(karl, poker_is_played_here, ulrich_has_an_open_mouth) :- write('\'Who told you - it was Urlich, wasn\'t it? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you\'d like to give it a try?\''), nl, !.
 describe(karl, karl_cheats_at_poker, karl_trusts_me) :- write('\'So, you\'re a pretty good detective, aren\'t you? Well, you got me. I\'ll tell you what you want.\''), nl, !.
@@ -189,13 +189,13 @@ describe(jonas, jonas_likes_drinking_in_company, jonas_went_to_bar) :- write('\'
 
 describe(_, Fact, _) :- i_know(Fact), write('\'So... what I\'m suppose to do with that information?\''), nl, !.
 
-describe(hilda, zoe, zoe_befriended_hilda) :- write('Well, it was at hard at the beginning, but once you get to know her, she\'s a really sweet and nice person. We talked quite a lot lately.'), nl, !.
-describe(amy, zoe, zoe_was_thomas_lovers) :- write('Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.'), nl, !.
-describe(amy, thomas, zoe_was_thomas_lovers) :- write('Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'), nl, !.
-describe(urlich, karl, karl_cheats_at_poker) :- write('Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once pull out an ace from his sleeve.'), nl, !.
-describe(karl, andreas, andreas_was_here_yesterday) :- write('About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.'), nl, !.
-describe(karl, jonas, jonas_likes_drinking_in_company) :- write('This guy, I don\'t remember how many times I\'ve seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I\'ve seen him perfecting this technique for months now...'), nl, !.
-describe(stephan, jonas, jonas_likes_drinking_in_company) :- write('Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.'), nl, !.
+describe(hilda, zoe, zoe_befriended_hilda) :- write('\'Well, it was at hard at the beginning, but once you get to know her, she\'s a really sweet and nice person. We talked quite a lot lately.\''), nl, !.
+describe(amy, zoe, zoe_was_thomas_lovers) :- write('\'Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.\''), nl, !.
+describe(amy, thomas, zoe_was_thomas_lovers) :- write('\'Well, I was once his girlfriend. Probably won\'t be again, will I? Hahah. Oh, don\'t look at me like that, he always wanted to have everything, that\'s how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...\''), nl, !.
+describe(urlich, karl, karl_cheats_at_poker) :- write('\'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once pull out an ace from his sleeve.\''), nl, !.
+describe(karl, andreas, andreas_was_here_yesterday) :- write('\'About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.\''), nl, !.
+describe(karl, jonas, jonas_likes_drinking_in_company) :- write('\'This guy, I don\'t remember how many times I\'ve seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I\'ve seen him perfecting this technique for months now...\''), nl, !.describe(stephan, jonas, jonas_likes_drinking_in_company) :- write('Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.'), nl, !.
+describe(stephan, jonas, jonas_likes_drinking_in_company) :- write(\'Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.\''), nl, !.
 
 /* TODO add more cases */
 describe(_, Person, _) :- person_at(Person, _), write('\'Not much I can say about him/her.\''), nl, !.
@@ -266,13 +266,13 @@ go(Direction) :-
 go(_) :-
     write('You can\'t go that way.').
 
-n :- go(n).
+w :- go(n).
+
+a :- go(w).
 
 s :- go(s).
 
-e :- go(e).
-
-w :- go(w).
+d :- go(e).
 
 
 /* This rule tells how to look around. */
@@ -388,19 +388,19 @@ why_here() :-
     talking_to(Person),
     describe_stay_reason(Person).
 
-list_facts() :-
+journal() :-
     i_know(Fact),
     write(Fact), nl,
     !.
 
-list_facts().
+journal.
 
-list_things() :-
+inventory :-
     holding(Thing),
     write(Thing), nl,
     !.
 
-list_things().
+inventory.
 
 accuse(zoe) :-
     talking_to(hans),
@@ -432,7 +432,11 @@ help :-
     write('play               -- play ball with the '), write(Animal),  write('.'), nl,
     write('pet                -- pet the '), write(Animal),  write('.'), nl,
     write('take(Thing).       -- to pick up a Thing.'), nl,
-    write('notice.            -- to notice things around you.'), nl,
+    write('look / l.          -- to look at people around you.'), nl,
+    write('notice / n.        -- to notice things around you.'), nl,
+    write('journal / j.       -- to list all known facts.'), nl,
+    write('inventory / i.     -- to list all taken things.'), nl,
+    write('halt.              -- to end the game and quit.'), nl,
     nl,
     !.
 
@@ -448,24 +452,37 @@ help :-
 /*  TODO write('bet'), nl,
     TODO write('threaten'), nl, */
     write('why_here.          -- to ask your interlocutor why is he here'), nl,
-    write('list_facts.        -- to list all known facts.'), nl,
-    write('list_things.       -- to list all taken things.'), nl,
+    write('look / l.          -- to look at people around you.'), nl,
+    write('notice / n.        -- to notice things around you.'), nl,
+    write('journal / j.       -- to list all known facts.'), nl,
+    write('inventory / i.     -- to list all taken things.'), nl,
+    write('halt.              -- to end the game and quit.'), nl,
     nl.
 
 help :-
     nl,
     write('Enter commands using standard Prolog syntax.'), nl,
     write('Available commands are:'), nl,
-    write('n.  s.  e.  w.     -- to go in that direction.'), nl,
+    write('w. a. s. d.        -- to go in that direction.'), nl,
     write('take(Thing).       -- to pick up a Thing.'), nl,
     write('talk_to(Person).   -- to approach a Person.'), nl,
     write('crouch_to(Animal). -- start to pet the Animal.'), nl,
-    write('look.              -- to look at people around you.'), nl,
-    write('notice.            -- to notice things around you.'), nl,
-    write('list_facts.        -- to list all known facts.'), nl,
-    write('list_things.       -- to list all taken things.'), nl,
-    write('help.              -- to see this message again.'), nl,
+    write('look / l.          -- to look at people around you.'), nl,
+    write('notice / n.        -- to notice things around you.'), nl,
+    write('journal / j.       -- to list all known facts.'), nl,
+    write('inventory / i.     -- to list all taken things.'), nl,
+    write('help / h.          -- to see this message again.'), nl,
     write('halt.              -- to end the game and quit.'), nl,
     nl.
+
+l :- look.
+
+n :- notice.
+
+j :- journal.
+
+i :- inventory.
+
+h :- help.
 
 :- help, introduction, look.
