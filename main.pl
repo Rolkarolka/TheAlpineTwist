@@ -1,7 +1,7 @@
 /* TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek. */
 
-:- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1, crouched_to/1, i_know/1.
-:- retractall(i_am_at(_)), retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(holding(_)), retractall(talking_to(_)), retractall(crouched_to(_)), retractall(i_know(_)).
+:- dynamic i_am_at/1, person_at/2, thing_at/2, holding/1, talking_to/1, crouched_to/1, i_know/1, amount/2.
+:- retractall(i_am_at(_)), retractall(person_at(_, _)), retractall(thing_at(_, _)), retractall(holding(_)), retractall(talking_to(_)), retractall(crouched_to(_)), retractall(i_know(_)), retractall(amount(_, _)).
 
 
 /* --- DEFINITIONS OF PEOPLE, THINGS, PLACES AND DIALOGUES --- */
@@ -403,10 +403,38 @@ journal.
 
 inventory :-
     holding(Thing),
-    write(Thing), nl,
+    write(Thing),
+    (amount(Thing, Amount) -> write(' x'), write(Amount); true),
+    nl,
     fail.
 
 inventory.
+
+set_amount(Thing, Amount) :-
+    holding(Thing),
+    (amount(Thing, _) -> retract(amount(Thing, _)); true),
+    assert(amount(Thing, Amount)),
+    write('New amount of '), write(Thing), write(' is: '), write(Amount), nl,
+    !.
+
+add_amount(Thing, Amount) :-
+    holding(Thing),
+    amount(Thing, PrevAmount),
+    retract(amount(Thing, PrevAmount)),
+    NewAmount is PrevAmount + Amount,
+    assert(amount(Thing, NewAmount)),
+    write('New amount: of '), write(Thing), write(' is: '), write(NewAmount), nl,
+    !.
+
+substract_amount(Thing, Amount) :-
+    holding(Thing),
+    amount(Thing, PrevAmount),
+    PrevAmount >= Amount,
+    retract(amount(Thing, PrevAmount)),
+    NewAmount is PrevAmount - Amount,
+    assert(amount(Thing, NewAmount)),
+    write('New amount: of '), write(Thing), write(' is: '), write(NewAmount), nl,
+    !.
 
 accuse(zoe) :-
     talking_to(hans),
