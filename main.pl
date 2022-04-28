@@ -364,18 +364,28 @@ ask_about(Thing) :-
     talking_to(Person),
     ask_about(Thing, Person).
 
-tell_about(Fact, Person) :-
+real_tell_about(Fact, Person) :-
     i_am_at(Place),
     person_at(Person, Place),
+    i_know(Fact),
     \+ prerequisites(Person, Fact),
     describe_fact(Person, Fact, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
-    write('NEW FACT ADDED'),
-    nl.
+    write('NEW FACT ADDED'), nl,
+    !.
+
+tell_about(jonas_likes_drinking_in_company, jonas) :-
+    real_tell_about(jonas_likes_drinking_in_company, jonas),
+    retract(person_at(jonas, Place)),
+    assert(person_at(jonas, bar)),
+    !.
+
+tell_about(Fact, Person) :-
+    real_tell_about(Fact, Person),
+    !.
 
 tell_about(Fact) :-
-    i_know(Fact),
     talking_to(Person),
     tell_about(Fact, Person).
 
@@ -386,8 +396,8 @@ gossip_about(SomePerson, Person) :-
     describe_gossip(Person, SomePerson, DiscoveredFact),
     \+ i_know(DiscoveredFact),
     assert(i_know(DiscoveredFact)),
-    write('NEW FACT ADDED'),
-    nl.
+    write('NEW FACT ADDED'), nl,
+    !.
 
 gossip_about(SomePerson) :-
     talking_to(Person),
