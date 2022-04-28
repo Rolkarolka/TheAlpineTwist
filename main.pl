@@ -105,6 +105,7 @@ thing_at(deer, kitchen).
 thing_at(broth, kitchen).
 
 holding(money).
+amount(money, 100).
 
 /* The facts that the player knows about from start */
 
@@ -177,13 +178,13 @@ describe(_, Thing, _) :- holding(Thing), write('\'A '), write(Thing), write('. W
 
 describe(hilda, thomas_had_been_murdered, poker_is_played_here) :- write('\'I don\'t really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?\''), nl, !.
 describe(amy, watch_has_changed_hands_during_last_game, amy_passed_out) :- write('\'Yeah, I won the game last night, and the watch too. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but not more than usual, and normally I don\'t even feel drunk, let alone pass out. The weirdest feeling. But I swear, when I woke up the next day the thing was gone!\''), nl, !.
+describe(amy, karl_cheats_at_poker, amy_knows_about_karl_cheating_at_poker) :- write('\'That scoundrel! Thanks for letting me know, mate. I\'ll keep an eye on him next time.\''), nl, !.
 describe(hilda, watch_has_changed_hands_during_last_game, zoe_knew_about_watch_changing_hands) :- write('\'Oh yeah, Amy won the watch yesterday. That watch surely must\'ve cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also couldn\'t believe this.\''), nl, !.
 describe(giulia, thomas_had_been_murdered, giulia_is_heart_broken) :- write('\'What I\'m suppose to do? Is he trully dead? He cannot be. He promised. I want him back...\''), nl, !.
 describe(karl, poker_is_played_here, ulrich_has_an_open_mouth) :- write('\'Who told you - it was Urlich, wasn\'t it? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you\'d like to give it a try?\''), nl, !.
 describe(karl, karl_cheats_at_poker, karl_trusts_me) :- write('\'So, you\'re a pretty good detective, aren\'t you? Well, you got me. I\'ll tell you what you want.\''), nl, !.
 describe(andreas, thomas_was_here_to_buy_a_watch, watch_was_originally_andreases) :- write('\'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just couldn\'t let him know that I\'m penniless just like that. And I certainly did not kill him!\''), nl, !.
 describe(andreas, andreas_was_here_yesterday, andreas_needs_money) :- write('\'Yes, I was here. I\'m sorry that I lied to you earlier. I really don\'t like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money. I really need them right now. I found out that Thomas was the buyer just yesterday, and I couldn\'t bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.\''), !.
-describe(karl, karl_cheats_at_poker, amy_knows_about_karl_cheating_at_poker) :- write('\'That scoundrel! Thanks for letting me know, mate. I\'ll keep an eye on him next time.\''), nl, !.
 describe(jonas, jonas_likes_drinking_in_company, jonas_went_to_bar) :- write('\'Of course I love drinking in good company, who doesn\'t? By the way, it\'s about the best time to go drinking together! I\'ll go save a table for us in the bar and you go get the drinks!\''), nl, !.
 /* TODO add more cases */
 
@@ -392,6 +393,35 @@ gossip_about(SomePerson) :-
     talking_to(Person),
     internal_talk_about(SomePerson, Person).
 
+bet(karl, Fact) :-
+    i_am_at(Place),
+    person_at(karl, Place),
+    i_know(Fact),
+    i_know(karl_likes_playing_some_card_game),
+    i_know(poker_is_played_here),
+    (Fact = karl_cheats_at_poker; Fact = karl_hides_cards_in_his_sleeve; Fact = karl_admitted_to_cheating),
+    write('\'What a ridiculous idea, I\'m not a cheater! Fine, if you insist - let\'s have a bet. What stake are we talking about?\''), nl,
+    read(Stake),
+    amount(money, Money),
+    (Stake < 50 -> write('\'Come on, don\'t make me laugh. I\'m not even going to bother for such a small profit, come again when you make some money!\''), nl; !),
+    (Stake > Money -> write('That\'s a little over your budget, don\'t you think?'), nl; !),
+    ((Stake >= 50, Stake =< Money) ->
+    write('\'Okay, that\'s a fair stake. I agree. If you find three pieces of evidence against me, come to me and I\'ll return you double the money and admit to cheating. But that will never happen, because I\'m not a cheater!\''), nl,
+    substract_amount(money, Stake)
+    ; true),
+    !.
+
+bet(Person, Fact) :-
+    i_am_at(Place),
+    person_at(Person, Place),
+    i_know(Fact),
+    write('\'Yeah, maybe, I don\'t know and I don\'t really care.\''), nl,
+    !.
+
+bet(Fact) :-
+    talking_to(Person),
+    bet(Person, Fact).
+    
 why_here() :-
     talking_to(Person),
     describe_stay_reason(Person).
@@ -425,7 +455,7 @@ add_amount(Thing, Amount) :-
     retract(amount(Thing, PrevAmount)),
     NewAmount is PrevAmount + Amount,
     assert(amount(Thing, NewAmount)),
-    write('New amount: of '), write(Thing), write(' is: '), write(NewAmount), nl,
+    write('New amount of '), write(Thing), write(' is: '), write(NewAmount), nl,
     !.
 
 substract_amount(Thing, Amount) :-
@@ -435,7 +465,7 @@ substract_amount(Thing, Amount) :-
     retract(amount(Thing, PrevAmount)),
     NewAmount is PrevAmount - Amount,
     assert(amount(Thing, NewAmount)),
-    write('New amount: of '), write(Thing), write(' is: '), write(NewAmount), nl,
+    write('New amount of '), write(Thing), write(' is: '), write(NewAmount), nl,
     !.
 
 accuse(zoe) :-
