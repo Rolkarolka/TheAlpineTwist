@@ -138,14 +138,14 @@ describe_person(zoe) :- write('She is a gorgeous young woman with fair skin and 
 
 describe_animal(promyczek) :- write('German Spitz Miniature with keen-looking eyes. It likes caresses and it\'s well trained.'), nl, !.
 
-prerequisites(hilda, thomas_had_been_murdered) :- \+(i_know(asked_about_brooch); i_know(theodor_trusts_me)), !.
-prerequisites(urlich, watch) :- \+(i_know(poker_is_played_here)), !.
-prerequisites(amy, watch) :-  \+(i_know(poker_is_played_here), i_know(watch_has_changed_hands_during_last_game)), !.
-prerequisites(amy, watch_has_changed_hands_during_last_game) :-  \+(i_know(amy_won_the_watch)), !.
-prerequisites(hilda, watch_has_changed_hands_during_last_game) :-  \+(i_know(zoe_befriended_hilda)), !.
-prerequisites(urlich, karl) :- \+(i_know(poker_is_played_here), (person_at(urlich, Place), \+person_at(jonas, Place))), !. /* TODO should check if all people aren't here */
-prerequisites(karl, andreas) :- \+(i_know(asked_andreas_about_why_is_he_here)), !.
-prerequisites(andreas, andreas_was_here_yesterday) :- \+(i_know(watch_was_originally_andreases), i_know(thomas_was_here_to_buy_a_watch), i_know(asked_andreas_about_why_is_he_here), i_know(watch_has_changed_hands_during_last_game)), !.
+prerequisites(hilda, thomas_had_been_murdered) :- \+ ((i_know(asked_about_brooch); i_know(theodor_trusts_me))), !.
+prerequisites(urlich, watch) :- \+ ((i_know(poker_is_played_here))), !.
+prerequisites(amy, watch) :-  \+ ((i_know(poker_is_played_here), i_know(watch_has_changed_hands_during_last_game))), !.
+prerequisites(amy, watch_has_changed_hands_during_last_game) :- \+ ((i_know(amy_won_the_watch))), !.
+prerequisites(hilda, watch_has_changed_hands_during_last_game) :- \+ ((i_know(zoe_befriended_hilda))), !.
+prerequisites(urlich, karl) :- \+ ((i_know(poker_is_played_here), person_at(urlich, Place), \+ ((person_at(Person, Place), Person \= urlich)))), !.
+prerequisites(karl, andreas) :- \+((i_know(asked_andreas_about_why_is_he_here))), !.
+prerequisites(andreas, andreas_was_here_yesterday) :- \+ ((i_know(watch_was_originally_andreases), i_know(thomas_was_here_to_buy_a_watch), i_know(asked_andreas_about_why_is_he_here), i_know(watch_has_changed_hands_during_last_game))), !.
 
 describe_thing(hilda, brooch, asked_about_brooch) :- write('Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?'), nl, !.
 describe_thing(urlich, gilded_epaulettes, poker_is_played_here) :- write('Very fine epaulets, wouldn\'t you say, dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'), nl, !.
