@@ -145,8 +145,9 @@ prerequisites(amy, watch) :-  \+ ((i_know(poker_is_played_here), i_know(watch_ha
 prerequisites(amy, watch_has_changed_hands_during_last_game) :- \+ ((i_know(amy_won_the_watch))), !.
 prerequisites(hilda, watch_has_changed_hands_during_last_game) :- \+ ((i_know(zoe_befriended_hilda))), !.
 prerequisites(urlich, karl) :- \+ ((i_know(poker_is_played_here), person_at(urlich, Place), \+ ((person_at(Person, Place), Person \= urlich)))), !.
-prerequisites(karl, andreas) :- \+((i_know(asked_andreas_about_why_is_he_here))), !.
+prerequisites(karl, andreas) :- \+ ((i_know(asked_andreas_about_why_is_he_here))), !.
 prerequisites(andreas, andreas_was_here_yesterday) :- \+ ((i_know(watch_was_originally_andreases), i_know(thomas_was_here_to_buy_a_watch), i_know(asked_andreas_about_why_is_he_here), i_know(watch_has_changed_hands_during_last_game))), !.
+prerequisites(jonas, karl) :- \+ ((person_at(jonas, bar))), !.
 
 describe(hilda, brooch, asked_about_brooch) :- write('\'Oh, this! I\'m so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, isn\'t it?\''), nl, !.
 describe(urlich, gilded_epaulettes, poker_is_played_here) :- write('\'Very fine epaulets, wouldn\'t you say, dear Sir? Very fine, if I say so myself. I\'ve won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!\''), nl, !.
@@ -200,6 +201,7 @@ describe(karl, jonas, jonas_likes_drinking_in_company) :- write('\'This guy, I d
 describe(stephan, jonas, jonas_likes_drinking_in_company) :- write('\'Ah yes, this funny boy. I drank with him a couple of times. He\'s the funniest person in the whole hotel and the best drinking buddy - that\'s why I buy him a drink from time to time.\''), nl, !.
 describe(stephan, karl, karl_hides_cards_in_his_sleeve) :- write('\'If I were you, I wouldn\'t play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!\''), nl, !.
 describe(giulia, thomas, thomas_had_been_murdered) :- write('As soon as you mention Thomas\' name, Giulia starts crying again...'), nl, !.
+describe(jonas, karl, karl_admitted_to_cheating) :- write('\'This guy is a crook, I\'ll tell you that! *hic!* We were drinking together once and he told me *hic!* that he\'s cheating all the time! He was so proud that no one can catch him red-handed. *hic!* But I promised that I wouldn\'t tell anyone, so you have to promise me, too! *hic!*\''), nl, !.
 /* TODO add more cases */
 describe(_, Person, _) :- person_at(Person, _), write('\'Not much I can say about him/her.\''), nl, !.
 
@@ -213,6 +215,9 @@ describe_stay_reason(hermann) :- write('\'Well, I live nearby and hunt deers for
 describe_stay_reason(jonas) :- write('\'I live nearby and I heard about the murder, so I thought I might gain some real life experience in this case. Did I mention that I\'m studying law?\''), !.
 describe_stay_reason(_) :- write('\'Well, I work here\''), !.
 
+describe_excuse(karl, karl_cheats_at_poker) :- write('\'Who told you that, Urlich? He\'s not better than me, and it\'s his word against mine. That doesn\'t prove anything.\''), !.
+describe_excuse(karl, karl_hides_cards_in_his_sleeve) :- write('\'What? A card in my sleeve? Please, that\'s just a trick from the movies, nobody does this - especially not me!\''), !.
+describe_excuse(karl, karl_admitted_to_cheating) :- write('\'Oh come on, you\'re believing this story? People see and hear all kinds of stupid things when they\'re drunk. The only thing this proves is that Jonas is a drunkard, that\'s it.\''), !.
 
 /* --- DEFINITIONS OF ACTIONS --- */
 
@@ -394,6 +399,33 @@ gossip_about(SomePerson) :-
     internal_talk_about(SomePerson, Person).
 
 bet(karl, Fact) :-
+    \+ i_know(zoe_left_right_after_amy),
+    i_know(placed_bet_with_karl),
+    i_am_at(Place),
+    person_at(karl, Place),
+    i_know(Fact),
+    (Fact = karl_cheats_at_poker; Fact = karl_hides_cards_in_his_sleeve; Fact = karl_admitted_to_cheating),
+    write('\'How\'s it going, mr detective? Do you have any proof yet?\''), nl,
+    read(Fact_A),
+    (\+ describe_excuse(karl, Fact_A) -> write('\'Huh? That doesn\'t even make sense! Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
+    describe_excuse(karl, Fact_A), nl,
+    read(Fact_B),
+    (\+ describe_excuse(karl, Fact_B) -> write('\'Huh? That doesn\'t even make sense! Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
+    (Fact_A = Fact_B -> write('\'Come on, you won\'t persuade me if you keep repeating your arguments. Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
+    describe_excuse(karl, Fact_B), nl,
+    read(Fact_C),
+    ((Fact_C = Fact_B; Fact_C = Fact_A) -> write('\'Come on, you won\'t persuade me if you keep repeating your arguments. Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
+    write('\'Shhh, don\'t speak so loud! Okay, sometimes I\'m not playing completely fair, I admit... But it\'s not like I\'m cheating all the time! Take the last night - so many people were looking at me that I couldn\'t even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her.\''), nl,
+    \+ i_know(zoe_left_right_after_amy),
+    assert(i_know(zoe_left_right_after_amy)),
+    write('NEW FACT ADDED'), nl,
+    Amount is 2 * 0,
+    add_amount(money, Amount), % ############################# Tutaj niestety nie ma przechowywania kwoty zakładu, jakieś pomysły? #############################
+    !.
+
+bet(karl, Fact) :-
+    \+ i_know(zoe_left_right_after_amy),
+    \+ i_know(placed_bet_with_karl),
     i_am_at(Place),
     person_at(karl, Place),
     i_know(Fact),
@@ -407,8 +439,11 @@ bet(karl, Fact) :-
     (Stake > Money -> write('That\'s a little over your budget, don\'t you think?'), nl; !),
     ((Stake >= 50, Stake =< Money) ->
     write('\'Okay, that\'s a fair stake. I agree. If you find three pieces of evidence against me, come to me and I\'ll return you double the money and admit to cheating. But that will never happen, because I\'m not a cheater!\''), nl,
-    substract_amount(money, Stake)
-    ; true),
+    substract_amount(money, Stake),
+    \+ i_know(placed_bet_with_karl),
+    assert(i_know(placed_bet_with_karl)),
+    write('NEW FACT ADDED'),
+    nl; true),
     !.
 
 bet(Person, Fact) :-
@@ -474,6 +509,7 @@ accuse(zoe) :-
     holding(sleeping_pills),
     i_know(zoe_knew_about_giulia),
     i_know(amy_passed_out),
+    i_know(zoe_left_right_after_amy),
     !,
     write('Congratulations, you\'ve won!'),
     halt.
@@ -515,8 +551,8 @@ help :-
     write('ask_about(Thing)   -- to ask about a thing.'), nl,
     write('tell_about(Fact)   -- to tell about a fact.'), nl,
     write('gossip_about(Person) -- to gossip about a person.'), nl,
-/*  TODO write('bet'), nl,
-    TODO write('threaten'), nl, */
+    write('bet(Fact)          -- to bet with someone about veracity of said fact'), nl,
+/*  TODO write('threaten'), nl, */
     write('why_here.          -- to ask your interlocutor why is he here'), nl,
     write('look / l.          -- to look at people around you.'), nl,
     write('notice / n.        -- to notice things around you.'), nl,
