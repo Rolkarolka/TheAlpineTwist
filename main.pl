@@ -412,18 +412,21 @@ bet(karl, Fact) :-
     read(Fact_A),
     (\+ describe_excuse(karl, Fact_A) -> write('\'Huh? That doesn\'t even make sense! Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
     describe_excuse(karl, Fact_A), nl,
+    write('\'But okay, what next do you have on me?\''), nl,
     read(Fact_B),
     (\+ describe_excuse(karl, Fact_B) -> write('\'Huh? That doesn\'t even make sense! Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
     (Fact_A = Fact_B -> write('\'Come on, you won\'t persuade me if you keep repeating your arguments. Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
     describe_excuse(karl, Fact_B), nl,
+    write('\'But okay, what next do you have on me?\''), nl,
     read(Fact_C),
     ((Fact_C = Fact_B; Fact_C = Fact_A) -> write('\'Come on, you won\'t persuade me if you keep repeating your arguments. Go find some real proof if you\'re still deluding youself that you can win this bet.\''), nl, fail; true),
     write('\'Shhh, don\'t speak so loud! Okay, sometimes I\'m not playing completely fair, I admit... But it\'s not like I\'m cheating all the time! Take the last night - so many people were looking at me that I couldn\'t even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her.\''), nl,
     \+ i_know(zoe_left_right_after_amy),
     assert(i_know(zoe_left_right_after_amy)),
     write('NEW FACT ADDED'), nl,
-    Amount is 2 * 0,
-    add_amount(money, Amount), % ############################# Tutaj niestety nie ma przechowywania kwoty zakładu, jakieś pomysły? #############################
+    nb_getval(stake, Stake),
+    Amount is 2 * Stake,
+    add_amount(money, Amount),
     !.
 
 bet(karl, Fact) :-
@@ -447,6 +450,7 @@ bet(karl, Fact) :-
     assert(i_know(placed_bet_with_karl)),
     write('NEW FACT ADDED'),
     nl; true),
+    nb_setval(stake, Stake),
     !.
 
 bet(Person, Fact) :-
