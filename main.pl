@@ -419,8 +419,9 @@ bet(karl, Fact) :-
     \+ i_know(zoe_left_right_after_amy),
     assert(i_know(zoe_left_right_after_amy)),
     write('NEW FACT ADDED'), nl,
-    Amount is 2 * 0,
-    add_amount(money, Amount), % ############################# Tutaj niestety nie ma przechowywania kwoty zakładu, jakieś pomysły? #############################
+    nb_getval(stake, Stake),
+    Amount is 2 * Stake,
+    add_amount(money, Amount),
     !.
 
 bet(karl, Fact) :-
@@ -444,6 +445,7 @@ bet(karl, Fact) :-
     assert(i_know(placed_bet_with_karl)),
     write('NEW FACT ADDED'),
     nl; true),
+    nb_setval(stake, Stake),
     !.
 
 bet(Person, Fact) :-
