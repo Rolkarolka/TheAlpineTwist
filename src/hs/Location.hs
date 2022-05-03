@@ -1,5 +1,5 @@
 module Location where
-    import Prelude hiding (lookup)
+    import Prelude
     import qualified Data.List as List
 
     import State

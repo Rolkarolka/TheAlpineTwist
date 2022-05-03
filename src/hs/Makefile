@@ -1,4 +1,4 @@
-build: main.hs
+build: *.hs
 	ghc main.hs -O2 -o build/main
 	rm *.hi *.o
 

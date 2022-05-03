@@ -1,9 +1,12 @@
 -- TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek.
 
-import Prelude hiding (lookup)
+import Prelude hiding (take)
+import qualified Data.List as List
 
 import Location
 import State
+import Thing
+import Utilities
 
 describeIntroduction = [
         "",
@@ -48,11 +51,13 @@ gameLoop state = do
     if not (cmd == "quit") then
         gameLoop (case cmd of
             "help" -> help newState
+            "notice" -> notice newState
             "w" -> go newState North
             "d" -> go newState East
             "a" -> go newState West
             "s" -> go newState South
-            _ -> newState
+            _ -> if List.isPrefixOf "take" cmd then take newState ((split (==' ') cmd)!!1)
+                    else newState { message = ["Unknown command"] }
             )
         else do 
             printLines ["Goodbye"]
