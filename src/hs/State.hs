@@ -6,5 +6,6 @@ module State where
             animals_at :: [(String, String)],
             items_at :: [(String, String)],
             known_facts :: [String],
-            holding :: [String]
+            holding :: [String],
+            talking_to :: String
         } deriving (Show)

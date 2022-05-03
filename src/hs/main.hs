@@ -6,6 +6,7 @@ import qualified Data.List as List
 import Fact
 import Item
 import Location
+import Person
 import State
 import Utilities
 
@@ -18,7 +19,9 @@ describeIntroduction = [
 describeHelp = [
     "Available commands are:",
     "help / h      -- to see available commands.",
+    "talk person   -- talk to \"person\".",
     "take item     -- take an \"item\" and add it to your inventory.",
+    "look / l      -- notice all people located in the current room.",
     "notice / n    -- notice all items located in the current room.",
     "inventory / i -- list all owned items.",
     "journal / j   -- list all known facts.",
@@ -36,7 +39,7 @@ printLines xs = putStr (unlines xs)
 printState :: State -> IO ()
 printState state = do
     putStr (unlines (message state))
-    putStr ("You're at " ++ (i_am_at state) ++ "\n")
+    putStr ("You're at " ++ (i_am_at state) ++ ", you're talking to " ++ (talking_to state) ++ "\n")
 
 help state = state { message = describeHelp }
 introduction = printLines describeIntroduction
@@ -56,8 +59,10 @@ gameLoop state = do
         gameLoop (case cmd of
             "help" -> help newState
             "h" -> help newState
-            "notice" -> notice newState
-            "n" -> notice newState
+            "look" -> noticePeople newState
+            "l" -> noticePeople newState
+            "notice" -> noticeItems newState
+            "n" -> noticeItems newState
             "inventory" -> inventory newState
             "i" -> inventory newState
             "journal" -> journal newState
@@ -67,7 +72,8 @@ gameLoop state = do
             "a" -> go newState West
             "s" -> go newState South
             _ -> if List.isPrefixOf "take" cmd then take newState ((split (==' ') cmd)!!1)
-                    else newState { message = ["Unknown command"] }
+                 else if List.isPrefixOf "talk" cmd then talk newState ((split (==' ') cmd)!!1)
+                 else newState { message = ["Unknown command"] }
             )
         else do 
             printLines ["Goodbye"]
@@ -128,4 +134,6 @@ main = do
         -- holding
         [ "money"
         ]
+        -- talking_to
+        "nobody"
         ))

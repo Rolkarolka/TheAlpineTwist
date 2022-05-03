@@ -16,6 +16,6 @@ module Item where
                                 else
                                     state { message = ["You try to grab the " ++ item ++ " or at least you try to grasp your hallucination of it."] }
 
-    notice state = state { message = ["You notice following items laying around: "] ++ (map (\x -> fst x) (filter (\x -> snd x == (i_am_at state)) (items_at state))) }
+    noticeItems state = state { message = ["You notice following items laying around: "] ++ (map (\x -> fst x) (filter (\x -> snd x == (i_am_at state)) (items_at state))) }
 
     inventory state = state { message = ["You have these items: "] ++ holding state }
