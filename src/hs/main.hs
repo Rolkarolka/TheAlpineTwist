@@ -17,11 +17,11 @@ describeIntroduction = [
 
 describeHelp = [
     "Available commands are:",
-    "help          -- to see these instructions.",
+    "help / h      -- to see available commands.",
     "take item     -- take an \"item\" and add it to your inventory.",
-    "notice        -- notice all items located in the current room.",
-    "inventory     -- list all owned items.",
-    "journal       -- list all known facts.",
+    "notice / n    -- notice all items located in the current room.",
+    "inventory / i -- list all owned items.",
+    "journal / j   -- list all known facts.",
     "quit          -- to end the game and quit.",
     "w             -- go up / north.",
     "d             -- go right / east.",
@@ -55,9 +55,13 @@ gameLoop state = do
     if not (cmd == "quit") then
         gameLoop (case cmd of
             "help" -> help newState
+            "h" -> help newState
             "notice" -> notice newState
+            "n" -> notice newState
             "inventory" -> inventory newState
+            "i" -> inventory newState
             "journal" -> journal newState
+            "j" -> journal newState
             "w" -> go newState North
             "d" -> go newState East
             "a" -> go newState West
