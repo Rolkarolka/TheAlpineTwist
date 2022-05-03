@@ -4,7 +4,6 @@ describe
 pet
 play
 
-notice_things_on
 notice_animals_at
 
 crouch_to
