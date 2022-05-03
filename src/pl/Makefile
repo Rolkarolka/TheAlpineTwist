@@ -1,0 +1,2 @@
+run:
+	swipl main.pl
