@@ -1,5 +1,5 @@
 build: main.hs
-	ghc main.hs -o build/main
+	ghc main.hs -O2 -o build/main
 	rm *.hi *.o
 
 run: build
