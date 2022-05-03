@@ -1,4 +1,4 @@
-module Movement where
+module Location where
     import Prelude hiding (lookup)
     import qualified Data.List as List
 

@@ -2,7 +2,7 @@
 
 import Prelude hiding (lookup)
 
-import Movement
+import Location
 import State
 
 describeIntroduction = [
@@ -28,7 +28,7 @@ printLines xs = putStr (unlines xs)
 printState :: State -> IO ()
 printState state = do
     putStr (unlines (message state))
-    print (i_am_at state)
+    putStr ("You're at " ++ (i_am_at state))
 
 help state = state { message = describeHelp }
 introduction = printLines describeIntroduction
@@ -61,4 +61,56 @@ gameLoop state = do
 main :: IO State
 main = do
     introduction
-    gameLoop (help (State [""] "room_of_thomas_and_giulia"))
+    gameLoop (help (State []
+        -- i_am_at
+        "room_of_thomas_and_giulia"
+        -- people_at
+        [ ("thomas", "room_of_thomas_and_giulia")
+        , ("giulia", "room_of_thomas_and_giulia")
+        , ("andreas", "room_of_thomas_and_giulia")
+        , ("zoe", "room_of_zoe")
+        , ("karl", "bar")
+        , ("amy", "bar")
+        , ("stephan", "bar")
+        , ("jurgen", "corridor")
+        , ("hilda", "corridor")
+        , ("theodor", "kitchen")
+        , ("hans", "reception")
+        , ("hermann", "reception")
+        , ("jonas", "hotel_entrance")
+        , ("urlich", "hotel_entrance")
+        ]
+        -- animals_at
+        [ ("promyczek", "reception")
+        ]
+        -- things_at
+        [ ("watch", "room_of_thomas_and_giulia")
+        , ("thomas_journal", "room_of_thomas_and_giulia")
+        , ("cigarette_light", "room_of_thomas_and_giulia")
+        , ("sleep_mask", "room_of_zoe")
+        , ("sleeping_pills", "room_of_zoe")
+        , ("cup", "room_of_zoe")
+        , ("clubs_symbol", "karl")
+        , ("glass", "bar")
+        , ("brooch", "hilda")
+        , ("cleaning_stuff", "corridor")
+        , ("cutlery_tray", "corridor")
+        , ("guest_book", "reception")
+        , ("telephone", "reception")
+        , ("ball", "reception")
+        , ("hunting_weapon", "hermann")
+        , ("gilded_epaulettes", "urlich")
+        , ("bush", "hotel_entrance")
+        , ("bullets", "hunters_shaque")
+        , ("knife_scabbard", "hunters_shaque")
+        , ("blooded_knife", "hunters_shaque")
+        , ("deer", "kitchen")
+        , ("broth", "kitchen")
+        ]
+        -- known_facts
+        [ "thomas_had_been_murdered"
+        ]
+        -- holding
+        [ "money"
+        ]
+        ))
