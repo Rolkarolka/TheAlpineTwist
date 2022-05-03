@@ -3,6 +3,7 @@ module Person where
     import qualified Data.Maybe as Maybe
     import qualified Data.List as List
 
+    import Item
     import State
 
     people_descriptions =
@@ -26,8 +27,9 @@ module Person where
         let maybePerson = (List.find (\(x) -> person == fst x) (people_at state))
         case maybePerson of
             Nothing -> state { message = ["You try talking to your new imaginary friend, but she/he isn't responding."] }
-            Just(realPerson) -> if (snd realPerson == (i_am_at state)) then
-                                state { talking_to = person, message = [snd (Maybe.fromJust (List.find (\(x) -> person == fst x) people_descriptions))] }
+            Just(realPerson) -> if (snd realPerson == (i_am_at state)) then do
+                                let newState = state { talking_to = person, message = [snd (Maybe.fromJust (List.find (\(x) -> person == fst x) people_descriptions))] }
+                                newState { message = (message newState) ++ message (noticeTrinkets newState) }
                             else
                                 state { message = ["You start to formulate your sentence towards " ++ person ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] }
 

@@ -18,4 +18,6 @@ module Item where
 
     noticeItems state = state { message = ["You notice following items laying around: "] ++ (map (\x -> fst x) (filter (\x -> snd x == (i_am_at state)) (items_at state))) }
 
+    noticeTrinkets state = state { message = ["You notice following items on him/her: "] ++ (map (\x -> fst x) (filter (\x -> snd x == (talking_to state)) (items_at state))) }
+
     inventory state = state { message = ["You have these items: "] ++ holding state }
