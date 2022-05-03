@@ -3,9 +3,10 @@
 import Prelude hiding (take)
 import qualified Data.List as List
 
+import Fact
+import Item
 import Location
 import State
-import Thing
 import Utilities
 
 describeIntroduction = [
@@ -17,6 +18,10 @@ describeIntroduction = [
 describeHelp = [
     "Available commands are:",
     "help          -- to see these instructions.",
+    "take item     -- take an \"item\" and add it to your inventory.",
+    "notice        -- notice all items located in the current room.",
+    "inventory     -- list all owned items.",
+    "journal       -- list all known facts.",
     "quit          -- to end the game and quit.",
     "w             -- go up / north.",
     "d             -- go right / east.",
@@ -31,14 +36,13 @@ printLines xs = putStr (unlines xs)
 printState :: State -> IO ()
 printState state = do
     putStr (unlines (message state))
-    putStr ("You're at " ++ (i_am_at state))
+    putStr ("You're at " ++ (i_am_at state) ++ "\n")
 
 help state = state { message = describeHelp }
 introduction = printLines describeIntroduction
 
 readCommand :: IO String
 readCommand = do
-    putStr "> "
     xs <- getLine
     return xs
 
@@ -46,12 +50,14 @@ gameLoop :: State -> IO State
 gameLoop state = do
     printState state
     let newState = state { message = [""] }
-    printLines ["", "Waiting for command:"]
+    putStr "\nWaiting for command:\n> "
     cmd <- readCommand
     if not (cmd == "quit") then
         gameLoop (case cmd of
             "help" -> help newState
             "notice" -> notice newState
+            "inventory" -> inventory newState
+            "journal" -> journal newState
             "w" -> go newState North
             "d" -> go newState East
             "a" -> go newState West
@@ -88,7 +94,7 @@ main = do
         -- animals_at
         [ ("promyczek", "reception")
         ]
-        -- things_at
+        -- items_at
         [ ("watch", "room_of_thomas_and_giulia")
         , ("thomas_journal", "room_of_thomas_and_giulia")
         , ("cigarette_light", "room_of_thomas_and_giulia")
