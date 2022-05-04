@@ -126,6 +126,8 @@ gameLoop state = do
             _ -> if List.isPrefixOf "take" cmd then take newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "talk" cmd then talk newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "crouch" cmd then crouch newState ((split (==' ') cmd)!!1)
+                 else if List.isPrefixOf "pet" cmd then pet newState ((split (==' ') cmd)!!1)
+                 else if List.isPrefixOf "play" cmd then play newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "tellAbout" cmd then tellAbout newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "askAbout" cmd then askAbout newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "gossipAbout" cmd then gossipAbout newState ((split (==' ') cmd)!!1)
