@@ -144,3 +144,17 @@ module Person where
 
     gossipAbout state person =
         internalTalkAbout state person "'Not much I can say about him/her.'"
+    
+    accuse state person =
+        if "hans" == (talking_to state) then
+            if person == "zoe"
+                && elem "zoe_knew_about_watch_changing_hands" (known_facts state)
+                && elem "sleeping_pills" (holding state)
+                && elem "zoe_did_not_know_about_giulia" (known_facts state)
+                && elem "amy_passed_out" (known_facts state)
+                && elem "zoe_left_right_after_amy" (known_facts state) then
+                    state { message = ["Congratulations, you've won!"] }
+            else
+                state { message = ["'You've got to have more proof for such a bold statement, young man.'"] }
+        else
+            state { message = ["'You should tell that to hans, not me.'"] }

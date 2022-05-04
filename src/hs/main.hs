@@ -39,6 +39,7 @@ describeDialogueHelp =
     , "tellAbout fact -- ask about \"fact\"."
     , "askAbout item -- ask about \"item\"."
     , "gossipAbout person -- ask about \"person\"."
+    , "accuse person -- accuse a \"person\" of murder."
     , "inventory / i -- list all owned items."
     , "journal / j   -- list all known facts."
     , "quit          -- to end the game and quit."
@@ -97,6 +98,7 @@ gameLoop state = do
                  else if List.isPrefixOf "tellAbout" cmd then tellAbout newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "askAbout" cmd then askAbout newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "gossipAbout" cmd then gossipAbout newState ((split (==' ') cmd)!!1)
+                 else if List.isPrefixOf "accuse" cmd then accuse newState ((split (==' ') cmd)!!1)
                  else newState { message = ["Unknown command"] }
             )
         else do 
