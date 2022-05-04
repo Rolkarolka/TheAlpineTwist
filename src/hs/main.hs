@@ -39,6 +39,7 @@ describeDialogueHelp =
     , "tellAbout fact -- ask about \"fact\"."
     , "askAbout item -- ask about \"item\"."
     , "gossipAbout person -- ask about \"person\"."
+    , "whyHere       -- ask your interlocutor why is she/he here."
     , "accuse person -- accuse a \"person\" of murder."
     , "inventory / i -- list all owned items."
     , "journal / j   -- list all known facts."
@@ -88,6 +89,7 @@ gameLoop state = do
             "inventory" -> inventory newState
             "i" -> inventory newState
             "journal" -> journal newState
+            "whyHere" -> whyHere newState
             "j" -> journal newState
             "w" -> go newState North
             "d" -> go newState East

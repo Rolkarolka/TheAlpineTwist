@@ -32,8 +32,8 @@ module Person where
         , (("amy", "watch_has_changed_hands_during_last_game"), (\(state) -> elem "amy_won_the_watch" (known_facts state)))
         , (("hilda", "watch_has_changed_hands_during_last_game"), (\(state) -> elem "zoe_befriended_hilda" (known_facts state)))
         , (("urlich", "karl"), (\(state) -> elem "poker_is_played_here" (known_facts state))) -- \+ ((i_know(poker_is_played_here), person_at(urlich, Place), \+ ((person_at(Person, Place), Person \= urlich)))), !.
-        , (("karl", "andreas"), (\(state) -> elem "asked_andreas_about_why_is_he_here" (known_facts state)))
-        , (("andreas", "andreas_was_here_yesterday"), (\(state) -> elem "watch_was_originally_andreases" (known_facts state) && elem "thomas_was_here_to_buy_a_watch" (known_facts state) && elem "asked_andreas_about_why_is_he_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state)))
+        , (("karl", "andreas"), (\(state) -> elem "asked_andreas_why_is_he_here" (known_facts state)))
+        , (("andreas", "andreas_was_here_yesterday"), (\(state) -> elem "watch_was_originally_andreases" (known_facts state) && elem "thomas_was_here_to_buy_a_watch" (known_facts state) && elem "asked_andreas_why_is_he_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state)))
         -- , (("jonas", "karl"), (\(state) -> (people_at state))) -- \+ ((person_at(jonas, bar))), !.
         , (("hilda", "zoe_was_thomas_lovers"), (\(state) -> elem "zoe_befriended_hilda" (known_facts state)))
         ]
@@ -92,6 +92,14 @@ module Person where
         , ["stephan",   "jonas",    "jonas_likes_drinking_in_company",  "'Ah yes, this funny boy. I drank with him a couple of times. He's the funniest person in the whole hotel and the best drinking buddy - that's why I buy him a drink from time to time.'"]
         , ["stephan",   "karl",     "karl_hides_cards_in_his_sleeve",   "'If I were you, I wouldn't play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!'"]
         , ["urlich",    "karl",     "karl_cheats_at_poker",             "'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once playing an ace of clubs - the exact same one I had in my hand!'"]
+        , ["thomas",    "_WHY_HERE_",   "asked_thomas_why_is_he_here",  "'Dead man tell no tales'"]
+        , ["giulia",    "_WHY_HERE_",   "asked_giulia_why_is_she_here", "'I came here with Thomas on vacations.'"]
+        , ["andreas",   "_WHY_HERE_",   "asked_andreas_why_is_he_here", "'I came here as soon I heard that my brother is... he is dead!'"]
+        , ["zoe",       "_WHY_HERE_",   "asked_zoe_why_is_she_here",    "'It's always nice to spend some free time in such a beatiful place, isn't it?'"]
+        , ["amy",       "_WHY_HERE_",   "asked_amy_why_is_she_here",    "'I heard there are oppuritunities to get some cash here. Have you heard about it too by chance?'"]
+        , ["stephan",   "_WHY_HERE_",   "asked_stephan_why_is_he_here", "'I wanted to talk to Thomas, I heard he's coming here for a couple of days. I won't be able to now...'"]
+        , ["hermann",   "_WHY_HERE_",   "asked_hermann_why_is_he_here", "'Well, I live nearby and hunt deers for Thomas sometimes, like yesterday.''"]
+        , ["jonas",     "_WHY_HERE_",   "asked_jonas_why_is_he_here",   "'I live nearby and I heard about the murder, so I thought I might gain some real life experience in this case. Did I mention that I'm studying law?'"]
         ]
 
     noticePeople state = state { message = ["You notice following people around you: "] ++ (map (\x -> fst x) (filter (\x -> snd x == (i_am_at state)) (people_at state))) }
@@ -144,6 +152,9 @@ module Person where
 
     gossipAbout state person =
         internalTalkAbout state person "'Not much I can say about him/her.'"
+
+    whyHere state =
+        internalTalkAbout state "_WHY_HERE_" "'Well, I work here!'"
     
     accuse state person =
         if "hans" == (talking_to state) then
