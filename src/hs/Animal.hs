@@ -4,9 +4,16 @@ module Animal where
 
     import State
 
-    animal_descriptions =
-        [   ("promyczek", "German Spitz Miniature with keen-looking eyes. It likes caresses and it\'s well trained.")
-        ]
+    animal_descriptions = [  
+         ("promyczek", "German Spitz Miniature with keen-looking eyes. It likes caresses and it\'s well trained.")]
+    playing_ascii_art = [
+        "Hops, hops, hops. The ball is rolling on the floor, and you watch animal - a small, fluffy animal chasing the ball.",
+        "               ;~~,__",
+        ":-....,-------'`-'._.'",
+        " `-,,,  ,       ;'~~'",
+        "   ,'_,'~.__; '--.",
+        "  //'       ````(;",
+        " `-'                           O"]
     noticeAnimal state = state { message = (message state) ++ ["You notice following animals around you: "]  ++ (map (\x -> fst x) (filter (\x -> snd x == (i_am_at state)) (animals_at state))) }
 
     crouch :: State -> String -> State
@@ -29,7 +36,7 @@ module Animal where
                     "pet" -> state { message = ["Yayy! You start petting " ++ (crouching_to state) ++ ", and you enjoy it."] }
                     "play" ->
                         if (elem "ball" (holding state)) then
-                            state { message = ["Yayy! You start playing with the " ++ (crouching_to state) ++ ", and you enjoy it."] }
+                            state { message = ["Yayy! You start playing with the " ++ (crouching_to state) ++ ", and you enjoy it."] ++ playing_ascii_art }
                         else
                             state { message = ["You want to play with the " ++ (crouching_to state) ++ ", but you don't have its favorite ball."] })  
                 else
