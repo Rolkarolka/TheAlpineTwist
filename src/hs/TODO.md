@@ -1,15 +1,9 @@
-prerequisites
-describe
-
 pet
 play
 
 notice_animals_at
 
 crouch_to
-
-ask_about
-gossip_about
 
 bet
 place_bet

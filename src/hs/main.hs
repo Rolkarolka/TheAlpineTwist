@@ -16,21 +16,37 @@ describeIntroduction = [
         ""
     ]
 
-describeHelp = [
-    "Available commands are:",
-    "help / h      -- to see available commands.",
-    "talk person   -- talk to \"person\".",
-    "take item     -- take an \"item\" and add it to your inventory.",
-    "look / l      -- notice all people located in the current room.",
-    "notice / n    -- notice all items located in the current room.",
-    "inventory / i -- list all owned items.",
-    "journal / j   -- list all known facts.",
-    "quit          -- to end the game and quit.",
-    "w             -- go up / north.",
-    "d             -- go right / east.",
-    "a             -- go left / west.",
-    "s             -- go down / south.",
-    ""
+describeStandardHelp = 
+    [ "Available commands are:"
+    , "help / h      -- to see available commands."
+    , "talk person   -- talk to \"person\"."
+    , "take item     -- take an \"item\" and add it to your inventory."
+    , "look / l      -- notice all people located in the current room."
+    , "notice / n    -- notice all items located in the current room."
+    , "inventory / i -- list all owned items."
+    , "journal / j   -- list all known facts."
+    , "quit          -- to end the game and quit."
+    , "w             -- go up / north."
+    , "d             -- go right / east."
+    , "a             -- go left / west."
+    , "s             -- go down / south."
+    , ""
+    ]
+
+describeDialogueHelp = 
+    [ "Available commands are:"
+    , "help / h      -- to see available commands."
+    , "tellAbout fact -- ask about \"fact\"."
+    , "askAbout item -- ask about \"item\"."
+    , "gossipAbout person -- ask about \"person\"."
+    , "inventory / i -- list all owned items."
+    , "journal / j   -- list all known facts."
+    , "quit          -- to end the game and quit."
+    , "w             -- go up / north."
+    , "d             -- go right / east."
+    , "a             -- go left / west."
+    , "s             -- go down / south."
+    , ""
     ]
 
 printLines :: [String] -> IO ()
@@ -41,7 +57,12 @@ printState state = do
     putStr (unlines (message state))
     putStr ("You're at " ++ (i_am_at state) ++ ", you're talking to " ++ (talking_to state) ++ "\n")
 
-help state = state { message = describeHelp }
+help state = 
+    if not ((talking_to state) == "nobody") then
+        state { message = describeDialogueHelp }
+    else
+        state { message = describeStandardHelp }
+
 introduction = printLines describeIntroduction
 
 readCommand :: IO String
@@ -74,6 +95,8 @@ gameLoop state = do
             _ -> if List.isPrefixOf "take" cmd then take newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "talk" cmd then talk newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "tellAbout" cmd then tellAbout newState ((split (==' ') cmd)!!1)
+                 else if List.isPrefixOf "askAbout" cmd then askAbout newState ((split (==' ') cmd)!!1)
+                 else if List.isPrefixOf "gossipAbout" cmd then gossipAbout newState ((split (==' ') cmd)!!1)
                  else newState { message = ["Unknown command"] }
             )
         else do 
