@@ -2,6 +2,7 @@ module Location where
     import Prelude
     import qualified Data.List as List
 
+    import Person
     import State
 
     data Direction = North | West | East | South
@@ -36,5 +37,5 @@ module Location where
     go state direction = do
         case (List.find (\(x) -> from x == i_am_at state && by x == direction) paths) of
             Nothing -> state { message = ["You can't go that way!"] }
-            Just(path) -> state { i_am_at = to path, talking_to = "nobody" }
-        -- look
+            Just(path) -> noticePeople (state { i_am_at = to path, talking_to = "nobody" })
+        

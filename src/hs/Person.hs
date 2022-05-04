@@ -31,10 +31,10 @@ module Person where
         , (("amy", "watch"), (\(state) -> elem "poker_is_played_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state)))
         , (("amy", "watch_has_changed_hands_during_last_game"), (\(state) -> elem "amy_won_the_watch" (known_facts state)))
         , (("hilda", "watch_has_changed_hands_during_last_game"), (\(state) -> elem "zoe_befriended_hilda" (known_facts state)))
-        , (("urlich", "karl"), (\(state) -> elem "poker_is_played_here" (known_facts state))) -- \+ ((i_know(poker_is_played_here), person_at(urlich, Place), \+ ((person_at(Person, Place), Person \= urlich)))), !.
+        , (("urlich", "karl"), (\(state) -> elem "poker_is_played_here" (known_facts state))) -- TODO && person_at(urlich, Place) && (not ((person_at(Person, Place) && Person \= urlich)))
         , (("karl", "andreas"), (\(state) -> elem "asked_andreas_why_is_he_here" (known_facts state)))
         , (("andreas", "andreas_was_here_yesterday"), (\(state) -> elem "watch_was_originally_andreases" (known_facts state) && elem "thomas_was_here_to_buy_a_watch" (known_facts state) && elem "asked_andreas_why_is_he_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state)))
-        -- , (("jonas", "karl"), (\(state) -> (people_at state))) -- \+ ((person_at(jonas, bar))), !.
+        , (("jonas", "karl"), (\(state) -> Maybe.isJust (List.find (\(x) -> "jonas" == fst x && "bar" == snd x) (people_at state))))
         , (("hilda", "zoe_was_thomas_lovers"), (\(state) -> elem "zoe_befriended_hilda" (known_facts state)))
         ]
 
