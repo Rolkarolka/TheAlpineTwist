@@ -73,6 +73,7 @@ gameLoop state = do
             "s" -> go newState South
             _ -> if List.isPrefixOf "take" cmd then take newState ((split (==' ') cmd)!!1)
                  else if List.isPrefixOf "talk" cmd then talk newState ((split (==' ') cmd)!!1)
+                 else if List.isPrefixOf "tellAbout" cmd then tellAbout newState ((split (==' ') cmd)!!1)
                  else newState { message = ["Unknown command"] }
             )
         else do 

@@ -8,9 +8,7 @@ notice_animals_at
 
 crouch_to
 
-internal_talk_about
 ask_about
-tell_about
 gossip_about
 
 bet
