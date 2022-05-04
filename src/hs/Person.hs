@@ -108,39 +108,39 @@ module Person where
                                 state { message = ["You start to formulate your sentence towards " ++ person ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] })
 
     addFactToKnown :: State -> String -> String -> State
-    addFactToKnown state object person = 
-        case (List.find (\(x) -> person == x!!0 && object == x!!1) describe) of
-            Nothing -> state { message = ["'Hmm... bamboo'"] }
+    addFactToKnown state object failMessage = 
+        case (List.find (\(x) -> (talking_to state) == x!!0 && object == x!!1) describe) of
+            Nothing -> state { message = [failMessage] }
             Just(description) -> state { known_facts = (description!!2):(known_facts state), message = [description!!3] ++ ["NEW FACT ADDED"] }
 
     internalTalkAbout :: State -> String -> String -> State
-    internalTalkAbout state object person = do
-        let maybePerson = (List.find (\(x) -> person == fst x) (people_at state))
+    internalTalkAbout state object failMessage = do
+        let maybePerson = (List.find (\(x) -> (talking_to state) == fst x) (people_at state))
         (case maybePerson of
             Nothing -> state { message = ["You try talking to your new imaginary friend, but she/he isn't responding."] }
             Just(realPerson) -> if ((i_am_at state) == (snd realPerson)) then do
-                    let maybePrerequisite = (List.find (\(x) -> person == fst (fst x) && object == snd (fst x)) prerequisites)
+                    let maybePrerequisite = (List.find (\(x) -> (talking_to state) == fst (fst x) && object == snd (fst x)) prerequisites)
                     (case maybePrerequisite of
-                        Nothing -> addFactToKnown state object person
+                        Nothing -> addFactToKnown state object failMessage
                         Just(realPrerequisite) ->
                             if not ((snd realPrerequisite) state) then
                                 state { message = ["Maybe I know something about it, or maybe I don't..."] }
                             else
-                                addFactToKnown state object person)
+                                addFactToKnown state object failMessage)
                 else
-                    state { message = ["You start to formulate your sentence towards " ++ person ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] })
+                    state { message = ["You start to formulate your sentence towards " ++ (talking_to state) ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] })
 
     tellAbout state fact =
         if elem fact (known_facts state) then
-            internalTalkAbout state fact (talking_to state)
+            internalTalkAbout state fact "'So... what I'm suppose to do with that information?'"
         else
             state { message = ["'And where did you get that from?'"] }
 
     askAbout state item =
         if elem item (holding state) || Maybe.isJust (List.find (\(x) -> (talking_to state) == snd x) (items_at state)) then
-            internalTalkAbout state item (talking_to state)
+            internalTalkAbout state item ("'A " ++ item ++ ". What about it?'")
         else
             state { message = ["'I'd love to tell you something about " ++ item ++ ", but I'm afraid I don't know what it is...'"] }
 
     gossipAbout state person =
-        internalTalkAbout state person (talking_to state)
+        internalTalkAbout state person "'Not much I can say about him/her.'"
