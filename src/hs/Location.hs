@@ -14,7 +14,7 @@ module Location where
         by :: Direction,
         to :: String
         } deriving (Show)
-    
+
     paths =
         [
             Path "room_of_thomas_and_giulia" West "corridor",
@@ -36,7 +36,7 @@ module Location where
         ]
 
     go state direction = do
-        case (List.find (\(x) -> from x == i_am_at state && by x == direction) paths) of
+        case List.find (\x -> from x == i_am_at state && by x == direction) paths of
             Nothing -> state { message = ["You can't go that way!"] }
-            Just(path) -> noticeAnimal (noticePeople (state { i_am_at = to path, talking_to = "nobody" }))
-        
+            Just path -> noticeAnimal (noticePeople (state { i_am_at = to path, talking_to = "nobody" }))
+

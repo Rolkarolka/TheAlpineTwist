@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Avoid lambda" #-}
 module Person where
     import Prelude
     import qualified Control.Monad as Monad
@@ -8,7 +10,7 @@ module Person where
     import State
     import Utilities
 
-    people_descriptions =
+    peopleDescriptions =
         [ ("amy", "She is dressed in the style of the 20s, with a cigarillo and sequin dress. She always wants to shine, even on a cloudy day. Her red curly hair goes well with red lipstick and red high heels. Her character is in three words: outgoing, indifferent, and heartless.")
         , ("andreas", "He looks like Antonio Banderas. The victim's brother is smartly dressed, with gold cufflinks. He has a toned body, white teeth, and dimples. His character is in three words: helpful, heartbroken, and underrated.")
         , ("giulia", "She is a petit, richly dressed victim's wife with golden hair. Her clothes are in the blood, and her strands are tousled. She looks tired. Her eyes are still tear-filled. Her character is in three words: gullible, heartbroken, and sentimental.")
@@ -25,17 +27,17 @@ module Person where
         , ("zoe", "She is a gorgeous young woman with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair is medium length, curly and golden. She wears glasses, and she loves wearing turtlenecks. Her character is in three words: shy, thoughtful, and intelligent.")
         ]
 
-    prerequisites = 
-        [ (("hilda", "thomas_had_been_murdered"), (\(state) -> elem "asked_about_brooch" (known_facts state) || elem "theodor_trusts_me" (known_facts state)))
-        , (("urlich", "watch"), (\(state) -> elem "poker_is_played_here" (known_facts state)))
-        , (("amy", "watch"), (\(state) -> elem "poker_is_played_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state)))
-        , (("amy", "watch_has_changed_hands_during_last_game"), (\(state) -> elem "amy_won_the_watch" (known_facts state)))
-        , (("hilda", "watch_has_changed_hands_during_last_game"), (\(state) -> elem "zoe_befriended_hilda" (known_facts state)))
-        , (("urlich", "karl"), (\(state) -> elem "poker_is_played_here" (known_facts state))) -- TODO && person_at(urlich, Place) && (not ((person_at(Person, Place) && Person \= urlich)))
-        , (("karl", "andreas"), (\(state) -> elem "asked_andreas_why_is_he_here" (known_facts state)))
-        , (("andreas", "andreas_was_here_yesterday"), (\(state) -> elem "watch_was_originally_andreases" (known_facts state) && elem "thomas_was_here_to_buy_a_watch" (known_facts state) && elem "asked_andreas_why_is_he_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state)))
-        , (("jonas", "karl"), (\(state) -> Maybe.isJust (List.find (\(x) -> "jonas" == fst x && "bar" == snd x) (people_at state))))
-        , (("hilda", "zoe_was_thomas_lovers"), (\(state) -> elem "zoe_befriended_hilda" (known_facts state)))
+    prerequisites =
+        [ (("hilda", "thomas_had_been_murdered"), \state -> elem "asked_about_brooch" (known_facts state) || elem "theodor_trusts_me" (known_facts state))
+        , (("urlich", "watch"), elem "poker_is_played_here" . known_facts)
+        , (("amy", "watch"), \state -> elem "poker_is_played_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state))
+        , (("amy", "watch_has_changed_hands_during_last_game"), elem "amy_won_the_watch" . known_facts)
+        , (("hilda", "watch_has_changed_hands_during_last_game"), \state -> "zoe_befriended_hilda" `elem` known_facts state)
+        , (("urlich", "karl"), \state -> "poker_is_played_here" `elem` known_facts state) -- TODO && person_at(urlich, Place) && (not ((person_at(Person, Place) && Person \= urlich)))
+        , (("karl", "andreas"), \state -> "asked_andreas_why_is_he_here" `elem` known_facts state)
+        , (("andreas", "andreas_was_here_yesterday"), \state -> elem "watch_was_originally_andreases" (known_facts state) && elem "thomas_was_here_to_buy_a_watch" (known_facts state) && elem "asked_andreas_why_is_he_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state))
+        , (("jonas", "karl"), \state -> Maybe.isJust (List.find (\x -> "jonas" == fst x && "bar" == snd x) (people_at state)))
+        , (("hilda", "zoe_was_thomas_lovers"), \state -> "zoe_befriended_hilda" `elem` known_facts state)
         ]
 
     describe =
@@ -102,50 +104,50 @@ module Person where
         , ["jonas",     "_WHY_HERE_",   "asked_jonas_why_is_he_here",   "'I live nearby and I heard about the murder, so I thought I might gain some real life experience in this case. Did I mention that I'm studying law?'"]
         ]
 
-    noticePeople state = state { message = ["You notice following people around you: "] ++ (map (\x -> fst x) (filter (\x -> snd x == (i_am_at state)) (people_at state))) }
+    noticePeople state = state { message = "You notice following people around you: " : map (\x -> fst x) (filter (\x -> snd x == i_am_at state) (people_at state)) }
 
     talk :: State -> String -> State
     talk state person = do
-        let maybePerson = (List.find (\(x) -> person == fst x) (people_at state))
+        let maybePerson = List.find (\x -> person == fst x) (people_at state)
         (case maybePerson of
             Nothing -> state { message = ["You try talking to your new imaginary friend, but she/he isn't responding."] }
-            Just(realPerson) -> if (snd realPerson == (i_am_at state)) then do
-                                let newState = state { talking_to = person, message = [snd (Maybe.fromJust (List.find (\(x) -> person == fst x) people_descriptions))] }
-                                newState { message = (message newState) ++ message (noticeTrinkets newState) }
-                            else
-                                state { message = ["You start to formulate your sentence towards " ++ person ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] })
+            Just realPerson -> if snd realPerson == i_am_at state then do
+                              let newState = state { talking_to = person, message = [snd (Maybe.fromJust (List.find (\x -> person == fst x) peopleDescriptions))] }
+                              newState { message = message newState ++ message (noticeTrinkets newState) }
+                          else
+                              state { message = ["You start to formulate your sentence towards " ++ person ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] })
 
     addFactToKnown :: State -> String -> String -> State
-    addFactToKnown state object failMessage = 
-        case (List.find (\(x) -> (talking_to state) == x!!0 && object == x!!1) describe) of
+    addFactToKnown state object failMessage =
+        case List.find (\x -> talking_to state == x!!0 && object == x!!1) describe of
             Nothing -> state { message = [failMessage] }
-            Just(description) -> state { known_facts = (description!!2):(known_facts state), message = [description!!3] ++ ["NEW FACT ADDED"] }
+            Just description -> state { known_facts = (description!!2):known_facts state, message = (description!!3) : ["NEW FACT ADDED"] }
 
     internalTalkAbout :: State -> String -> String -> State
     internalTalkAbout state object failMessage = do
-        let maybePerson = (List.find (\(x) -> (talking_to state) == fst x) (people_at state))
+        let maybePerson = List.find (\x -> talking_to state == fst x) (people_at state)
         (case maybePerson of
             Nothing -> state { message = ["You try talking to your new imaginary friend, but she/he isn't responding."] }
-            Just(realPerson) -> if ((i_am_at state) == (snd realPerson)) then do
-                    let maybePrerequisite = (List.find (\(x) -> (talking_to state) == fst (fst x) && object == snd (fst x)) prerequisites)
-                    (case maybePrerequisite of
-                        Nothing -> addFactToKnown state object failMessage
-                        Just(realPrerequisite) ->
-                            if not ((snd realPrerequisite) state) then
-                                state { message = ["Maybe I know something about it, or maybe I don't..."] }
-                            else
-                                addFactToKnown state object failMessage)
-                else
-                    state { message = ["You start to formulate your sentence towards " ++ (talking_to state) ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] })
+            Just realPerson -> if i_am_at state == snd realPerson then do
+                  let maybePrerequisite = List.find (\x -> talking_to state == fst (fst x) && object == snd (fst x)) prerequisites
+                  (case maybePrerequisite of
+                      Nothing -> addFactToKnown state object failMessage
+                      Just realPrerequisite ->
+                          if not (snd realPrerequisite state) then
+                              state { message = ["Maybe I know something about it, or maybe I don't..."] }
+                          else
+                              addFactToKnown state object failMessage)
+              else
+                  state { message = ["You start to formulate your sentence towards " ++ talking_to state ++ ", when suddenly you realise, that he cannot hear you, for she/he isn't here."] })
 
     tellAbout state fact =
-        if elem fact (known_facts state) then
+        if fact `elem` known_facts state then
             internalTalkAbout state fact "'So... what I'm suppose to do with that information?'"
         else
             state { message = ["'And where did you get that from?'"] }
 
     askAbout state item =
-        if elem item (holding state) || Maybe.isJust (List.find (\(x) -> (talking_to state) == snd x) (items_at state)) then
+        if elem item (holding state) || Maybe.isJust (List.find (\x -> talking_to state == snd x) (items_at state)) then
             internalTalkAbout state item ("'A " ++ item ++ ". What about it?'")
         else
             state { message = ["'I'd love to tell you something about " ++ item ++ ", but I'm afraid I don't know what it is...'"] }
@@ -155,9 +157,9 @@ module Person where
 
     whyHere state =
         internalTalkAbout state "_WHY_HERE_" "'Well, I work here!'"
-    
+
     accuse state person =
-        if "hans" == (talking_to state) then
+        if "hans" == talking_to state then
             if person == "zoe"
                 && elem "zoe_knew_about_watch_changing_hands" (known_facts state)
                 && elem "sleeping_pills" (holding state)
