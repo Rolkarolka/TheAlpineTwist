@@ -10,7 +10,7 @@ Object subclass: Game [
     helpText := #(
         'Available commands are:'
         ''
-        'help          -- to see these instructions.'
+        'help          -- to see this message again.'
         'quit          -- to end the game and quit.'
         ''
     ).
