@@ -1,9 +1,8 @@
 # The Alpine Twist
 
-## Terminy prezentowania rozwiązań
-Rozwiązania poszczególnych zadań projektowych będą odbierane przez prowadzących w poniższych tygodniach:
-Prolog: 25–29 kwietnia
-Haskell: 16–20 maja
-Smalltalk: 6–10 czerwca
+A classic detectivistic text game, implemented in three different languages, to learn their paradigms in the purest from: Prolog for logical programming, Haskell for functional programming, Smalltalk for objective programming.
 
-Dokładny termin (dzień, godzina) i forma odbioru zostaną określone przezprowadzących w porozumieniu z poszczególnymi zespołami.
+## Deadlines
+Prolog: 29/04
+Haskell: 20/05
+Smalltalk: 10/06
