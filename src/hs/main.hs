@@ -7,6 +7,7 @@ import Fact
 import Item
 import Location
 import Person
+import Animal
 import State
 import Utilities
 
@@ -16,10 +17,11 @@ describeIntroduction = [
         ""
     ]
 
-describeStandardHelp = 
+describeStandardHelp =
     [ "Available commands are:"
     , "help / h      -- to see available commands."
     , "talk person   -- talk to \"person\"."
+    , "crouch animal -- crouch to \"animal\""
     , "take item     -- take an \"item\" and add it to your inventory."
     , "look / l      -- notice all people located in the current room."
     , "notice / n    -- notice all items located in the current room."
@@ -33,7 +35,7 @@ describeStandardHelp =
     , ""
     ]
 
-describeDialogueHelp = 
+describeDialogueHelp =
     [ "Available commands are:"
     , "help / h      -- to see available commands."
     , "tellAbout fact -- ask about \"fact\"."
@@ -51,26 +53,50 @@ describeDialogueHelp =
     , ""
     ]
 
+describeCrouchHelp =
+    [ "Available commands are:"
+    , "help / h      -- to see available commands."
+    , "play          -- play ball with the \"animal\""
+    , "pet           -- pet the \"animal\""
+    , "take item     -- take an \"item\" and add it to your inventory."
+    , "look / l      -- notice all people located in the current room."
+    , "notice / n    -- notice all items located in the current room."
+    , "inventory / i -- list all owned items."
+    , "journal / j   -- list all known facts."
+    , "quit          -- to end the game and quit."
+    , "w             -- go up / north."
+    , "d             -- go right / east."
+    , "a             -- go left / west."
+    , "s             -- go down / south."
+    , ""
+    ]
+
+
 printLines :: [String] -> IO ()
 printLines xs = putStr (unlines xs)
 
 printState :: State -> IO ()
 printState state = do
     putStr (unlines (message state))
-    putStr ("You're at " ++ (i_am_at state) ++ ", you're talking to " ++ (talking_to state) ++ "\n")
-
-help state = 
-    if not ((talking_to state) == "nobody") then
-        state { message = describeDialogueHelp }
+    putStr ("You're at " ++ i_am_at state)
+    if crouching_to state /= "nobody" then
+        putStr (", you're crouching to " ++ crouching_to state ++ "\n")
     else
-        state { message = describeStandardHelp }
+        putStr (", you're talking to " ++ talking_to state ++ "\n")
+
+help state
+  | talking_to state /= "nobody" =
+    state { message = describeDialogueHelp }
+  | crouching_to state /= "nobody" =
+    state { message = describeCrouchHelp }
+  | otherwise =
+    state { message = describeStandardHelp }
 
 introduction = printLines describeIntroduction
 
 readCommand :: IO String
 readCommand = do
-    xs <- getLine
-    return xs
+    getLine
 
 gameLoop :: State -> IO State
 gameLoop state = do
@@ -78,12 +104,12 @@ gameLoop state = do
     let newState = state { message = [""] }
     putStr "\nWaiting for command:\n> "
     cmd <- readCommand
-    if not (cmd == "quit") then
+    if cmd /= "quit" then
         gameLoop (case cmd of
             "help" -> help newState
             "h" -> help newState
-            "look" -> noticePeople newState
-            "l" -> noticePeople newState
+            "look" -> noticeAnimal (noticePeople newState)
+            "l" -> noticeAnimal (noticePeople newState)
             "notice" -> noticeItems newState
             "n" -> noticeItems newState
             "inventory" -> inventory newState
@@ -95,17 +121,20 @@ gameLoop state = do
             "d" -> go newState East
             "a" -> go newState West
             "s" -> go newState South
-            _ -> if List.isPrefixOf "take" cmd then take newState ((split (==' ') cmd)!!1)
-                 else if List.isPrefixOf "talk" cmd then talk newState ((split (==' ') cmd)!!1)
-                 else if List.isPrefixOf "tellAbout" cmd then tellAbout newState ((split (==' ') cmd)!!1)
-                 else if List.isPrefixOf "askAbout" cmd then askAbout newState ((split (==' ') cmd)!!1)
-                 else if List.isPrefixOf "gossipAbout" cmd then gossipAbout newState ((split (==' ') cmd)!!1)
-                 else if List.isPrefixOf "accuse" cmd then accuse newState ((split (==' ') cmd)!!1)
+            _   ->    if List.isPrefixOf "take"         cmd then take        newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "talk"         cmd then talk        newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "crouch"       cmd then crouch      newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "pet"          cmd then pet         newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "play"         cmd then play        newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "tellAbout"    cmd then tellAbout   newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "askAbout"     cmd then askAbout    newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "gossipAbout"  cmd then gossipAbout newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "accuse"       cmd then accuse      newState (split (==' ') cmd!!1)
                  else newState { message = ["Unknown command"] }
             )
-        else do 
+        else do
             printLines ["Goodbye"]
-            return(newState)
+            return newState
 
 main :: IO State
 main = do
@@ -163,5 +192,7 @@ main = do
         [ "money"
         ]
         -- talking_to
+        "nobody"
+        -- crouching to
         "nobody"
         ))
