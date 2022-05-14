@@ -1,0 +1,2 @@
+run:
+	gst main.st
