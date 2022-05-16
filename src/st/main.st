@@ -126,13 +126,73 @@ Object subclass: Dialogues [
 
         prerequisites := Dictionary new.
         prerequisites at: ('hilda', 'thomas_had_been_murdered') put: [ ((knownFacts occurrencesOf: 'asked_about_brooch') > 0) | ((knownFacts occurrencesOf: 'theodor_trusts_me') > 0) ].
+        prerequisites at: ('urlich', 'watch') put: [ ((knownFacts occurrencesOf: 'poker_is_played_here') > 0) ].
+        prerequisites at: ('amy', 'watch') put: [ ((knownFacts occurrencesOf: 'poker_is_played_here') > 0) & ((knownFacts occurrencesOf: 'watch_has_changed_hands_during_last_game') > 0) ].
+        prerequisites at: ('amy', 'watch_has_changed_hands_during_last_game') put: [ ((knownFacts occurrencesOf: 'zoe_befriended_hilda') > 0) ].
+        " TODO prerequisites at: ('urlich', 'karl') put: [ (i_know(poker_is_played_here), person_at(urlich, Place), \+ ((person_at(Person, Place), Person \= urlich))) ]. "
+        prerequisites at: ('karl', 'andreas') put: [ ((knownFacts occurrencesOf: 'asked_andreas_about_why_is_he_here') > 0) ].
+        prerequisites at: ('andreas', 'andreas_was_here_yesterday') put: [ ((knownFacts occurrencesOf: 'watch_was_originally_andreases') > 0) & ((knownFacts occurrencesOf: 'thomas_was_here_to_buy_a_watch') > 0) & ((knownFacts occurrencesOf: 'asked_andreas_about_why_is_he_here') > 0) & ((knownFacts occurrencesOf: 'watch_has_changed_hands_during_last_game') > 0) ].
+        " TODO prerequisites at: ('jonas', 'karl') put: [ person_at(jonas, bar) ]. "
+        prerequisites at: ('hilda', 'zoe_was_thomas_lovers') put: [ ((knownFacts occurrencesOf: 'zoe_befriended_hilda') > 0) ].
 
         factsMap := Dictionary new.
         factsMap at: ('hilda', 'brooch') put: 'asked_about_brooch'.
+        factsMap at: ('urlich', 'gilded_epaulettes') put: 'poker_is_played_here'.
+        factsMap at: ('urlich', 'watch') put: 'watch_has_changed_hands_during_last_game'.
+        factsMap at: ('amy', 'watch') put: 'amy_won_the_watch'.
+        factsMap at: ('hilda', 'cigarette_light') put: 'hilda_smokes_light_cigarettes'.
+        factsMap at: ('amy', 'cigarette_light') put: 'amy_smokes_standard_cigarettes'.
+        factsMap at: ('karl', 'clubs_symbol') put: 'karl_likes_playing_some_card_game'.
+        factsMap at: ('zoe', 'sleeping_pills') put: 'zoe_has_trouble_sleeping'.
+        factsMap at: ('giulia', 'thomas_journal') put: 'thomas_kept_his_journal_really_secret'.
+        factsMap at: ('hilda', 'thomas_journal') put: 'thomas_was_here_to_buy_a_watch'.
+        factsMap at: ('zoe', 'sleep_mask') put: 'zoe_has_trouble_sleeping'.
+        factsMap at: ('zoe', 'glass') put: 'zoe_parting_yesterday'.
+        factsMap at: ('karl', 'glass') put: 'karl_is_barman'.
+        factsMap at: ('hilda', 'cleaning_stuff') put: 'hilda_is_cleaning_lady'.
+        factsMap at: ('jurgen', 'cutlery_tray') put: 'jurgen_is_butler'.
+        factsMap at: ('hans', 'guest_book') put: 'andreas_was_here_yesterday'.
+        factsMap at: ('hans', 'telephone') put: 'hans_is_hotel_owner'.
+        factsMap at: ('hermann', 'ball') put: 'hermann_dog_is_promyczek'.
+        factsMap at: ('hermann', 'hunting_weapon') put: 'hermann_is_hunter'.
+        factsMap at: ('jonas', 'bush') put: 'jonas_parting_yesterday'.
+        factsMap at: ('urlich', 'bush') put: 'ulrich_is_doorkeeper'.
+        factsMap at: ('hermann', 'bullets') put: 'hermann_is_hunter'.
+        factsMap at: ('hermann', 'knife_scabbard') put: 'hermann_is_hunter'.
+        factsMap at: ('hermann', 'blooded_knife') put: 'hermann_lost_knife'.
+        factsMap at: ('theodor', 'deer') put: 'theodor_is_chef'.
+        factsMap at: ('theodor', 'broth') put: 'theodor_trusts_me'.
+
         factsMap at: ('hilda', 'thomas_had_been_murdered') put: 'poker_is_played_here'.
 
         dialogues := Dictionary new.
         dialogues at: ('hilda', 'brooch') put: 'Oh, this! I am so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, is it not?'.
+        dialogues at: ('urlich', 'gilded_epaulettes') put: 'Very fine epaulets, would not you say, dear Sir? Very fine, if I say so myself. I have won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'.
+        dialogues at: ('urlich', 'watch') put: 'I saw that watch somewhere before! Is not this the watch that was on our table last game? Where did you find it?'.
+        dialogues at: ('amy', 'watch') put: 'Hey, where did you get that thing?! That is mine. I have won it fair and square last night.'.
+        dialogues at: ('hilda', 'cigarette_light') put: 'Oh, that looks like the cigarettes I smoke. Where did you get it? Thomases room? How did it get there? I was not there since yesterdays cleaning, and I sure as hell did not leave no cigarette there!.'.
+        dialogues at: ('amy', 'cigarette_light') put: 'Did not know you were such a softie, detective. Wanna know what a real cigarette looks like? *shows a standard cigarette*'.
+        dialogues at: ('karl', 'clubs_symbol') put: 'I do like playing clubs, they are quite unobvious... I could rant about why it is so, but you probably do not even know about what game I am talking about, so I will not bother.'.
+        dialogues at: ('zoe', 'sleeping_pills') put: 'I have had trouble sleeping lately, so this helps.'.
+        dialogues at: ('giulia', 'thomas_journal') put: 'What is this? That belonged to Thomas? I did not know he had it.'.
+        dialogues at: ('hilda', 'thomas_journal') put: 'Is that... Norwegian? Show it to me, I learned it a bit. ...well, there is something written here about a watch, and that he came here because he wanted to buy it. Whose is this journal anyway?'.
+        dialogues at: ('zoe', 'sleep_mask') put: 'I still have jet lag. How can anyone sleep here when it is so early and it is so bright?'.
+        dialogues at: ('zoe', 'glass') put: 'We had a great party yesterday! I still feel that.'.
+        dialogues at: ('karl', 'glass') put: 'Thanks for that. I need to clean all of them before night. Do not get me wrong. I like my work at the bar, but people are so messy.'.
+        dialogues at: ('hilda', 'cleaning_stuff') put: 'Maybe I can do something for you? Only tell me where, and I do my best to clean that place.'.
+        dialogues at: ('jurgen', 'cutlery_tray') put: 'Anything for you, sir? At 4th o clock I will bring dinner to your room.'.
+        dialogues at: ('hans', 'guest_book') put: 'I do my best to keep the hotel papers in order. Here I save all information about visitors.'.
+        dialogues at: ('hans', 'telephone') put: 'The phone stopped ringing since the media heard about the murder. I hope you find the murderer soon.'.
+        dialogues at: ('hermann', 'ball') put: 'Who likes to play with the ball? My little boy. *huggling the dog*'.
+        dialogues at: ('hermann', 'hunting_weapon') put: 'I hunted such an enormous deer yesterday. I love these forests.'.
+        dialogues at: ('jonas', 'bush') put: 'This is a great bush. Yesterday after the party, he helped me stay straight. The most comfortable bush I have ever slept under.'.
+        dialogues at: ('urlich', 'bush') put: 'See how nicely trimmed? I take care of them myself. I spend a large part of my life in this bush waiting for visitors.'.
+        dialogues at: ('hermann', 'bullets') put: '30-caliber. Where did you get them? Are they not mine?'.
+        dialogues at: ('hermann', 'knife_scabbard') put: 'My familys coat of arms is on the scabbard. This knife was given to me by my father. He was a hunter too.'.
+        dialogues at: ('hermann', 'blooded_knife') put: 'Oh, someone finally found it! After taking the deer to the kitchen, the knife was lost. I thought it had fallen on the way back.'.
+        dialogues at: ('theodor', 'deer') put: 'Hermann brought it yesterday. Poor animal, but it will not be wasted. There will be a delicious stew tomorrow. I hope you will stay.'.
+        dialogues at: ('theodor', 'broth') put: 'Do you really like my soup? I know that you are a great men.'.
+        
         dialogues at: ('hilda', 'thomas_had_been_murdered') put: 'I do not really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?'.
     ]
 
