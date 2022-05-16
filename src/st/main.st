@@ -52,24 +52,50 @@ Object subclass: Locations [
         items at: 'hotel_entrance' put: #('bush' '').
         items at: 'hunters_shaque' put: #('bullets' 'knife_scabbard' 'blooded_knife' '').
         items at: 'kitchen' put: #('deer' 'broth' '').
+        items at: 'me' put: #('money' '').
     ]
 
     go: direction [
-        | message |
         currentlyAt := (paths at: (currentlyAt, direction) ifAbsent: [currentlyAt]).
+        ^ { 'Currently at: ', currentlyAt }.
+    ]
 
-        message := Array new: 2.
-        message at: 1 put: 'Currently at: ', currentlyAt.
-        message at: 2 put: ''.
-        ^ message.
+    list: collection at: location [
+        ^ (collection at: location ifAbsent: [#('')])
     ]
 
     look [
-        ^ (people at: currentlyAt ifAbsent: [#('')])
+        ^ (self list: people at: currentlyAt)
     ]
 
     notice [
-        ^ (items at: currentlyAt ifAbsent: [#('')])
+        ^ (self list: items at: currentlyAt)
+    ]
+
+    inventory [
+        ^ (self list: items at: 'me')
+    ]
+
+    move: object in: collection from: from to: to [
+        ((collection at: from) select: [ :it | it = object ]) size > 0
+        ifTrue: [
+            collection at: from put: ((collection at: from) reject: [ :it | it = object ]).
+            collection at: to put: ({ object }, (collection at: to)).
+            ^ true.
+        ]
+        ifFalse: [
+            ^ false.
+        ].
+    ]
+
+    take: item [
+        (self move: item in: items from: currentlyAt to: 'me')
+        ifTrue: [
+            ^ { 'Took ', item, ' into your inventory'. '' }.
+        ]
+        ifFalse: [
+            ^ { 'Failed to take ', item. '' }.
+        ]
     ]
 ]
 
@@ -87,7 +113,9 @@ Object subclass: Game [
         'quit          -- to end the game and quit.'
         'w a s d       -- to go in that direction.'
         'look / l      -- to look at people around you.'
-        'notice / n    -- to look at people around you.'
+        'notice / n    -- to notice things around you.'
+        'inventory / i -- to list all taken things.'
+        'take Item     -- to pick up an Item.'
         ''
     ).
  
@@ -117,7 +145,7 @@ Object subclass: Game [
     ]
 
     run [
-        | cmd isUnknown |
+        | cmd args isUnknown |
 
         self write: introductionText.
         self help.
@@ -125,9 +153,10 @@ Object subclass: Game [
         [isGameOver] whileFalse: [
 
             isUnknown := true.
-            cmd := self readCommand.
+            args := (self readCommand) substrings.
+            cmd := args first.
 
-            cmd = 'help' ifTrue: [
+            cmd  = 'help' ifTrue: [
                 self help.
                 isUnknown := false
             ].
@@ -152,13 +181,23 @@ Object subclass: Game [
                 isUnknown := false
             ].
 
-            cmd = 'look' | cmd = 'l' ifTrue: [
+            ((cmd = 'look') | (cmd = 'l')) ifTrue: [
                 self write: (locations look).
                 isUnknown := false
             ].
 
-            cmd = 'notice' | cmd = 'n' ifTrue: [
+            ((cmd = 'notice') | (cmd = 'n')) ifTrue: [
                 self write: (locations notice).
+                isUnknown := false
+            ].
+
+            ((cmd = 'inventory') | (cmd = 'i')) ifTrue: [
+                self write: (locations inventory).
+                isUnknown := false
+            ].
+
+            cmd = 'take' ifTrue: [
+                self write: (locations take: (args last)).
                 isUnknown := false
             ].
 
