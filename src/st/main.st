@@ -103,12 +103,16 @@ Object subclass: Locations [
     ]
 
     isNear: person [
-        ^ ((people at: currentlyAt) select: [ :it | it = person ]) size = 1
+        ^ (((people at: currentlyAt) select: [ :it | it = person ]) size = 1)
+    ]
+
+    isItem: item on: person [
+        ^ (((items at: person) select: [ :it | it = item ]) size = 1) | (((items at: 'me') select: [ :it | it = item ]) size = 1)
     ]
 ]
 
 Object subclass: Dialogues [
-    | talkingTo knownFacts |
+    | talkingTo knownFacts prerequisites factsMap dialogues |
     Dialogues class >> new [
         | dialogues |
         dialogues := super new.
@@ -118,7 +122,60 @@ Object subclass: Dialogues [
 
     init [
         talkingTo := 'nobody'.
-        knownFacts := #('thomas_had_been_murdered') asBag
+        knownFacts := #('thomas_had_been_murdered') asBag.
+
+        prerequisites := Dictionary new.
+        prerequisites at: ('hilda', 'thomas_had_been_murdered') put: [ ((knownFacts occurrencesOf: 'asked_about_brooch') > 0) | ((knownFacts occurrencesOf: 'theodor_trusts_me') > 0) ].
+
+        factsMap := Dictionary new.
+        factsMap at: ('hilda', 'brooch') put: 'asked_about_brooch'.
+        factsMap at: ('hilda', 'thomas_had_been_murdered') put: 'poker_is_played_here'.
+
+        dialogues := Dictionary new.
+        dialogues at: ('hilda', 'brooch') put: 'Oh, this! I am so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, is it not?'.
+        dialogues at: ('hilda', 'thomas_had_been_murdered') put: 'I do not really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?'.
+    ]
+
+    talkAbout: object [
+        | condition discoveredFact message |
+        talkingTo = 'nobody' ifTrue: [
+            ^ #('You try talking to your new imaginary friend, but she/he is not responding.' '')
+        ].
+        (prerequisites keys occurrencesOf: (talkingTo, object)) > 0
+        ifTrue: [
+            condition := (prerequisites at: (talkingTo, object)) value.
+        ]
+        ifFalse: [
+            condition := true.
+        ].
+        condition
+        ifTrue: [
+            discoveredFact := factsMap at: (talkingTo, object).
+            message := { dialogues at: (talkingTo, object) }.
+            (knownFacts occurrencesOf: discoveredFact) = 0
+            ifTrue: [
+                knownFacts := knownFacts, { discoveredFact }.
+                message := message, #('NEW FACT ADDED').
+            ].
+            ^ message, #('')
+        ]
+        ifFalse: [
+            ^ #('Maybe I know something about it, or maybe I do not...' '')
+        ]
+    ]
+
+    tellAbout: fact [
+        ((knownFacts occurrencesOf: fact) > 0)
+        ifTrue: [
+            ^ (self talkAbout: fact).
+        ]
+        ifFalse: [
+            ^ #('So... what I am suppose to do with that information?' '').
+        ].
+    ]
+
+    askAbout: item [
+        ^ (self talkAbout: item)
     ]
 
     journal [
@@ -129,7 +186,16 @@ Object subclass: Dialogues [
         talkingTo := 'nobody'
     ]
 
+    isTalkingNow [
+        ^ talkingTo ~= 'nobody'
+    ]
+
+    talkingTo [
+        ^ talkingTo
+    ]
+
     talk: person [
+        talkingTo := person.
         ^ { 'You are talking to ', person. '' }
     ]
 ]
@@ -147,6 +213,21 @@ Object subclass: Game [
         'w a s d       -- to go in that direction.'
         'take Item     -- to pick up an Item.'
         'talk Person   -- to approach a Person.'
+        'look / l      -- to look at people around you.'
+        'notice / n    -- to notice things around you.'
+        'journal / j   -- to list all known facts.'
+        'inventory / i -- to list all taken things.'
+        'help          -- to see this message again.'
+        'quit          -- to end the game and quit.'
+        ''
+    ).
+
+    dialogueHelpText := #(
+        'Available commands are:'
+        ''
+        'w a s d       -- to go in that direction.'
+        'askAbout Item -- to ask about an item.'
+        'tellAbout Fact -- to tell about a fact.'
         'look / l      -- to look at people around you.'
         'notice / n    -- to notice things around you.'
         'journal / j   -- to list all known facts.'
@@ -174,7 +255,13 @@ Object subclass: Game [
     ]
 
     help [
-        self write: helpText.
+        dialogues isTalkingNow
+        ifTrue: [
+            self write: dialogueHelpText.
+        ]
+        ifFalse: [
+            self write: helpText.
+        ]
     ]
 
     readCommand [
@@ -256,6 +343,22 @@ Object subclass: Game [
                 ifFalse: [
                     self write: {'You start to formulate your sentence towards ', (args last), ', when suddenly you realise, that she/he cannot hear you, for she/he is not here.'. ''}
                 ].
+                isUnknown := false
+            ].
+
+            cmd = 'askAbout' ifTrue: [
+                (locations isItem: (args last) on: (dialogues talkingTo))
+                ifTrue: [
+                    self write: (dialogues askAbout: (args last))
+                ]
+                ifFalse: [
+                    self write: {'A/An ', (args last), '? Never heard of it. Maybe if you would show me I could tell you something about it.'. ''}
+                ].
+                isUnknown := false
+            ].
+
+            cmd = 'tellAbout' ifTrue: [
+                self write: (dialogues tellAbout: (args last)).
                 isUnknown := false
             ].
 
