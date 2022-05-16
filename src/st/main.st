@@ -3,10 +3,10 @@
 Object subclass: Locations [
     | paths people items currentlyAt |
     Locations class >> new [
-        | map |
-        map := super new.
-        map init.
-        ^ map
+        | locations |
+        locations := super new.
+        locations init.
+        ^ locations
     ]
 
     init [
@@ -72,6 +72,10 @@ Object subclass: Locations [
         ^ #('There are following items here:'), (self list: items at: currentlyAt), #('')
     ]
 
+    trinkets: person [
+        ^ { person, ' bears following items:'}, (self list: items at: person), #('')
+    ]
+
     inventory [
         ^ #('You have following items:'), (self list: items at: 'me'), #('')
     ]
@@ -97,10 +101,36 @@ Object subclass: Locations [
             ^ { 'Failed to take ', item. '' }.
         ]
     ]
+
+    isNear: person [
+        ^ ((people at: currentlyAt) select: [ :it | it = person ]) size = 1
+    ]
+]
+
+Object subclass: Dialogues [
+    | talkingTo |
+    Dialogues class >> new [
+        | dialogues |
+        dialogues := super new.
+        dialogues init.
+        ^ dialogues
+    ]
+
+    init [
+        talkingTo := 'nobody'
+    ]
+
+    go [
+        talkingTo := 'nobody'
+    ]
+
+    talk: person [
+        ^ { 'You are talking to ', person. '' }
+    ]
 ]
 
 Object subclass: Game [
-    | isGameOver locations |
+    | isGameOver locations dialogues |
 
     introductionText := #(
         'Daily life in the alpine hotel was disrupted by the barking of the Promyczek. The wife, which came after that to the room, saw her husband on the floor. She started screaming and woke up everyone who stayed in the hotel. The hotel owner immediately calls you to solve that riddle. Who is the murderer? You do not know. Yet...'
@@ -109,13 +139,14 @@ Object subclass: Game [
     helpText := #(
         'Available commands are:'
         ''
-        'help          -- to see this message again.'
-        'quit          -- to end the game and quit.'
         'w a s d       -- to go in that direction.'
+        'take Item     -- to pick up an Item.'
+        'talk Person   -- to approach a Person.'
         'look / l      -- to look at people around you.'
         'notice / n    -- to notice things around you.'
         'inventory / i -- to list all taken things.'
-        'take Item     -- to pick up an Item.'
+        'help          -- to see this message again.'
+        'quit          -- to end the game and quit.'
         ''
     ).
  
@@ -129,6 +160,7 @@ Object subclass: Game [
     init [
         isGameOver := false.
         locations := Locations new.
+        dialogues := Dialogues new.
     ]
 
     write: array [
@@ -163,21 +195,25 @@ Object subclass: Game [
 
             cmd = 'w' ifTrue: [
                 self write: (locations go: 'north').
+                dialogues go.
                 isUnknown := false
             ].
 
             cmd = 'd' ifTrue: [
                 self write: (locations go: 'east').
+                dialogues go.
                 isUnknown := false
             ].
 
             cmd = 'a' ifTrue: [
                 self write: (locations go: 'west').
+                dialogues go.
                 isUnknown := false
             ].
 
             cmd = 's' ifTrue: [
                 self write: (locations go: 'south').
+                dialogues go.
                 isUnknown := false
             ].
 
@@ -198,6 +234,17 @@ Object subclass: Game [
 
             cmd = 'take' ifTrue: [
                 self write: (locations take: (args last)).
+                isUnknown := false
+            ].
+
+            cmd = 'talk' ifTrue: [
+                (locations isNear: (args last))
+                ifTrue: [
+                    self write: (dialogues talk: (args last)), (locations trinkets: (args last))
+                ]
+                ifFalse: [
+                    self write: {'You start to formulate your sentence towards ', (args last), ', when suddenly you realise, that she/he cannot hear you, for she/he is not here.'. ''}
+                ].
                 isUnknown := false
             ].
 
