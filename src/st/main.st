@@ -178,6 +178,10 @@ Object subclass: Dialogues [
         ^ (self talkAbout: item)
     ]
 
+    gossipAbout: person [
+        ^ (self talkAbout: person)
+    ]
+
     journal [
         ^ (knownFacts asOrderedCollection), #('')
     ]
@@ -217,7 +221,7 @@ Object subclass: Game [
         'notice / n    -- to notice things around you.'
         'journal / j   -- to list all known facts.'
         'inventory / i -- to list all taken things.'
-        'help          -- to see this message again.'
+        'help / h      -- to see this message again.'
         'quit          -- to end the game and quit.'
         ''
     ).
@@ -228,11 +232,12 @@ Object subclass: Game [
         'w a s d       -- to go in that direction.'
         'askAbout Item -- to ask about an item.'
         'tellAbout Fact -- to tell about a fact.'
+        'gossipAbout Person -- to gossip about a person.'
         'look / l      -- to look at people around you.'
         'notice / n    -- to notice things around you.'
         'journal / j   -- to list all known facts.'
         'inventory / i -- to list all taken things.'
-        'help          -- to see this message again.'
+        'help / h      -- to see this message again.'
         'quit          -- to end the game and quit.'
         ''
     ).
@@ -281,7 +286,7 @@ Object subclass: Game [
             args := (self readCommand) substrings.
             cmd := args first.
 
-            cmd  = 'help' ifTrue: [
+            ((cmd = 'help') | (cmd = 'h')) ifTrue: [
                 self help.
                 isUnknown := false
             ].
@@ -359,6 +364,11 @@ Object subclass: Game [
 
             cmd = 'tellAbout' ifTrue: [
                 self write: (dialogues tellAbout: (args last)).
+                isUnknown := false
+            ].
+
+            cmd = 'gossipAbout' ifTrue: [
+                self write: (dialogues gossipAbout: (args last)).
                 isUnknown := false
             ].
 
