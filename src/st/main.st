@@ -31,49 +31,49 @@ Object subclass: Locations [
         paths at: ('hunters_shaque', 'west') put: 'kitchen'.
 
         people := Dictionary new.
-        people at: 'room_of_thomas_and_giulia' put: #('thomas' 'giulia' 'andreas' '').
-        people at: 'room_of_zoe' put: #('zoe' '').
-        people at: 'bar' put: #('karl' 'amy' 'stephan' '').
-        people at: 'corridor' put: #('jurgen' 'hilda' '').
-        people at: 'kitchen' put: #('theodor' '').
-        people at: 'reception' put: #('hans' 'hermann' '').
-        people at: 'hotel_entrance' put: #('jonas' 'urlich' '').
+        people at: 'room_of_thomas_and_giulia' put: #('thomas' 'giulia' 'andreas').
+        people at: 'room_of_zoe' put: #('zoe').
+        people at: 'bar' put: #('karl' 'amy' 'stephan').
+        people at: 'corridor' put: #('jurgen' 'hilda').
+        people at: 'kitchen' put: #('theodor').
+        people at: 'reception' put: #('hans' 'hermann').
+        people at: 'hotel_entrance' put: #('jonas' 'urlich').
 
         items := Dictionary new.
-        items at: 'room_of_thomas_and_giulia' put: #('watch' 'thomas_journal' 'cigarette_light' '').
-        items at: 'room_of_zoe' put: #('sleep_mask' 'sleeping_pills' 'cup' '').
-        items at: 'karl' put: #('clubs_symbol' '').
-        items at: 'bar' put: #('glass' '').
-        items at: 'hilda' put: #('brooch' '').
-        items at: 'corridor' put: #('cleaning_stuff' 'cutlery_tray' '').
-        items at: 'reception' put: #('guest_book' 'telephone' 'ball' '').
-        items at: 'hermann' put: #('hunting_weapon' '').
-        items at: 'urlich' put: #('gilded_epaulettes' '').
-        items at: 'hotel_entrance' put: #('bush' '').
-        items at: 'hunters_shaque' put: #('bullets' 'knife_scabbard' 'blooded_knife' '').
-        items at: 'kitchen' put: #('deer' 'broth' '').
-        items at: 'me' put: #('money' '').
+        items at: 'room_of_thomas_and_giulia' put: #('watch' 'thomas_journal' 'cigarette_light').
+        items at: 'room_of_zoe' put: #('sleep_mask' 'sleeping_pills' 'cup').
+        items at: 'karl' put: #('clubs_symbol').
+        items at: 'bar' put: #('glass').
+        items at: 'hilda' put: #('brooch').
+        items at: 'corridor' put: #('cleaning_stuff' 'cutlery_tray').
+        items at: 'reception' put: #('guest_book' 'telephone' 'ball').
+        items at: 'hermann' put: #('hunting_weapon').
+        items at: 'urlich' put: #('gilded_epaulettes').
+        items at: 'hotel_entrance' put: #('bush').
+        items at: 'hunters_shaque' put: #('bullets' 'knife_scabbard' 'blooded_knife').
+        items at: 'kitchen' put: #('deer' 'broth').
+        items at: 'me' put: #('money').
     ]
 
     go: direction [
         currentlyAt := (paths at: (currentlyAt, direction) ifAbsent: [currentlyAt]).
-        ^ { 'Currently at: ', currentlyAt }.
+        ^ { 'You are currently at ', currentlyAt }, self look.
     ]
 
     list: collection at: location [
-        ^ (collection at: location ifAbsent: [#('')])
+        ^ (collection at: location ifAbsent: [#()])
     ]
 
     look [
-        ^ (self list: people at: currentlyAt)
+        ^ #('There are following people here:'), (self list: people at: currentlyAt), #('')
     ]
 
     notice [
-        ^ (self list: items at: currentlyAt)
+        ^ #('There are following items here:'), (self list: items at: currentlyAt), #('')
     ]
 
     inventory [
-        ^ (self list: items at: 'me')
+        ^ #('You have following items:'), (self list: items at: 'me'), #('')
     ]
 
     move: object in: collection from: from to: to [
