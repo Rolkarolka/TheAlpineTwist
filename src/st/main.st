@@ -57,6 +57,7 @@ Object subclass: Game [
         ''
         'help          -- to see this message again.'
         'quit          -- to end the game and quit.'
+        'w a s d       -- to go in that direction.'
         ''
     ).
  
