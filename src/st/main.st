@@ -163,7 +163,17 @@ Object subclass: Dialogues [
         factsMap at: ('theodor', 'deer') put: 'theodor_is_chef'.
         factsMap at: ('theodor', 'broth') put: 'theodor_trusts_me'.
 
+        factsMap at: ('amy', 'watch_has_changed_hands_during_last_game') put: 'amy_passed_out'.
+        factsMap at: ('amy', 'karl_cheats_at_poker') put: 'amy_knows_about_karl_cheating_at_poker'.
         factsMap at: ('hilda', 'thomas_had_been_murdered') put: 'poker_is_played_here'.
+        factsMap at: ('hilda', 'watch_has_changed_hands_during_last_game') put: 'zoe_knew_about_watch_changing_hands'.
+        factsMap at: ('giulia', 'thomas_had_been_murdered') put: 'giulia_is_heart_broken'.
+        factsMap at: ('karl', 'poker_is_played_here') put: 'ulrich_has_an_open_mouth'.
+        factsMap at: ('karl', 'karl_cheats_at_poker') put: 'karl_trusts_me'.
+        factsMap at: ('andreas', 'thomas_was_here_to_buy_a_watch') put: 'watch_was_originally_andreases'.
+        factsMap at: ('andreas', 'andreas_was_here_yesterday') put: 'andreas_needs_money'.
+        factsMap at: ('jonas', 'jonas_likes_drinking_in_company') put: 'jonas_went_to_bar'.
+        factsMap at: ('hilda', 'zoe_was_thomas_lovers') put: 'zoe_did_not_know_about_giulia'.
 
         dialogues := Dictionary new.
         dialogues at: ('hilda', 'brooch') put: 'Oh, this! I am so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, is it not?'.
@@ -193,7 +203,17 @@ Object subclass: Dialogues [
         dialogues at: ('theodor', 'deer') put: 'Hermann brought it yesterday. Poor animal, but it will not be wasted. There will be a delicious stew tomorrow. I hope you will stay.'.
         dialogues at: ('theodor', 'broth') put: 'Do you really like my soup? I know that you are a great men.'.
         
+        dialogues at: ('amy', 'watch_has_changed_hands_during_last_game') put: 'Yeah, I won the game last night, and the watch too. I think I passed out and lost it when I was returning to my room last night. I mean, I drank a bit, but not more than usual, and normally I do not even feel drunk, let alone pass out. The weirdest feeling. But I swear, when I woke up the next day the thing was gone!'.
+        dialogues at: ('amy', 'karl_cheats_at_poker') put: 'That scoundrel! Thanks for letting me know, mate. I will keep an eye on him next time.'.
         dialogues at: ('hilda', 'thomas_had_been_murdered') put: 'I do not really know anything about this, but... I do know that he has been playing poker with some other people here. Maybe something went wrong there?'.
+        dialogues at: ('hilda', 'watch_has_changed_hands_during_last_game') put: 'Oh yeah, Amy won the watch yesterday. That watch surely must have cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also could not believe this.'.
+        dialogues at: ('giulia', 'thomas_had_been_murdered') put: 'What I am suppose to do? Is he trully dead? He cannot be. He promised. I want him back...'.
+        dialogues at: ('karl', 'poker_is_played_here') put: 'Who told you - it was Urlich, was it not? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you would like to give it a try?'.
+        dialogues at: ('karl', 'karl_cheats_at_poker') put: 'So, you are a pretty good detective, are you not? Well, you got me. I will tell you what you want.'.
+        dialogues at: ('andreas', 'thomas_was_here_to_buy_a_watch') put: 'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just could not let him know that I am penniless just like that. And I certainly did not kill him!'.
+        dialogues at: ('andreas', 'andreas_was_here_yesterday') put: 'Yes, I was here. I am sorry that I lied to you earlier. I really do not like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money. I really need them right now. I found out that Thomas was the buyer just yesterday, and I could not bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.'.
+        dialogues at: ('jonas', 'jonas_likes_drinking_in_company') put: 'Of course I love drinking in good company, who does not? By the way, it is about the best time to go drinking together! I will go save a table for us in the bar and you go get the drinks!'.
+        dialogues at: ('hilda', 'zoe_was_thomas_lovers') put: 'WHAT?! Her? No way! You are serious?! She told me she did not even knew who they were! That is... interesting to say the least.'.
     ]
 
     talkAbout: object [
