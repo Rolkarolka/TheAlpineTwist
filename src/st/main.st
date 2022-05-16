@@ -1,7 +1,7 @@
 "TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek."
 
 Object subclass: Locations [
-    | paths people currentlyAt |
+    | paths people items currentlyAt |
     Locations class >> new [
         | map |
         map := super new.
@@ -38,6 +38,20 @@ Object subclass: Locations [
         people at: 'kitchen' put: #('theodor' '').
         people at: 'reception' put: #('hans' 'hermann' '').
         people at: 'hotel_entrance' put: #('jonas' 'urlich' '').
+
+        items := Dictionary new.
+        items at: 'room_of_thomas_and_giulia' put: #('watch' 'thomas_journal' 'cigarette_light' '').
+        items at: 'room_of_zoe' put: #('sleep_mask' 'sleeping_pills' 'cup' '').
+        items at: 'karl' put: #('clubs_symbol' '').
+        items at: 'bar' put: #('glass' '').
+        items at: 'hilda' put: #('brooch' '').
+        items at: 'corridor' put: #('cleaning_stuff' 'cutlery_tray' '').
+        items at: 'reception' put: #('guest_book' 'telephone' 'ball' '').
+        items at: 'hermann' put: #('hunting_weapon' '').
+        items at: 'urlich' put: #('gilded_epaulettes' '').
+        items at: 'hotel_entrance' put: #('bush' '').
+        items at: 'hunters_shaque' put: #('bullets' 'knife_scabbard' 'blooded_knife' '').
+        items at: 'kitchen' put: #('deer' 'broth' '').
     ]
 
     go: direction [
@@ -52,6 +66,10 @@ Object subclass: Locations [
 
     look [
         ^ (people at: currentlyAt ifAbsent: [#('')])
+    ]
+
+    notice [
+        ^ (items at: currentlyAt ifAbsent: [#('')])
     ]
 ]
 
@@ -69,6 +87,7 @@ Object subclass: Game [
         'quit          -- to end the game and quit.'
         'w a s d       -- to go in that direction.'
         'look / l      -- to look at people around you.'
+        'notice / n    -- to look at people around you.'
         ''
     ).
  
@@ -133,13 +152,13 @@ Object subclass: Game [
                 isUnknown := false
             ].
 
-            cmd = 'look' ifTrue: [
+            cmd = 'look' | cmd = 'l' ifTrue: [
                 self write: (locations look).
                 isUnknown := false
             ].
 
-            cmd = 'l' ifTrue: [
-                self write: (locations look).
+            cmd = 'notice' | cmd = 'n' ifTrue: [
+                self write: (locations notice).
                 isUnknown := false
             ].
 
