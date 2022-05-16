@@ -1,7 +1,7 @@
 "TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek."
 
 Object subclass: Locations [
-    | paths currentlyAt |
+    | paths people currentlyAt |
     Locations class >> new [
         | map |
         map := super new.
@@ -10,6 +10,8 @@ Object subclass: Locations [
     ]
 
     init [
+        currentlyAt := 'room_of_thomas_and_giulia'.
+
         paths := Dictionary new.
         paths at: ('room_of_thomas_and_giulia', 'west') put: 'corridor'.
         paths at: ('corridor', 'east') put: 'room_of_thomas_and_giulia'.
@@ -27,7 +29,15 @@ Object subclass: Locations [
         paths at: ('kitchen', 'east') put: 'hunters_shaque'.
         paths at: ('hunters_shaque', 'north') put: 'hotel_entrance'.
         paths at: ('hunters_shaque', 'west') put: 'kitchen'.
-        currentlyAt := 'room_of_thomas_and_giulia'.
+
+        people := Dictionary new.
+        people at: 'room_of_thomas_and_giulia' put: #('thomas' 'giulia' 'andreas' '').
+        people at: 'room_of_zoe' put: #('zoe' '').
+        people at: 'bar' put: #('karl' 'amy' 'stephan' '').
+        people at: 'corridor' put: #('jurgen' 'hilda' '').
+        people at: 'kitchen' put: #('theodor' '').
+        people at: 'reception' put: #('hans' 'hermann' '').
+        people at: 'hotel_entrance' put: #('jonas' 'urlich' '').
     ]
 
     go: direction [
@@ -40,8 +50,8 @@ Object subclass: Locations [
         ^ message.
     ]
 
-    at [
-        ^ currentlyAt
+    look [
+        ^ (people at: currentlyAt ifAbsent: [#('')])
     ]
 ]
 
@@ -58,6 +68,7 @@ Object subclass: Game [
         'help          -- to see this message again.'
         'quit          -- to end the game and quit.'
         'w a s d       -- to go in that direction.'
+        'look / l      -- to look at people around you.'
         ''
     ).
  
@@ -119,6 +130,16 @@ Object subclass: Game [
 
             cmd = 's' ifTrue: [
                 self write: (locations go: 'south').
+                isUnknown := false
+            ].
+
+            cmd = 'look' ifTrue: [
+                self write: (locations look).
+                isUnknown := false
+            ].
+
+            cmd = 'l' ifTrue: [
+                self write: (locations look).
                 isUnknown := false
             ].
 
