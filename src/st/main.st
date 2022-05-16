@@ -108,7 +108,7 @@ Object subclass: Locations [
 ]
 
 Object subclass: Dialogues [
-    | talkingTo |
+    | talkingTo knownFacts |
     Dialogues class >> new [
         | dialogues |
         dialogues := super new.
@@ -117,7 +117,12 @@ Object subclass: Dialogues [
     ]
 
     init [
-        talkingTo := 'nobody'
+        talkingTo := 'nobody'.
+        knownFacts := #('thomas_had_been_murdered') asBag
+    ]
+
+    journal [
+        ^ (knownFacts asOrderedCollection), #('')
     ]
 
     go [
@@ -144,6 +149,7 @@ Object subclass: Game [
         'talk Person   -- to approach a Person.'
         'look / l      -- to look at people around you.'
         'notice / n    -- to notice things around you.'
+        'journal / j   -- to list all known facts.'
         'inventory / i -- to list all taken things.'
         'help          -- to see this message again.'
         'quit          -- to end the game and quit.'
@@ -224,6 +230,11 @@ Object subclass: Game [
 
             ((cmd = 'notice') | (cmd = 'n')) ifTrue: [
                 self write: (locations notice).
+                isUnknown := false
+            ].
+
+            ((cmd = 'journal') | (cmd = 'j')) ifTrue: [
+                self write: (dialogues journal).
                 isUnknown := false
             ].
 
