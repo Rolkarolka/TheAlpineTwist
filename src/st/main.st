@@ -175,6 +175,22 @@ Object subclass: Dialogues [
         factsMap at: ('jonas', 'jonas_likes_drinking_in_company') put: 'jonas_went_to_bar'.
         factsMap at: ('hilda', 'zoe_was_thomas_lovers') put: 'zoe_did_not_know_about_giulia'.
 
+        factsMap at: ('amy', 'thomas') put: 'zoe_was_thomas_lovers'.
+        factsMap at: ('amy', 'zoe') put: 'zoe_was_thomas_lovers'.
+        factsMap at: ('amy', 'karl') put: 'karl_likes_betting'.
+        factsMap at: ('jurgen', 'karl') put: 'karl_likes_betting'.
+        factsMap at: ('giulia', 'thomas') put: 'thomas_had_been_murdered'.
+        factsMap at: ('hans', 'karl') put: 'karl_has_a_keen_eye'.
+        factsMap at: ('hilda', 'karl') put: 'karl_has_a_keen_eye'.
+        factsMap at: ('hilda', 'thomas') put: 'thomas_had_been_murdered'.
+        factsMap at: ('hilda', 'zoe') put: 'zoe_befriended_hilda'.
+        factsMap at: ('jonas', 'karl') put: 'karl_admitted_to_cheating'.
+        factsMap at: ('karl', 'andreas') put: 'andreas_was_here_yesterday'.
+        factsMap at: ('karl', 'jonas') put: 'jonas_likes_drinking_in_company'.
+        factsMap at: ('stephan', 'jonas') put: 'jonas_likes_drinking_in_company'.
+        factsMap at: ('stephan', 'karl') put: 'karl_hides_cards_in_his_sleeve'.
+        factsMap at: ('urlich', 'karl') put: 'karl_cheats_at_poker'.
+
         dialogues := Dictionary new.
         dialogues at: ('hilda', 'brooch') put: 'Oh, this! I am so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, is it not?'.
         dialogues at: ('urlich', 'gilded_epaulettes') put: 'Very fine epaulets, would not you say, dear Sir? Very fine, if I say so myself. I have won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'.
@@ -214,6 +230,22 @@ Object subclass: Dialogues [
         dialogues at: ('andreas', 'andreas_was_here_yesterday') put: 'Yes, I was here. I am sorry that I lied to you earlier. I really do not like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money. I really need them right now. I found out that Thomas was the buyer just yesterday, and I could not bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.'.
         dialogues at: ('jonas', 'jonas_likes_drinking_in_company') put: 'Of course I love drinking in good company, who does not? By the way, it is about the best time to go drinking together! I will go save a table for us in the bar and you go get the drinks!'.
         dialogues at: ('hilda', 'zoe_was_thomas_lovers') put: 'WHAT?! Her? No way! You are serious?! She told me she did not even knew who they were! That is... interesting to say the least.'.
+
+        factsMap at: ('amy', 'thomas') put: 'Well, I once was his girlfriend. Probably will not be again, will I? Hahah. Oh, do not look at me like that, he always wanted to have everything, that is how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'.
+        factsMap at: ('amy', 'zoe') put: 'Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.'.
+        factsMap at: ('amy', 'karl') put: 'Karl is a nice guy, but he will not tell you any important information, unless... Unless you bet him. He is a gambler, he can not refuse a good bet.'.
+        factsMap at: ('jurgen', 'karl') put: 'Karl does not trust almost anyone, but I will give you an advice - if you want to get some important information from him, try betting him instead of asking straight forward.'.
+        factsMap at: ('giulia', 'thomas') put: 'As soon as you mention Thomases name, Giulia starts crying again...'.
+        factsMap at: ('hans', 'karl') put: 'Karl has a keen eye, nothing slips past him. He probably can help you.'.
+        factsMap at: ('hilda', 'karl') put: 'Karl has a keen eye, nothing slips past him. He probably can help you.'.
+        factsMap at: ('hilda', 'thomas') put: 'Poor Thomas... I knew him a bit - he used to work here with his good friend back when he was younger. I wonder if their friendship survived through all this time...'.
+        factsMap at: ('hilda', 'zoe') put: 'Well, it was at hard at the beginning, but once you get to know her, she is a really sweet and nice person. We talked quite a lot lately.'.
+        factsMap at: ('jonas', 'karl') put: 'This guy is a crook, I will tell you that! *hic!* We were drinking together once and he told me *hic!* that he is cheating all the time! He was so proud that no one can catch him red-handed. *hic!* But I promised that I would not tell anyone, so you have to promise me, too! *hic!*'.
+        factsMap at: ('karl', 'andreas') put: 'About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.'.
+        factsMap at: ('karl', 'jonas') put: 'This guy, I do not remember how many times I have seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I have seen him perfecting this technique for months now...'.
+        factsMap at: ('stephan', 'jonas') put: 'Ah yes, this funny boy. I drank with him a couple of times. He iss the funniest person in the whole hotel and the best drinking buddy - that is why I buy him a drink from time to time.'.
+        factsMap at: ('stephan', 'karl') put: 'If I were you, I would not play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!'.
+        factsMap at: ('urlich', 'karl') put: 'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once playing an ace of clubs - the exact same one I had in my hand!'.
     ]
 
     talkAbout: object [
