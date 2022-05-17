@@ -1,7 +1,7 @@
 "TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek."
 
 Object subclass: Locations [
-    | paths people items currentlyAt |
+    | paths people animals items currentlyAt |
     Locations class >> new [
         | locations |
         locations := super new.
@@ -38,6 +38,9 @@ Object subclass: Locations [
         people at: 'kitchen' put: #('theodor').
         people at: 'reception' put: #('hans' 'hermann').
         people at: 'hotel_entrance' put: #('jonas' 'urlich').
+        
+        animals := Dictionary new.
+        animals at: 'reception' put: #('promyczek').
 
         items := Dictionary new.
         items at: 'room_of_thomas_and_giulia' put: #('watch' 'thomas_journal' 'cigarette_light').
@@ -106,6 +109,10 @@ Object subclass: Locations [
         ^ (((people at: currentlyAt) select: [ :it | it = person ]) size = 1)
     ]
 
+    isAnimal: animal [
+        ^ (((animals at: currentlyAt) select: [ :it | it = animal]) size = 1)
+    ]
+
     isItem: item on: person [
         ((items at: 'me') select: [ :it | it = item ]) size = 1
         ifTrue: [
@@ -122,7 +129,7 @@ Object subclass: Locations [
 ]
 
 Object subclass: Dialogues [
-    | talkingTo knownFacts prerequisites factsMap dialogues describe describeStayReason |
+    | talkingTo crouchingTo knownFacts prerequisites factsMap dialogues describe describeStayReason |
     Dialogues class >> new [
         | dialogues |
         dialogues := super new.
@@ -132,6 +139,7 @@ Object subclass: Dialogues [
 
     init [
         talkingTo := 'nobody'.
+        crouchingTo := 'nobody'.
         knownFacts := #('thomas_had_been_murdered') asBag.
 
         prerequisites := Dictionary new.
@@ -302,6 +310,7 @@ Object subclass: Dialogues [
         describe at: 'thomas' put: 'Thomas was an average-height, athletic man with a sun-kissed complexion. His heart-shaped face has freckles and a goatee. His shoulder-length dark hair is drenched with blood. A bloodstain and a hole made with a sharp tool on his Italian suit.'.
         describe at: 'urlich' put: 'He is a doorkeeper. He wears a kind of uniform with gilded epaulets in perfect condition. Hes not too bright, but he thinks about himself as from high society. His character is in three words: vain, gossip, reserved.'.
         describe at: 'zoe' put: 'She is a gorgeous young woman with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair is medium length, curly and golden. She wears glasses, and she loves wearing turtlenecks. Her character is in three words: shy, thoughtful, and intelligent.'.
+        describe at: 'promyczek' put: 'German Spitz Miniature with keen-looking eyes. It likes caresses and it is well trained.'
     ]
 
     talkAbout: object [
@@ -393,10 +402,18 @@ Object subclass: Dialogues [
     talkingTo [
         ^ talkingTo
     ]
+    
+    crouchingTo [
+        ^ crouchingTo
+    ]
 
     talk: person [
         talkingTo := person.
         ^ { 'You are talking to ', person. (describe at: person ifAbsent: ''). '' }
+    ]
+    crouch: animal [
+        crouchingTo := animal.
+        ^ { 'You are crouching to ', animal. (describe at: animal ifAbsent: ''). ''}
     ]
 ]
 
@@ -413,6 +430,7 @@ Object subclass: Game [
         'w a s d       -- to go in that direction.'
         'take Item     -- to pick up an Item.'
         'talk Person   -- to approach a Person.'
+        'crouch animal -- crouch to a Animal.'
         'look / l      -- to look at people around you.'
         'notice / n    -- to notice things around you.'
         'journal / j   -- to list all known facts.'
@@ -436,6 +454,22 @@ Object subclass: Game [
         'journal / j   -- to list all known facts.'
         'inventory / i -- to list all taken things.'
         'help / h      -- to see this message again.'
+        'quit          -- to end the game and quit.'
+        ''
+    ).
+    
+    crouchHelpText := #(
+        'Available commands are:'
+        ''
+        'w a s d       -- to go in that direction.'
+        'play          -- play ball with the Animal'
+        'pet           -- pet the Animal'
+        'take item     -- take an Item and add it to your inventory.'
+        'look / l      -- notice all people located in the current room.'
+        'notice / n    -- notice all items located in the current room.'
+        'journal / j   -- list all known facts.'
+        'inventory / i -- list all owned items.'
+        'help / h      -- to see available commands.'
         'quit          -- to end the game and quit.'
         ''
     ).
@@ -545,6 +579,17 @@ Object subclass: Game [
                 ]
                 ifFalse: [
                     self write: {'You start to formulate your sentence towards ', (args last), ', when suddenly you realise, that she/he cannot hear you, for she/he is not here.'. ''}
+                ].
+                isUnknown := false
+            ].
+
+            cmd = 'crouch' ifTrue: [
+                (locations isAnimal: (args last))
+                ifTrue: [
+                    self write: (dialogues crouch: (args last))
+                ]
+                ifFalse: [
+                    self write: {'You start to reaching ', (args last), ', when suddenly you realise, that it cannot be touched, for it is not here.'. ''}
                 ].
                 isUnknown := false
             ].
