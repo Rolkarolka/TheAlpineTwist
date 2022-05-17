@@ -122,7 +122,7 @@ Object subclass: Locations [
 ]
 
 Object subclass: Dialogues [
-    | talkingTo knownFacts prerequisites factsMap dialogues describe |
+    | talkingTo knownFacts prerequisites factsMap dialogues describe describeStayReason |
     Dialogues class >> new [
         | dialogues |
         dialogues := super new.
@@ -201,6 +201,21 @@ Object subclass: Dialogues [
         factsMap at: ('stephan', 'karl') put: 'karl_hides_cards_in_his_sleeve'.
         factsMap at: ('urlich', 'karl') put: 'karl_cheats_at_poker'.
 
+        factsMap at: ('amy', 'why_here') put: 'asked_amy_why_is_she_here'.
+        factsMap at: ('andreas', 'why_here') put: 'asked_andreas_about_why_is_he_here'.
+        factsMap at: ('giulia', 'why_here') put: 'asked_giulia_why_is_she_here'.
+        factsMap at: ('hans', 'why_here') put: 'asked_hans_why_is_he_here'.
+        factsMap at: ('hermann', 'why_here') put: 'asked_hermann_why_is_he_here'.
+        factsMap at: ('hilda', 'why_here') put: 'asked_hilda_why_is_she_here'.
+        factsMap at: ('jonas', 'why_here') put: 'asked_jonas_why_is_he_here'.
+        factsMap at: ('jurgen', 'why_here') put: 'asked_jurgen_why_is_he_here'.
+        factsMap at: ('karl', 'why_here') put: 'asked_karl_why_is_he_here'.
+        factsMap at: ('stephan', 'why_here') put: 'asked_stephan_why_is_he_here'.
+        factsMap at: ('theodor', 'why_here') put: 'asked_theodor_why_is_he_here'.
+        factsMap at: ('thomas', 'why_here') put: 'asked_thomas_why_is_he_here'.
+        factsMap at: ('urlich', 'why_here') put: 'asked_urlich_why_is_he_here'.
+        factsMap at: ('zoe', 'why_here') put: 'asked_zoe_why_is_he_here'.
+
         dialogues := Dictionary new.
         dialogues at: ('hilda', 'brooch') put: 'Oh, this! I am so glad you asked! This is a present from my dad for my 19th birthday. Beautiful, is it not?'.
         dialogues at: ('urlich', 'gilded_epaulettes') put: 'Very fine epaulets, would not you say, dear Sir? Very fine, if I say so myself. I have won these beauties the last time I won anything in our little poker game downstairs. Oh, shoot! I should not have said that!'.
@@ -257,6 +272,21 @@ Object subclass: Dialogues [
         dialogues at: ('stephan', 'karl') put: 'If I were you, I would not play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!'.
         dialogues at: ('urlich', 'karl') put: 'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once playing an ace of clubs - the exact same one I had in my hand!'.
 
+        dialogues at: ('amy', 'why_here') put: 'I heard there are oppuritunities to get some cash here. Have you heard about it too by chance?'.
+        dialogues at: ('andreas', 'why_here') put: 'I came here as soon I heard that my brother is... he is dead!'.
+        dialogues at: ('giulia', 'why_here') put: 'I came here with Thomas on vacations.'.
+        dialogues at: ('hans', 'why_here') put: 'Well, I work here.'.
+        dialogues at: ('hermann', 'why_here') put: 'Well, I live nearby and hunt deers for Thomas sometimes, like yesterday.'.
+        dialogues at: ('hilda', 'why_here') put: 'Well, I work here.'.
+        dialogues at: ('jonas', 'why_here') put: 'I live nearby and I heard about the murder, so I thought I might gain some real life experience in this case. Did I mention that I am studying law?'.
+        dialogues at: ('jurgen', 'why_here') put: 'Well, I work here.'.
+        dialogues at: ('karl', 'why_here') put: 'Well, I work here.'.
+        dialogues at: ('stephan', 'why_here') put: 'I wanted to talk to Thomas, I heard he is coming here for a couple of days. I will not be able to now...'.
+        dialogues at: ('theodor', 'why_here') put: 'Well, I work here.'.
+        dialogues at: ('thomas', 'why_here') put: 'Dead man tell no tales'.
+        dialogues at: ('urlich', 'why_here') put: 'Well, I work here.'.
+        dialogues at: ('zoe', 'why_here') put: 'It is always nice to spend some free time in such a beatiful place, is it not?'.
+
         describe := Dictionary new.
         describe at: 'amy' put: 'She is dressed in the style of the 20s, with a cigarillo and sequin dress. She always wants to shine, even on a cloudy day. Her red curly hair goes well with red lipstick and red high heels. Her character is in three words: outgoing, indifferent, and heartless.'.
         describe at: 'andreas' put: 'He looks like Antonio Banderas. The victims brother is smartly dressed, with gold cufflinks. He has a toned body, white teeth, and dimples. His character is in three words: helpful, heartbroken, and underrated.'.
@@ -288,7 +318,7 @@ Object subclass: Dialogues [
         ].
         condition
         ifTrue: [
-            (dialogues occurrencesOf: (talkingTo, object)) = 0 ifTrue: [
+            (dialogues keys occurrencesOf: (talkingTo, object)) = 0 ifTrue: [
                 ^ #('Okay.' '')
             ].
             message := { dialogues at: (talkingTo, object) }.
@@ -321,6 +351,10 @@ Object subclass: Dialogues [
 
     gossipAbout: person [
         ^ (self talkAbout: person)
+    ]
+
+    whyHere [
+        ^ (self talkAbout: 'why_here')
     ]
 
     accuse: person [
@@ -396,6 +430,7 @@ Object subclass: Game [
         'tellAbout Fact -- to tell about a fact.'
         'gossipAbout Person -- to gossip about a person.'
         'accuse Person -- to accuse a person of murder.'
+        'whyHere       -- to ask why is someone here.'
         'look / l      -- to look at people around you.'
         'notice / n    -- to notice things around you.'
         'journal / j   -- to list all known facts.'
@@ -537,6 +572,11 @@ Object subclass: Game [
 
             cmd = 'accuse' ifTrue: [
                 self write: (dialogues accuse: (args last)).
+                isUnknown := false
+            ].
+
+            cmd = 'whyHere' ifTrue: [
+                self write: (dialogues whyHere).
                 isUnknown := false
             ].
 
