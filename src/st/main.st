@@ -399,6 +399,10 @@ Object subclass: Dialogues [
         ^ talkingTo ~= 'nobody'
     ]
 
+    isCrouchingNow [
+        ^ crouchingTo ~= 'nobody'
+    ]
+
     talkingTo [
         ^ talkingTo
     ]
@@ -497,7 +501,13 @@ Object subclass: Game [
             self write: dialogueHelpText.
         ]
         ifFalse: [
-            self write: helpText.
+            dialogues isCrouchingNow
+            ifTrue: [
+                self write: crouchHelpText.
+            ]
+            ifFalse: [
+                self write: helpText.
+            ]
         ]
     ]
 
