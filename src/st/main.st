@@ -323,6 +323,27 @@ Object subclass: Dialogues [
         ^ (self talkAbout: person)
     ]
 
+    accuse: person [
+        talkingTo = 'hans'
+        ifTrue: [
+            (person = 'zoe')
+            & ((knownFacts occurrencesOf: 'zoe_knew_about_watch_changing_hands') > 0)
+            & ((knownFacts occurrencesOf: 'zoe_has_trouble_sleeping') > 0)
+            & ((knownFacts occurrencesOf: 'zoe_did_not_know_about_giulia') > 0)
+            & ((knownFacts occurrencesOf: 'amy_passed_out') > 0)
+            & ((knownFacts occurrencesOf: 'zoe_left_right_after_amy') > 0)
+            ifTrue: [
+                ^ #('Congratulations, you have won!' '')
+            ]
+            ifFalse: [
+                ^ #('You have got to have more proof for such a bold statement, young man.' '')
+            ]
+        ]
+        ifFalse: [
+            ^ #('You should tell that to hans, not me.' '')
+        ]
+    ]
+
     journal [
         ^ (knownFacts asOrderedCollection), #('')
     ]
@@ -374,6 +395,7 @@ Object subclass: Game [
         'askAbout Item -- to ask about an item.'
         'tellAbout Fact -- to tell about a fact.'
         'gossipAbout Person -- to gossip about a person.'
+        'accuse Person -- to accuse a person of murder.'
         'look / l      -- to look at people around you.'
         'notice / n    -- to notice things around you.'
         'journal / j   -- to list all known facts.'
@@ -510,6 +532,11 @@ Object subclass: Game [
 
             cmd = 'gossipAbout' ifTrue: [
                 self write: (dialogues gossipAbout: (args last)).
+                isUnknown := false
+            ].
+
+            cmd = 'accuse' ifTrue: [
+                self write: (dialogues accuse: (args last)).
                 isUnknown := false
             ].
 
