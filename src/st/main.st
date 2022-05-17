@@ -370,6 +370,13 @@ Object subclass: Dialogues [
         ^ (self talkAbout: 'why_here')
     ]
 
+    pet [
+        (crouchingTo ~= 'nobody')
+        ifTrue: [
+            ^ #('Yayy! You start petting animal, and you enjoy it.' '').
+        ].
+    ]
+
     accuse: person [
         talkingTo = 'hans'
         ifTrue: [
@@ -617,6 +624,11 @@ Object subclass: Game [
                 ifFalse: [
                     self write: {'A/An ', (args last), '? Never heard of it. Maybe if you would show me I could tell you something about it.'. ''}
                 ].
+                isUnknown := false
+            ].
+
+            cmd = 'pet' ifTrue: [
+                self write: (dialogues pet).
                 isUnknown := false
             ].
 
