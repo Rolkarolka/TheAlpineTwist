@@ -60,7 +60,7 @@ Object subclass: Locations [
 
     go: direction [
         currentlyAt := (paths at: (currentlyAt, direction) ifAbsent: [currentlyAt]).
-        ^ { 'You are currently at ', currentlyAt }, self look.
+        ^ { 'You are currently at ', currentlyAt }, self look, self noticeAnimals.
     ]
 
     list: collection at: location [
@@ -69,6 +69,10 @@ Object subclass: Locations [
 
     look [
         ^ #('There are following people here:'), (self list: people at: currentlyAt), #('')
+    ]
+
+    noticeAnimals [
+        ^ #('There are following animals here:'), (self list: animals at: currentlyAt), #('')
     ]
 
     notice [
@@ -559,6 +563,7 @@ Object subclass: Game [
 
             ((cmd = 'look') | (cmd = 'l')) ifTrue: [
                 self write: (locations look).
+                self write: (locations noticeAnimals).
                 isUnknown := false
             ].
 
