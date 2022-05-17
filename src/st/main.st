@@ -112,7 +112,7 @@ Object subclass: Locations [
 ]
 
 Object subclass: Dialogues [
-    | talkingTo knownFacts prerequisites factsMap dialogues |
+    | talkingTo knownFacts prerequisites factsMap dialogues describe |
     Dialogues class >> new [
         | dialogues |
         dialogues := super new.
@@ -246,6 +246,22 @@ Object subclass: Dialogues [
         factsMap at: ('stephan', 'jonas') put: 'Ah yes, this funny boy. I drank with him a couple of times. He iss the funniest person in the whole hotel and the best drinking buddy - that is why I buy him a drink from time to time.'.
         factsMap at: ('stephan', 'karl') put: 'If I were you, I would not play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!'.
         factsMap at: ('urlich', 'karl') put: 'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once playing an ace of clubs - the exact same one I had in my hand!'.
+
+        describe := Dictionary new.
+        describe at: 'amy' put: 'She is dressed in the style of the 20s, with a cigarillo and sequin dress. She always wants to shine, even on a cloudy day. Her red curly hair goes well with red lipstick and red high heels. Her character is in three words: outgoing, indifferent, and heartless.'.
+        describe at: 'andreas' put: 'He looks like Antonio Banderas. The victims brother is smartly dressed, with gold cufflinks. He has a toned body, white teeth, and dimples. His character is in three words: helpful, heartbroken, and underrated.'.
+        describe at: 'giulia' put: 'She is a petit, richly dressed victims wife with golden hair. Her clothes are in the blood, and her strands are tousled. She looks tired. Her eyes are still tear-filled. Her character is in three words: gullible, heartbroken, and sentimental.'.
+        describe at: 'hans' put: 'He is a well-built elderly hotel owner with an aristocratic nose and mustache. His grey hair falls on his tired arms. On the right eye, Hans wears a monocle. His character is in three words: hard-working, righteous, and honest.'.
+        describe at: 'hermann' put: 'He is a muscular hunter and the owner of a dog called Promyczek. Hermann has a round face with a mustache and beard. He likes to wear khaki clothes. His character is in three words: reserved, brave, and loner.'.
+        describe at: 'hilda' put: 'She is a petite young cleaning lady who likes to wear modest clothes. At work, she always wears her work uniform. She has long, straight ginger hair with a golden brooch in it. Her character is in three words: orderly, chatty, and perceptive.'.
+        describe at: 'jonas' put: 'He is a fully-figured law student with spiky hair and smart-looking glasses. He loves jokes about Roman law. His character is in three words: hard-charging, humorous, drunkard.'.
+        describe at: 'jurgen' put: 'He is an exceptionally tall, slender butler. He has a long clean-shaven face. He has auburn, short and tousled hair. He likes to wear elegant clothes. His character is in three words: curt, helpful, and grave.'.
+        describe at: 'karl' put: 'He is a barman. He likes to wear a vest with the clubs symbol. His distrustful gaze allows him to keep bars books in order. He has wrinkles due to frowning, but he can keep a poker face. His character is in three words: wary, crooked, smart.'.
+        describe at: 'stephan' put: 'He is a tall, ripped man with chubby cheeks. He likes to wear comfy clothes, especially kangaroo sweatshirts. His character is in three words: nervous, hyperactive, and romantic.'.
+        describe at: 'theodor' put: 'He is a joyful chubby chef with happy wrinkles. He is bold - he claims that thanks to it, he avoids problems with Sanepid. He wears a neat standard uniform with polished shoes. His character is in three words: caring, passionate, and amicable.'.
+        describe at: 'thomas' put: 'Thomas was an average-height, athletic man with a sun-kissed complexion. His heart-shaped face has freckles and a goatee. His shoulder-length dark hair is drenched with blood. A bloodstain and a hole made with a sharp tool on his Italian suit.'.
+        describe at: 'urlich' put: 'He is a doorkeeper. He wears a kind of uniform with gilded epaulets in perfect condition. Hes not too bright, but he thinks about himself as from high society. His character is in three words: vain, gossip, reserved.'.
+        describe at: 'zoe' put: 'She is a gorgeous young woman with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair is medium length, curly and golden. She wears glasses, and she loves wearing turtlenecks. Her character is in three words: shy, thoughtful, and intelligent.'.
     ]
 
     talkAbout: object [
@@ -312,7 +328,7 @@ Object subclass: Dialogues [
 
     talk: person [
         talkingTo := person.
-        ^ { 'You are talking to ', person. '' }
+        ^ { 'You are talking to ', person. (describe at: person ifAbsent: ''). '' }
     ]
 ]
 
