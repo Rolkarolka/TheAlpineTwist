@@ -373,7 +373,14 @@ Object subclass: Dialogues [
     pet [
         (crouchingTo ~= 'nobody')
         ifTrue: [
-            ^ #('Yayy! You start petting animal, and you enjoy it.' '').
+            ^ #('Yayy! You start petting the Animal, and you enjoy it.' '').
+        ].
+    ]
+
+    play [
+        ((crouchingTo = 'promyczek')) 
+        ifTrue: [
+            ^ #('Yayy! You start playing with the Animal, and you enjoy it.' '').
         ].
     ]
 
@@ -629,6 +636,17 @@ Object subclass: Game [
 
             cmd = 'pet' ifTrue: [
                 self write: (dialogues pet).
+                isUnknown := false
+            ].
+
+            cmd = 'play' ifTrue: [
+                (locations isItem: 'ball' on: 'me')
+                ifTrue: [
+                    self write: (dialogues play)
+                ]
+                ifFalse: [
+                    self write: {'You want to play with the Animal, but you do not have its favorite ball.'. ''}
+                ].
                 isUnknown := false
             ].
 
