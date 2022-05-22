@@ -191,6 +191,9 @@ main = do
         -- holding
         [ "money"
         ]
+        -- amount
+        [ ("money", 44)
+        ]
         -- talking_to
         "nobody"
         -- crouching to

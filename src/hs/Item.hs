@@ -3,6 +3,7 @@ module Item where
     import qualified Data.List as List
 
     import State
+    import Data.Map (findWithDefault, fromList, (!))
 
     take state item =
         if item `elem` holding state then
@@ -20,4 +21,10 @@ module Item where
 
     noticeTrinkets state = state { message = "You notice following items on him/her: " : map fst (filter (\x -> snd x == talking_to state) (items_at state)) }
 
-    inventory state = state { message = "You have these items: " : holding state }
+    inventory state = state { message = "You have these items: " : map (`describeItem` state) (holding state) }
+
+    describeItem :: String -> State -> [Char]
+    describeItem item state = if item `elem` Prelude.map fst (amount state) then
+            item ++ " x" ++ show (findWithDefault 1 item (fromList (amount state)))
+        else
+            item
