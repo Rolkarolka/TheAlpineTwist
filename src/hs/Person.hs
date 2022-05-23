@@ -33,7 +33,7 @@ module Person where
         , (("amy", "watch"), \state -> elem "poker_is_played_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state))
         , (("amy", "watch_has_changed_hands_during_last_game"), elem "amy_won_the_watch" . known_facts)
         , (("hilda", "watch_has_changed_hands_during_last_game"), \state -> "zoe_befriended_hilda" `elem` known_facts state)
-        , (("urlich", "karl"), \state -> "poker_is_played_here" `elem` known_facts state) -- TODO && person_at(urlich, Place) && (not ((person_at(Person, Place) && Person \= urlich)))
+        , (("urlich", "karl"), \state -> "poker_is_played_here" `elem` known_facts state && ("jonas", "bar") `elem` people_at state) -- && person_at(urlich, Place) && (not ((person_at(Person, Place) && Person \= urlich)))
         , (("karl", "andreas"), \state -> "asked_andreas_why_is_he_here" `elem` known_facts state)
         , (("andreas", "andreas_was_here_yesterday"), \state -> elem "watch_was_originally_andreases" (known_facts state) && elem "thomas_was_here_to_buy_a_watch" (known_facts state) && elem "asked_andreas_why_is_he_here" (known_facts state) && elem "watch_has_changed_hands_during_last_game" (known_facts state))
         , (("jonas", "karl"), \state -> Maybe.isJust (List.find (\x -> "jonas" == fst x && "bar" == snd x) (people_at state)))
@@ -121,7 +121,11 @@ module Person where
     addFactToKnown state object failMessage =
         case List.find (\x -> talking_to state == x!!0 && object == x!!1) describe of
             Nothing -> state { message = [failMessage] }
-            Just description -> state { known_facts = (description!!2):known_facts state, message = (description!!3) : ["NEW FACT ADDED"] }
+            Just description ->
+                if description!!2 == "jonas_went_to_bar" then
+                    state { known_facts = (description!!2):known_facts state, talking_to = "nobody", people_at = map (\x -> if fst x == "jonas" then ("jonas", "bar") else x) (people_at state), message = (description!!3) : ["NEW FACT ADDED"] }
+                else 
+                    state { known_facts = (description!!2):known_facts state, message = (description!!3) : ["NEW FACT ADDED"] }
 
     internalTalkAbout :: State -> String -> String -> State
     internalTalkAbout state object failMessage = do
