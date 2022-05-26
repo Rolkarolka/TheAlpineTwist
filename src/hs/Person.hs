@@ -78,7 +78,7 @@ module Person where
         , ["andreas",   "thomas_was_here_to_buy_a_watch",           "watch_was_originally_andreases",           "'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just couldn't let him know that I'm penniless just like that. And I certainly did not kill him!'"]
         , ["andreas",   "andreas_was_here_yesterday",               "andreas_needs_money",                      "'Yes, I was here. I'm sorry that I lied to you earlier. I really don't like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money. I really need them right now. I found out that Thomas was the buyer just yesterday, and I couldn't bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.'"]
         , ["jonas",     "jonas_likes_drinking_in_company",          "jonas_went_to_bar",                        "'Of course I love drinking in good company, who doesn't? By the way, it's about the best time to go drinking together! I'll go save a table for us in the bar and you go get the drinks!'"]
-        , ["hilda",     "zoe_was_thomas_lovers",                    "zoe_did_not_know_about_giulia",            "'WHAT?! Her? No way! You're serious?! She told me she didn't even knew who they were! That's... interesting to say the least.'"]
+        , ["hilda",     "zoe_was_thomas_lovers",                    "zoe_did_not_know_about_giulia",            "'WHAT?! Her? No way! You're serious?! She told me she didn't even know who they were! That's... interesting to say the least.'"]
         , ["amy",       "thomas",   "zoe_was_thomas_lovers",            "'Well, I once was his girlfriend. Probably won't be again, will I? Hahah. Oh, don't look at me like that, he always wanted to have everything, that's how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'"]
         , ["amy",       "zoe",      "zoe_was_thomas_lovers",            "'Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.'"]
         , ["amy",       "karl",     "karl_likes_betting",               "'Karl is a nice guy, but he won't tell you any important information, unless... Unless you bet him. He's a gambler, he can't refuse a good bet.'"]
@@ -92,7 +92,7 @@ module Person where
         , ["karl",      "andreas",  "andreas_was_here_yesterday",       "'About that one I can say something, I heard he told you that he came here today, while in fact, he was playing with us yesterday.'"]
         , ["karl",      "jonas",    "jonas_likes_drinking_in_company",  "'This guy, I don't remember how many times I've seen him drinking here, but he rarely pays for his drinks - usually he sits with some random people, tells silly jokes, chit chats a bit and gets his drinks from these people completely for free. I've seen him perfecting this technique for months now...'"]
         , ["stephan",   "jonas",    "jonas_likes_drinking_in_company",  "'Ah yes, this funny boy. I drank with him a couple of times. He's the funniest person in the whole hotel and the best drinking buddy - that's why I buy him a drink from time to time.'"]
-        , ["stephan",   "karl",     "karl_hides_cards_in_his_sleeve",   "'If I were you, I wouldn't play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!'"]
+        , ["stephan",   "karl",     "karl_hides_cards_in_his_sleeve",   "'Come closer to me, we have to whisper so that Karl doesn't hear us... If I were you, I wouldn't play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!'"]
         , ["urlich",    "karl",     "karl_cheats_at_poker",             "'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once playing an ace of clubs - the exact same one I had in my hand!'"]
         , ["thomas",    "_WHY_HERE_",   "asked_thomas_why_is_he_here",  "'Dead man tell no tales'"]
         , ["giulia",    "_WHY_HERE_",   "asked_giulia_why_is_she_here", "'I came here with Thomas on vacations.'"]
@@ -102,6 +102,11 @@ module Person where
         , ["stephan",   "_WHY_HERE_",   "asked_stephan_why_is_he_here", "'I wanted to talk to Thomas, I heard he's coming here for a couple of days. I won't be able to now...'"]
         , ["hermann",   "_WHY_HERE_",   "asked_hermann_why_is_he_here", "'Well, I live nearby and hunt deers for Thomas sometimes, like yesterday.''"]
         , ["jonas",     "_WHY_HERE_",   "asked_jonas_why_is_he_here",   "'I live nearby and I heard about the murder, so I thought I might gain some real life experience in this case. Did I mention that I'm studying law?'"]
+        , ["karl",      "_BET_OR_EXCUSE_",  "karl_cheats_at_poker",             "'Who told you that, Urlich? He's not better than me, and it's his word against mine. That doesn't prove anything.'"]
+        , ["karl",      "_BET_OR_EXCUSE_",  "karl_hides_cards_in_his_sleeve",   "'What? A card in my sleeve? Please, that's just a trick from the movies, nobody does this - especially not me!'"]
+        , ["karl",      "_BET_OR_EXCUSE_",  "karl_admitted_to_cheating",        "'Oh come on, you're believing this story? People see and hear all kinds of stupid things when they're drunk. The only thing this proves is that Jonas is a drunkard, that's it.'"]
+        , ["karl",      "_BET_OR_EXCUSE_",  "placed_bet_with_karl",             "'Okay, that's a fair stake. I agree. If you find three pieces of evidence against me, come to me and I'll return you double the money and admit to cheating. But that will never happen, because I'm not a cheater!'"]
+        , ["karl",      "_BET_OR_EXCUSE_",  "karl_lost_bet",                    "'Shhh, don't speak so loud! Okay, sometimes I'm not playing completely fair, I admit... But it's not like I'm cheating all the time! Take the last night - so many people were looking at me that I couldn't even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her. It was very strange - Zoe was winning a game after game, you don't stand up from a table when you have a streak like this.'"]
         ]
 
     noticePeople state = state { message = "You notice following people around you: " : map (\x -> fst x) (filter (\x -> snd x == i_am_at state) (people_at state)) }
@@ -124,7 +129,7 @@ module Person where
             Just description ->
                 if description!!2 == "jonas_went_to_bar" then
                     state { known_facts = (description!!2):known_facts state, talking_to = "nobody", people_at = map (\x -> if fst x == "jonas" then ("jonas", "bar") else x) (people_at state), message = (description!!3) : ["NEW FACT ADDED"] }
-                else 
+                else
                     state { known_facts = (description!!2):known_facts state, message = (description!!3) : ["NEW FACT ADDED"] }
 
     internalTalkAbout :: State -> String -> String -> State
@@ -175,3 +180,73 @@ module Person where
                 state { message = ["'You've got to have more proof for such a bold statement, young man.'"] }
         else
             state { message = ["'You should tell that to hans, not me.'"] }
+
+    bet :: State -> String -> Int -> State
+    bet state fact amount = do
+        let maybePerson = List.find (\x -> talking_to state == fst x) (people_at state)
+        (case maybePerson of
+            Nothing -> state { message = ["You try talking to your new imaginary friend, but she/he isn't responding."] }
+            Just realPerson ->
+                if (i_am_at state == snd realPerson) && ("karl" == talking_to state) then
+                    betKarl state fact amount
+                else state { message = ["'Yeah, maybe, I don't know and I don't really care.'"] })
+
+
+    betKarl :: State -> String -> Int -> State
+    betKarl state fact amount
+      | List.any (\x -> "zoe_left_right_after_amy" == x) (known_facts state) =
+        state { message = ["'Yeah, maybe, I don't know and I don't really care.'"] }
+      | List.any (\x -> fact == x) (known_facts state) =
+        if List.any (\x -> fact == x) ["karl_likes_playing_some_card_game", "poker_is_played_here", "karl_likes_betting", "karl_hides_cards_in_his_sleeve", "karl_cheats_at_poker", "karl_admitted_to_cheating"] then
+            placeBet state amount
+        else
+            state { message = ["'Huh? That doesn't even make sense! What does that have to do with me in the first place?'"] }
+      | otherwise = state { message = ["You try accusing Karl of something you don't really know, but his gambler's eye immediately sees that you're lying to him."] }
+
+    placeBet :: State -> Int -> State
+    placeBet state moneyAmount = do
+        let maybeAnswer = List.find (\x -> talking_to state == x!!0 && "_BET_OR_EXCUSE_" == x!!1 && ("placed_bet_with_" ++ talking_to state) == x!!2) describe
+        (case maybeAnswer of
+            Nothing -> state { message = ["'Wait, why are you even trying to bet me?'"] }
+            Just realAnswer -> do
+                let maybeMoney = List.find (\x -> "money" == fst x) (amount state)
+                (case maybeMoney of
+                    Nothing -> state { message = ["No money in the inventory"] }
+                    Just money ->
+                        if moneyAmount < 50 then
+                            state { message = ["'Come on, don't make me laugh. I'm not even going to bother for such a small profit, come again when you make some money!'"]}
+                        else if moneyAmount > snd money then
+                            state { message = ["That's a little over your budget, don't you think?"]}
+                        else
+                            state { known_facts = (realAnswer!!2):known_facts state,
+                                    stakes = (talking_to state, moneyAmount):stakes state,
+                                    amount = map (\x -> if fst x == "money" then ("money", snd x - moneyAmount) else x) (amount state),
+                                    message = [realAnswer!!3] }))
+
+    completeBet :: State -> String -> String -> State
+    completeBet state fact1 fact2 = do
+        let maybePerson = List.find (\x -> talking_to state == fst x) (people_at state)
+        (case maybePerson of
+            Nothing -> state { message = ["You try talking to your new imaginary friend, but she/he isn't responding."] }
+            Just realPerson ->
+                if (fst realPerson == talking_to state) && (i_am_at state == snd realPerson) && List.any (\x -> "placed_bet_with_karl" == x) (known_facts state) then
+                    completeBetWithKarl state fact1 fact2
+                else state { message = ["'Wait, what bet? I don't remember betting with you.'"] })
+
+    completeBetWithKarl state fact1 fact2 =
+        if List.any (\x -> fact1 == x) (known_facts state) && List.any (\x -> fact2 == x) (known_facts state) then
+            if fact1 == fact2 then
+                state { message = ["'Come on, you won't persuade me if you keep repeating your arguments. Go find some real proof if you're still deluding youself that you can win this bet.'"]}
+            else if List.any (\x -> fact1 == x) ["karl_hides_cards_in_his_sleeve", "karl_cheats_at_poker", "karl_admitted_to_cheating"] && List.any (\x -> fact2 == x) ["karl_hides_cards_in_his_sleeve", "karl_cheats_at_poker", "karl_admitted_to_cheating"] then do
+                let maybeStake = List.find (\x -> "karl" == fst x) (stakes state)
+                (case maybeStake of
+                    Nothing -> state { message = ["'Wait, what bet? I don't remember betting with you.'"] }
+                    Just betStake -> state {
+                        known_facts = "karl_lost_bet":known_facts state,
+                        amount = map (\x -> if fst x == "money" then ("money", snd x + 2 * snd betStake) else x) (amount state),
+                        stakes = removeItem betStake (stakes state),
+                        message = ["'Shhh, don't speak so loud! Okay, sometimes I'm not playing completely fair, I admit... But it's not like I'm cheating all the time! Take the last night - so many people were looking at me that I couldn't even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her. It was very strange - Zoe was winning a game after game, you don't stand up from a table when you have a streak like this.'"] })
+                else
+                state { message = ["'Huh? That doesn't even make sense! Go find some real proof if you're still deluding youself that you can win this bet.'"] }
+        else
+            state { message = ["You try accusing Karl of something you don't really know, which doesn't go as well as it seemed. After all, it causes visible confusion and a moment of awkward silence after you stop talking. Your effort didn't bring too much to the case to say the least."] }

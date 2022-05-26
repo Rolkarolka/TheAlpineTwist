@@ -55,19 +55,21 @@ describeDialogueHelp =
 
 describeCrouchHelp =
     [ "Available commands are:"
-    , "help / h      -- to see available commands."
-    , "play          -- play ball with the \"animal\""
-    , "pet           -- pet the \"animal\""
-    , "take item     -- take an \"item\" and add it to your inventory."
-    , "look / l      -- notice all people located in the current room."
-    , "notice / n    -- notice all items located in the current room."
-    , "inventory / i -- list all owned items."
-    , "journal / j   -- list all known facts."
-    , "quit          -- to end the game and quit."
-    , "w             -- go up / north."
-    , "d             -- go right / east."
-    , "a             -- go left / west."
-    , "s             -- go down / south."
+    , "help / h                -- to see available commands."
+    , "play                    -- play ball with the \"animal\""
+    , "pet                     -- pet the \"animal\""
+    , "take item               -- take an \"item\" and add it to your inventory."
+    , "look / l                -- notice all people located in the current room."
+    , "notice / n              -- notice all items located in the current room."
+    , "bet fact stake          -- bet someone by accusing him/her of a \"fact\" from the journal and proposing a \"stake\" for the bet"
+    , "completeBet fact1 fact2 -- complete a bet by stating \"two facts\" indicating that the accusation is indeed true"
+    , "inventory / i           -- list all owned items."
+    , "journal / j             -- list all known facts."
+    , "quit                    -- to end the game and quit."
+    , "w                       -- go up / north."
+    , "d                       -- go right / east."
+    , "a                       -- go left / west."
+    , "s                       -- go down / south."
     , ""
     ]
 
@@ -106,6 +108,7 @@ gameLoop state = do
     cmd <- readCommand
     if cmd /= "quit" then
         gameLoop (case cmd of
+            "whyHere" -> whyHere newState
             "help" -> help newState
             "h" -> help newState
             "look" -> noticeAnimal (noticePeople newState)
@@ -115,7 +118,6 @@ gameLoop state = do
             "inventory" -> inventory newState
             "i" -> inventory newState
             "journal" -> journal newState
-            "whyHere" -> whyHere newState
             "j" -> journal newState
             "w" -> go newState North
             "d" -> go newState East
@@ -130,6 +132,8 @@ gameLoop state = do
                  else if List.isPrefixOf "askAbout"     cmd then askAbout    newState (split (==' ') cmd!!1)
                  else if List.isPrefixOf "gossipAbout"  cmd then gossipAbout newState (split (==' ') cmd!!1)
                  else if List.isPrefixOf "accuse"       cmd then accuse      newState (split (==' ') cmd!!1)
+                 else if List.isPrefixOf "bet"          cmd then bet         newState (split (==' ') cmd!!1) (scanString (split (==' ') cmd!!2))
+                 else if List.isPrefixOf "completeBet"  cmd then completeBet newState (split (==' ') cmd!!1) (split (==' ') cmd!!2)
                  else newState { message = ["Unknown command"] }
             )
         else do
@@ -192,8 +196,10 @@ main = do
         [ "money"
         ]
         -- amount
-        [ ("money", 44)
+        [ ("money", 100)
         ]
+        -- stakes
+        []
         -- talking_to
         "nobody"
         -- crouching to

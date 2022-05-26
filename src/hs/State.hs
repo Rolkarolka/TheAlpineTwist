@@ -8,6 +8,7 @@ module State where
             known_facts :: [String],
             holding :: [String],
             amount :: [(String, Int)],
+            stakes :: [(String, Int)], 
             talking_to :: String,
             crouching_to :: String
         } deriving (Show)
