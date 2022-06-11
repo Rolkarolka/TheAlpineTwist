@@ -84,6 +84,29 @@ Object subclass: Locations [
         ^ newList.
     ]
 
+    addAmount: amount of: item [
+        (amounts includesKey: item)
+        ifTrue: [
+            amounts at: item put: (amounts at: item) + amount.
+        ] ifFalse: [
+            Transcript show: 'Cannot add amount to an item that does not have an amount'; cr.
+        ].
+    ]
+
+    subtractAmount: amount of: item [
+        (amounts includesKey: item)
+        ifTrue: [
+            ((amounts at: item) - amount < 0)
+            ifTrue: [
+                Transcript show: 'Cannot subtract more ', item, ' than you currently have, which is ', (amounts at: item) printString; cr.
+            ] ifFalse: [
+                amounts at: item put: (amounts at: item) - amount.
+            ]
+        ] ifFalse: [
+            Transcript show: 'Cannot add amount to an item that does not have an amount'; cr.
+        ].
+    ]
+
     look [
         ^ #('There are following people here:'), (self list: people at: currentlyAt), #('')
     ]
