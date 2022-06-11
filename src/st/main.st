@@ -1,7 +1,7 @@
 "TheAlpineTwist, by Ksawery Chodyniecki, Karolina Romanowska and Grzegorz Rusinek."
 
 Object subclass: Locations [
-    | paths people animals items currentlyAt |
+    | paths people animals items amounts currentlyAt |
     Locations class >> new [
         | locations |
         locations := super new.
@@ -56,6 +56,9 @@ Object subclass: Locations [
         items at: 'hunters_shaque' put: #('bullets' 'knife_scabbard' 'blooded_knife').
         items at: 'kitchen' put: #('deer' 'broth').
         items at: 'me' put: #('money').
+
+        amounts := Dictionary new.
+        amounts at: 'money' put: 100.
     ]
 
     go: direction [
@@ -65,6 +68,20 @@ Object subclass: Locations [
 
     list: collection at: location [
         ^ (collection at: location ifAbsent: [#()])
+    ]
+
+    listWithAmounts: collection [
+        | newList |
+        newList := OrderedCollection new.
+        (collection at: 'me') do: [:item | 
+            (amounts includesKey: item)
+            ifTrue: [
+                newList add: item, ' x', (amounts at: item) printString.
+            ] ifFalse: [
+                newList add: item.
+            ].
+        ].
+        ^ newList.
     ]
 
     look [
@@ -84,7 +101,7 @@ Object subclass: Locations [
     ]
 
     inventory [
-        ^ #('You have following items:'), (self list: items at: 'me'), #('')
+        ^ #('You have following items:'), (self listWithAmounts: items), #('')
     ]
 
     move: object in: collection from: from to: to [
@@ -458,7 +475,7 @@ Object subclass: Game [
         'journal / j   -- to list all known facts.'
         'inventory / i -- to list all taken things.'
         'help / h      -- to see this message again.'
-        'quit          -- to end the game and quit.'
+        'quit / q      -- to end the game and quit.'
         ''
     ).
 
@@ -476,7 +493,7 @@ Object subclass: Game [
         'journal / j   -- to list all known facts.'
         'inventory / i -- to list all taken things.'
         'help / h      -- to see this message again.'
-        'quit          -- to end the game and quit.'
+        'quit / q      -- to end the game and quit.'
         ''
     ).
     
@@ -492,7 +509,7 @@ Object subclass: Game [
         'journal / j   -- list all known facts.'
         'inventory / i -- list all owned items.'
         'help / h      -- to see available commands.'
-        'quit          -- to end the game and quit.'
+        'quit / q      -- to end the game and quit.'
         ''
     ).
  
@@ -670,7 +687,7 @@ Object subclass: Game [
                 isUnknown := false
             ].
 
-            cmd = 'quit' ifTrue: [
+            ((cmd = 'quit') | (cmd = 'q')) ifTrue: [
                 isGameOver := true.
                 isUnknown := false
             ].
