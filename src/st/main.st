@@ -410,6 +410,16 @@ Object subclass: Dialogues [
         ].
     ]
 
+    betAbout: fact [
+        ((knownFacts occurrencesOf: fact) = 0)
+        ifTrue: [
+            ^ #('You can not randomly bet someone about something you made up. Try betting about a fact from your journal.').
+        ]
+        ifFalse: [
+            ^ #('Yeah, maybe, I do not know and I do not really care.').
+        ].
+    ]
+
     askAbout: item [
         ^ (self talkAbout: item)
     ]
@@ -521,6 +531,7 @@ Object subclass: Game [
         'askAbout Item -- to ask about an item.'
         'tellAbout Fact -- to tell about a fact.'
         'gossipAbout Person -- to gossip about a person.'
+        'betAbout Fact -- to bet about some fact connected with the person'
         'accuse Person -- to accuse a person of murder.'
         'whyHere       -- to ask why is someone here.'
         'look / l      -- to look at people around you.'
@@ -709,6 +720,11 @@ Object subclass: Game [
 
             cmd = 'gossipAbout' ifTrue: [
                 self write: (dialogues gossipAbout: (args last)).
+                isUnknown := false
+            ].
+
+            cmd = 'betAbout' ifTrue: [
+                self write: (dialogues betAbout: (args last)).
                 isUnknown := false
             ].
 
