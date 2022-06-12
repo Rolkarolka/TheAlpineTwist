@@ -134,6 +134,10 @@ Object subclass: Locations [
         ^ true.
     ]
 
+    betWon: amount [
+        amounts at: 'money' put: (amounts at: 'money') + amount + amount.
+    ]
+
     look [
         ^ #('There are following people here:'), (self list: people at: currentlyAt), #('')
     ]
@@ -332,11 +336,13 @@ Object subclass: Dialogues [
         dialogues at: ('hilda', 'watch_has_changed_hands_during_last_game') put: 'Oh yeah, Amy won the watch yesterday. That watch surely must have cost a lot. I was so shocked when it appear on the table. When I told this to Zoe, she also could not believe this.'.
         dialogues at: ('giulia', 'thomas_had_been_murdered') put: 'What I am suppose to do? Is he trully dead? He cannot be. He promised. I want him back...'.
         dialogues at: ('karl', 'poker_is_played_here') put: 'Who told you - it was Urlich, was it not? He never could keep his mouth shut. Yes, we do like to play some poker around here, at different stakes. Since you already know about it, maybe you would like to give it a try?'.
-        dialogues at: ('karl', 'karl_cheats_at_poker') put: 'So, you are a pretty good detective, are you not? Well, you got me. I will tell you what you want.'.
         dialogues at: ('andreas', 'thomas_was_here_to_buy_a_watch') put: 'Looks like nothing is a secret to you, huh? Yes, this watch was mine and yes, I wanted to sell it, but I found out that Thomas was the buyer and I just could not let him know that I am penniless just like that. And I certainly did not kill him!'.
         dialogues at: ('andreas', 'andreas_was_here_yesterday') put: 'Yes, I was here. I am sorry that I lied to you earlier. I really do not like anyone noticing that my life is not as great as I want people to see it. I was here, because I wanted to sell my watch to get some money. I really need them right now. I found out that Thomas was the buyer just yesterday, and I could not bear the fact that he would know. So I tried my luck in cards, and obviously, I lost it.'.
         dialogues at: ('jonas', 'jonas_likes_drinking_in_company') put: 'Of course I love drinking in good company, who does not? By the way, it is about the best time to go drinking together! I will go save a table for us in the bar and you go get the drinks!'.
         dialogues at: ('hilda', 'zoe_was_thomas_lovers') put: 'WHAT?! Her? No way! You are serious?! She told me she did not even knew who they were! That is... interesting to say the least.'.
+        dialogues at: ('karl', 'karl_admitted_to_cheating') put: 'Oh come on, you are believing this story? People see and hear all kinds of stupid things when they are drunk. The only thing this proves is that Jonas is a drunkard, that is it.'.
+        dialogues at: ('karl', 'karl_cheats_at_poker') put: 'Who told you that, Urlich? He is not better than me, and it is his word against mine.'.
+        dialogues at: ('karl', 'karl_hides_cards_in_his_sleeve') put: 'What? A card in my sleeve? Please, that is just a trick from the movies, nobody does this - especially not me!'.
 
         dialogues at: ('amy', 'thomas') put: 'Well, I once was his girlfriend. Probably will not be again, will I? Hahah. Oh, do not look at me like that, he always wanted to have everything, that is how people like him end. But damn, he looked good. If you ask me, I bet it has something to do with that Zoe girl and Giulia. Him and Zoe looked like they have done something that Giulia might not have liked...'.
         dialogues at: ('amy', 'zoe') put: 'Oh, yeah, her. Not much I can say about her except that she most probably slept with Thomas. They were all drooly towards each other.'.
@@ -393,18 +399,12 @@ Object subclass: Dialogues [
         bets at: 'default' put: Dictionary new.
         bets at: 'karl' put: Dictionary new.
 
-        (bets at: 'karl') at: 'lost_bet' put: 'Shhh, do not speak so loud! Okay, sometimes I am not playing completely fair, I admit... But it is not like I am cheating all the time! Take the last night - so many people were looking at me that I could not even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her. It was very strange - Zoe was winning a game after game, you do not stand up from a table when you have a streak like this.'.
-        
+        (bets at: 'karl') at: 'did_accept' put: 'karl_accepted_bet'.
+        (bets at: 'karl') at: 'did_finish' put: 'zoe_left_right_after_amy'.
         (bets at: 'karl') at: 'start_bet' put: OrderedCollection new.
+        (bets at: 'karl') at: 'complete_bet' put: OrderedCollection new.
         ((bets at: 'karl') at: 'start_bet') add: 'karl_likes_playing_some_card_game'; add: 'poker_is_played_here'; add: 'karl_likes_betting'; add: 'karl_hides_cards_in_his_sleeve'; add: 'karl_cheats_at_poker'; add: 'karl_admitted_to_cheating'.
-
-        (bets at: 'karl') at: 'complete_bet' put: Dictionary new.
-        ((bets at: 'karl') at: 'complete_bet') at: 'karl_admitted_to_cheating' put: 'Oh come on, you are believing this story? People see and hear all kinds of stupid things when they are drunk. The only thing this proves is that Jonas is a drunkard, that is it.'.
-        ((bets at: 'karl') at: 'complete_bet') at: 'karl_cheats_at_poker' put: 'Who told you that, Urlich? He is not better than me, and it is his word against mine. You gotta find something else.'.
-        ((bets at: 'karl') at: 'complete_bet') at: 'karl_hides_cards_in_his_sleeve' put: 'What? A card in my sleeve? Please, that is just a trick from the movies, nobody does this - especially not me!'.
-
-        (bets at: 'default') at: 'facts_the_same' put: 'Come on, you will not persuade me if you keep repeating your arguments. Go find some real proof if you are still deluding youself that you can win this bet.'.
-        (bets at: 'default') at: 'wrong_evidence' put: 'Huh? That does not even make sense! Go find some real proof if you are still deluding youself that you can win this bet.'.
+        ((bets at: 'karl') at: 'complete_bet') add: 'karl_admitted_to_cheating'; add: 'karl_cheats_at_poker'; add: 'karl_hides_cards_in_his_sleeve'.
     ]
 
     talkAbout: object [
@@ -448,7 +448,7 @@ Object subclass: Dialogues [
         ].
     ]
 
-    betAbout: fact [
+    betAbout: fact for: amount [
         ((knownFacts occurrencesOf: fact) > 0)
         ifFalse: [
             ^ #('You can not randomly bet someone about something you made up. Try betting about a fact from your journal.').
@@ -464,7 +464,33 @@ Object subclass: Dialogues [
             ^ #('Huh? And why would that be a reason to bet about with me?').
         ].
 
+        (bets at: talkingTo) at: 'stake' put: amount.
         ^ true.
+    ]
+
+    completeBet: fact1 and: fact2 [
+        (bets includesKey: talkingTo)
+        ifFalse: [
+            ^ #('What bet?').
+        ].
+        (((knownFacts occurrencesOf: fact1) > 0) & ((knownFacts occurrencesOf: fact2) > 0))
+        ifFalse: [
+            ^ #('You can not randomly accuse someone of something you made up. Try betting about a fact from your journal.').
+        ].
+        ( (knownFacts occurrencesOf: ((bets at: talkingTo) at: 'did_accept')) > 0 & (knownFacts occurrencesOf: ((bets at: talkingTo) at: 'did_finish')) = 0)
+        ifFalse: [
+            ^ #('Yeah, maybe, I do not know and I do not really care.').
+        ].
+        (fact1 = fact2)
+        ifTrue: [
+            ^ #('Come on, you will not persuade me if you keep repeating your arguments. Go find some real proof if you are still deluding youself that you can win this bet.').
+        ].
+        ((((bets at: talkingTo) at: 'complete_bet') anySatisfy: [:each | each = fact1 ]) & (((bets at: talkingTo) at: 'complete_bet') anySatisfy: [:each | each = fact2 ]))
+        ifFalse: [
+            ^ #('Huh? And how does that have anything to do with our bet? Go find some real proof if you are still deluding youself that you can win this bet.').
+        ].
+
+        ^ (bets at: talkingTo) at: 'stake'.
     ]
 
     askAbout: item [
@@ -771,21 +797,46 @@ Object subclass: Game [
             ].
 
             cmd = 'betAbout' ifTrue: [
-                response := (dialogues betAbout: (args at: 2)).
-                (response = true)
+                (args size < 3)
                 ifTrue: [
-                    response := (locations betFor: (args last asNumber)).
-                        (response = true)
+                    self write: #('Expected 2 arguments in this function call').
+                ]
+                ifFalse: [
+                    response := (dialogues betAbout: (args at: 2) for: (args last asNumber)).
+                    (response = true)
                     ifTrue: [
-                        self write: (dialogues talkAbout: 'accept_bet').
+                        response := (locations betFor: (args last asNumber)).
+                            (response = true)
+                        ifTrue: [
+                            self write: (dialogues talkAbout: 'accept_bet').
+                        ]
+                        ifFalse: [
+                            self write: response.
+                        ].
+                    ]
+                    ifFalse: [
+                        self write: response.
+                    ].    
+                ].
+                isUnknown := false
+            ].
+
+            cmd = 'completeBet' ifTrue: [
+                (args size < 3)
+                ifTrue: [
+                    self write: #('Expected 2 arguments in this function call').
+                ]
+                ifFalse: [
+                    response := (dialogues completeBet: (args at: 2) and: (args at: 3)).
+                    (response isNumber = true)
+                    ifTrue: [
+                        locations betWon: response.
+                        self write: (dialogues talkAbout: 'finished_bet').
                     ]
                     ifFalse: [
                         self write: response.
                     ].
-                ]
-                ifFalse: [
-                    self write: response.
-                ].    
+                ].
                 isUnknown := false
             ].
 
