@@ -119,6 +119,21 @@ Object subclass: Locations [
         ^ {'Subtracted ', amount printString, ' ', item, ' successfully.'}.
     ]
 
+    betFor: amount [
+        ((amounts at: 'money') - amount < 0)
+        ifTrue: [
+            ^ #('That is a little over your budget, what do you think?' '').
+        ].
+
+        (amount < 50)
+        ifTrue: [
+            ^ #('Come on, do not make me laugh. I am not even going to bother for such a small profit, come again when you make some money!' '').
+        ].
+
+        amounts at: 'money' put: (amounts at: 'money') - amount.
+        ^ true.
+    ]
+
     look [
         ^ #('There are following people here:'), (self list: people at: currentlyAt), #('')
     ]
@@ -185,7 +200,7 @@ Object subclass: Locations [
 ]
 
 Object subclass: Dialogues [
-    | talkingTo crouchingTo knownFacts prerequisites factsMap dialogues describe describeStayReason |
+    | talkingTo crouchingTo knownFacts prerequisites factsMap dialogues describe describeStayReason bets |
     Dialogues class >> new [
         | dialogues |
         dialogues := super new.
@@ -265,6 +280,9 @@ Object subclass: Dialogues [
         factsMap at: ('stephan', 'karl') put: 'karl_hides_cards_in_his_sleeve'.
         factsMap at: ('urlich', 'karl') put: 'karl_cheats_at_poker'.
 
+        factsMap at: ('karl', 'accept_bet') put: 'karl_accepted_bet'.
+        factsMap at: ('karl', 'finished_bet') put: 'zoe_left_right_after_amy'.
+
         factsMap at: ('amy', 'why_here') put: 'asked_amy_why_is_she_here'.
         factsMap at: ('andreas', 'why_here') put: 'asked_andreas_about_why_is_he_here'.
         factsMap at: ('giulia', 'why_here') put: 'asked_giulia_why_is_she_here'.
@@ -336,6 +354,9 @@ Object subclass: Dialogues [
         dialogues at: ('stephan', 'karl') put: 'If I were you, I would not play any card game with this guy. When I ordered a drink one day, I saw a playing card sliding out of his sleeve!'.
         dialogues at: ('urlich', 'karl') put: 'Is no one around? Fine. If Sir really wants to know, I believe karl is cheating during our little poker games! I saw him once playing an ace of clubs - the exact same one I had in my hand!'.
 
+        dialogues at: ('karl', 'accept_bet') put: 'What a ridiculous idea, I am not a cheater! Fine, if you insist - lets have a bet. If you find two pieces of evidence against me, come to me and I will return you double the money and admit to cheating. But that will never happen, because I am not a cheater!'.
+        dialogues at: ('karl', 'finished_bet') put: 'Shhh, do not speak so loud! Okay, sometimes I am not playing completely fair, I admit... But it is not like I am cheating all the time! Take the last night - so many people were looking at me that I could not even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her. It was very strange - Zoe was winning a game after game, you do not stand up from a table when you have a streak like this.'.
+
         dialogues at: ('amy', 'why_here') put: 'I heard there are oppuritunities to get some cash here. Have you heard about it too by chance?'.
         dialogues at: ('andreas', 'why_here') put: 'I came here as soon I heard that my brother is... he is dead!'.
         dialogues at: ('giulia', 'why_here') put: 'I came here with Thomas on vacations.'.
@@ -366,14 +387,12 @@ Object subclass: Dialogues [
         describe at: 'thomas' put: 'Thomas was an average-height, athletic man with a sun-kissed complexion. His heart-shaped face has freckles and a goatee. His shoulder-length dark hair is drenched with blood. A bloodstain and a hole made with a sharp tool on his Italian suit.'.
         describe at: 'urlich' put: 'He is a doorkeeper. He wears a kind of uniform with gilded epaulets in perfect condition. Hes not too bright, but he thinks about himself as from high society. His character is in three words: vain, gossip, reserved.'.
         describe at: 'zoe' put: 'She is a gorgeous young woman with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair is medium length, curly and golden. She wears glasses, and she loves wearing turtlenecks. Her character is in three words: shy, thoughtful, and intelligent.'.
-        describe at: 'promyczek' put: 'German Spitz Miniature with keen-looking eyes. It likes caresses and it is well trained.'
+        describe at: 'promyczek' put: 'German Spitz Miniature with keen-looking eyes. It likes caresses and it is well trained.'.
     
         bets := Dictionary new.
         bets at: 'default' put: Dictionary new.
         bets at: 'karl' put: Dictionary new.
 
-        (bets at: 'karl') at: 'accept_bet' put: 'What a ridiculous idea, I am not a cheater! Fine, if you insist - lets have a bet. What stake are we talking about?'.
-        (bets at: 'karl') at: 'accept_stake' put: 'Okay, that iss a fair stake. I agree. If you find two pieces of evidence against me, come to me and I will return you double the money and admit to cheating. But that will never happen, because I am not a cheater!'.
         (bets at: 'karl') at: 'lost_bet' put: 'Shhh, do not speak so loud! Okay, sometimes I am not playing completely fair, I admit... But it is not like I am cheating all the time! Take the last night - so many people were looking at me that I could not even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her. It was very strange - Zoe was winning a game after game, you do not stand up from a table when you have a streak like this.'.
         
         (bets at: 'karl') at: 'start_bet' put: OrderedCollection new.
@@ -385,8 +404,6 @@ Object subclass: Dialogues [
         ((bets at: 'karl') at: 'complete_bet') at: 'karl_hides_cards_in_his_sleeve' put: 'What? A card in my sleeve? Please, that is just a trick from the movies, nobody does this - especially not me!'.
 
         (bets at: 'default') at: 'facts_the_same' put: 'Come on, you will not persuade me if you keep repeating your arguments. Go find some real proof if you are still deluding youself that you can win this bet.'.
-        (bets at: 'default') at: 'stake_too_low' put: 'Come on, do not make me laugh. I am not even going to bother for such a small profit, come again when you make some money!'.
-        (bets at: 'default') at: 'stake_too_high' put: 'That is a little over your budget, what do you think?'.
         (bets at: 'default') at: 'wrong_evidence' put: 'Huh? That does not even make sense! Go find some real proof if you are still deluding youself that you can win this bet.'.
     ]
 
@@ -437,12 +454,17 @@ Object subclass: Dialogues [
             ^ #('You can not randomly bet someone about something you made up. Try betting about a fact from your journal.').
         ].
 
-        ((bets includesKey: talkingTo) & ((bets at: talkingTo) at: 'start_bet') anySatisfy: [:each | (each = fact)])
-        ifTrue: [
-            ^ {(bets at: talkingTo) at: 'accept_bet'}.
+        (bets includesKey: talkingTo)
+        ifFalse: [
+            ^ #('Yeah, maybe, I do not know and I do not really care.').
         ].
 
-        ^ #('Yeah, maybe, I do not know and I do not really care.').
+        (((bets at: talkingTo) at: 'start_bet') anySatisfy: [:each | each = fact ])
+        ifFalse: [
+            ^ #('Huh? And why would that be a reason to bet about with me?').
+        ].
+
+        ^ true.
     ]
 
     askAbout: item [
@@ -552,19 +574,19 @@ Object subclass: Game [
     dialogueHelpText := #(
         'Available commands are:'
         ''
-        'w a s d       -- to go in that direction.'
-        'askAbout Item -- to ask about an item.'
-        'tellAbout Fact -- to tell about a fact.'
+        'w a s d            -- to go in that direction.'
+        'askAbout Item      -- to ask about an item.'
+        'tellAbout Fact     -- to tell about a fact.'
         'gossipAbout Person -- to gossip about a person.'
-        'betAbout Fact -- to bet about some fact connected with the person'
-        'accuse Person -- to accuse a person of murder.'
-        'whyHere       -- to ask why is someone here.'
-        'look / l      -- to look at people around you.'
-        'notice / n    -- to notice things around you.'
-        'journal / j   -- to list all known facts.'
-        'inventory / i -- to list all taken things.'
-        'help / h      -- to see this message again.'
-        'quit / q      -- to end the game and quit.'
+        'betAbout Fact Stake -- to bet about some fact for some amount of money'
+        'accuse Person      -- to accuse a person of murder.'
+        'whyHere            -- to ask why is someone here.'
+        'look / l           -- to look at people around you.'
+        'notice / n         -- to notice things around you.'
+        'journal / j        -- to list all known facts.'
+        'inventory / i      -- to list all taken things.'
+        'help / h           -- to see this message again.'
+        'quit / q           -- to end the game and quit.'
         ''
     ).
     
@@ -623,7 +645,7 @@ Object subclass: Game [
     ]
 
     run [
-        | cmd args isUnknown |
+        | cmd args isUnknown response |
 
         self write: introductionText.
         self help.
@@ -749,7 +771,21 @@ Object subclass: Game [
             ].
 
             cmd = 'betAbout' ifTrue: [
-                self write: (dialogues betAbout: (args last)).
+                response := (dialogues betAbout: (args at: 2)).
+                (response = true)
+                ifTrue: [
+                    response := (locations betFor: (args last asNumber)).
+                        (response = true)
+                    ifTrue: [
+                        self write: (dialogues talkAbout: 'accept_bet').
+                    ]
+                    ifFalse: [
+                        self write: response.
+                    ].
+                ]
+                ifFalse: [
+                    self write: response.
+                ].    
                 isUnknown := false
             ].
 
