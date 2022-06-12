@@ -85,26 +85,38 @@ Object subclass: Locations [
     ]
 
     addAmount: amount of: item [
-        (amounts includesKey: item)
-        ifTrue: [
-            amounts at: item put: (amounts at: item) + amount.
-        ] ifFalse: [
-            Transcript show: 'Cannot add amount to an item that does not have an amount'; cr.
+        ((items at: 'me') anySatisfy: [:each | (each = item)])
+        ifFalse: [
+            ^ #('Cannot add amount to an item you do not have.' '').
         ].
+
+        (amounts includesKey: item)
+        ifFalse: [
+            ^ #('Cannot add amount to an item that does not have an amount.' '').
+        ].
+
+        amounts at: item put: (amounts at: item) + amount.
+        ^ {'Added ', amount printString, ' ', item, ' successfully.'}.
     ]
 
     subtractAmount: amount of: item [
-        (amounts includesKey: item)
-        ifTrue: [
-            ((amounts at: item) - amount < 0)
-            ifTrue: [
-                Transcript show: 'Cannot subtract more ', item, ' than you currently have, which is ', (amounts at: item) printString; cr.
-            ] ifFalse: [
-                amounts at: item put: (amounts at: item) - amount.
-            ]
-        ] ifFalse: [
-            Transcript show: 'Cannot add amount to an item that does not have an amount'; cr.
+        ((items at: 'me') anySatisfy: [:each | (each = item)])
+        ifFalse: [
+            ^ #('Cannot subtract amount from an item you do not have.' '').
         ].
+
+        (amounts includesKey: item)
+        ifFalse: [
+            ^ #('Cannot subtract amount from an item that does not have an amount.' '').
+        ].
+
+        ((amounts at: item) - amount < 0)
+        ifTrue: [
+            ^ {'Cannot subtract more ', item, ' than you currently have, which is ', (amounts at: item) printString}.
+        ].
+
+        amounts at: item put: (amounts at: item) - amount.
+        ^ {'Subtracted ', amount printString, ' ', item, ' successfully.'}.
     ]
 
     look [
