@@ -367,6 +367,27 @@ Object subclass: Dialogues [
         describe at: 'urlich' put: 'He is a doorkeeper. He wears a kind of uniform with gilded epaulets in perfect condition. Hes not too bright, but he thinks about himself as from high society. His character is in three words: vain, gossip, reserved.'.
         describe at: 'zoe' put: 'She is a gorgeous young woman with fair skin and chestnut hair. When she smiles, you can see her little dimples. Her hair is medium length, curly and golden. She wears glasses, and she loves wearing turtlenecks. Her character is in three words: shy, thoughtful, and intelligent.'.
         describe at: 'promyczek' put: 'German Spitz Miniature with keen-looking eyes. It likes caresses and it is well trained.'
+    
+        bets := Dictionary new.
+        bets at: 'default' put: Dictionary new.
+        bets at: 'karl' put: Dictionary new.
+
+        (bets at: 'karl') at: 'accept_bet' put: 'What a ridiculous idea, I am not a cheater! Fine, if you insist - lets have a bet. What stake are we talking about?'.
+        (bets at: 'karl') at: 'accept_stake' put: 'Okay, that iss a fair stake. I agree. If you find two pieces of evidence against me, come to me and I will return you double the money and admit to cheating. But that will never happen, because I am not a cheater!'.
+        (bets at: 'karl') at: 'lost_bet' put: 'Shhh, do not speak so loud! Okay, sometimes I am not playing completely fair, I admit... But it is not like I am cheating all the time! Take the last night - so many people were looking at me that I could not even get the ace out of my sleeve without anyone noticing. I only managed to cheat after Amy left and Zoe too, right after her. It was very strange - Zoe was winning a game after game, you do not stand up from a table when you have a streak like this.'.
+        
+        (bets at: 'karl') at: 'start_bet' put: OrderedCollection new.
+        ((bets at: 'karl') at: 'start_bet') add: 'karl_likes_playing_some_card_game'; add: 'poker_is_played_here'; add: 'karl_likes_betting'; add: 'karl_hides_cards_in_his_sleeve'; add: 'karl_cheats_at_poker'; add: 'karl_admitted_to_cheating'.
+
+        (bets at: 'karl') at: 'complete_bet' put: Dictionary new.
+        ((bets at: 'karl') at: 'complete_bet') at: 'karl_admitted_to_cheating' put: 'Oh come on, you are believing this story? People see and hear all kinds of stupid things when they are drunk. The only thing this proves is that Jonas is a drunkard, that is it.'.
+        ((bets at: 'karl') at: 'complete_bet') at: 'karl_cheats_at_poker' put: 'Who told you that, Urlich? He is not better than me, and it is his word against mine. You gotta find something else.'.
+        ((bets at: 'karl') at: 'complete_bet') at: 'karl_hides_cards_in_his_sleeve' put: 'What? A card in my sleeve? Please, that is just a trick from the movies, nobody does this - especially not me!'.
+
+        (bets at: 'default') at: 'facts_the_same' put: 'Come on, you will not persuade me if you keep repeating your arguments. Go find some real proof if you are still deluding youself that you can win this bet.'.
+        (bets at: 'default') at: 'stake_too_low' put: 'Come on, do not make me laugh. I am not even going to bother for such a small profit, come again when you make some money!'.
+        (bets at: 'default') at: 'stake_too_high' put: 'That is a little over your budget, what do you think?'.
+        (bets at: 'default') at: 'wrong_evidence' put: 'Huh? That does not even make sense! Go find some real proof if you are still deluding youself that you can win this bet.'.
     ]
 
     talkAbout: object [
@@ -411,13 +432,17 @@ Object subclass: Dialogues [
     ]
 
     betAbout: fact [
-        ((knownFacts occurrencesOf: fact) = 0)
-        ifTrue: [
-            ^ #('You can not randomly bet someone about something you made up. Try betting about a fact from your journal.').
-        ]
+        ((knownFacts occurrencesOf: fact) > 0)
         ifFalse: [
-            ^ #('Yeah, maybe, I do not know and I do not really care.').
+            ^ #('You can not randomly bet someone about something you made up. Try betting about a fact from your journal.').
         ].
+
+        ((bets includesKey: talkingTo) & ((bets at: talkingTo) at: 'start_bet') anySatisfy: [:each | (each = fact)])
+        ifTrue: [
+            ^ {(bets at: talkingTo) at: 'accept_bet'}.
+        ].
+
+        ^ #('Yeah, maybe, I do not know and I do not really care.').
     ]
 
     askAbout: item [
